@@ -48,23 +48,28 @@ extra["testcontainersVersion"] = "1.15.3"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
 
     implementation("org.springframework.boot:spring-boot-starter-validation") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
     implementation("com.azure.spring:azure-spring-boot-starter") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
 
     // TODO: define azure.storage.accountName
     /*
     implementation("com.azure.spring:azure-spring-boot-starter-storage") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+    exclude("com.sun.mail", "javax.mail")
     }
      */
 
@@ -73,18 +78,22 @@ dependencies {
      compatible version of org.springframework.vault.support.SslConfiguration
     implementation("org.springframework.cloud:spring-cloud-starter-vault-config") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+    exclude("com.sun.mail", "javax.mail")
     }
 
      */
     developmentOnly("org.springframework.boot:spring-boot-devtools") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
     }
 
     implementation("com.azure:azure-spring-data-cosmos:3.6.0")
@@ -104,6 +113,12 @@ dependencies {
     implementation("org.openapitools:openapi-generator-gradle-plugin:5.1.0")
 
     implementation("org.slf4j:slf4j-simple:1.7.30")
+
+    implementation("com.sun.activation:jakarta.activation:2.0.1")
+    implementation("jakarta.mail:jakarta.mail-api:2.0.1")
+    implementation("com.sun.mail:imap:2.0.1")
+
+    //implementation("jakarta.mail:jakarta.mail-api:1.6.7")
 }
 
 dependencyManagement {

@@ -78,8 +78,7 @@ class PigeongramApplicationKt : CommandLineRunner {
     }
 
     /**
-     * It shouldn't be needed to use companion object here,
-     * but something seems to be missing in pom.xml
+     * TODO: this is kinda ugly way - should not be needed
      */
     companion object {
         @JvmStatic

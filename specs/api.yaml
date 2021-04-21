@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: Cosmosdb sample
+  description: Cosmosdb sample
+  version: 1.0.0
+# defining base url might not work as expected
+# https://github.com/kongchen/swagger-maven-plugin/issues/730
+#servers:
+#  - url: test
+paths:
+  /users:
+    get:
+      operationId: "findUsers"
+      description: "get all users"
+      responses:
+        '200':
+          description: "User response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      operationId: "createUser"
+      description: "add user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: "saved user"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: "unexpected error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}:
+    get:
+      summary: "Get user by user id"
+      description: "get single user with id"
+      operationId: "getUserById"
+      parameters:
+        - name: id
+          in: path
+          description: "id of user"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "User response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "User not found with given id"
+components:
+  schemas:
+    Address:
+      type: "object"
+      required:
+        - street
+        - postalcode
+        - city
+      properties:
+        street:
+          type: "string"
+        postalcode:
+          type: "string"
+        city:
+          type: "string"
+      xml:
+        name: "Address"
+    User:
+      type: "object"
+      required:
+        - id
+        - firstName
+        - lastName
+      properties:
+        id:
+          type: string
+        firstName:
+          type: "string"
+        lastName:
+          type: "string"
+        addresses:
+          type: "array"
+          xml:
+            name: "Address"
+            wrapped: true
+          items:
+            $ref: "#/components/schemas/Address"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

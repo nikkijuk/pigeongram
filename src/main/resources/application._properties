@@ -1,0 +1,44 @@
+spring.application.name=pigeongram
+###########
+# LOGGING #
+###########
+logging.level.root=info
+logging.level.com.nikkijuk=trace
+logging.level.org.springframework.security=info
+logging.level.org.springframework.integration.handler=info
+spring.main.banner-mode=console
+#############
+#   FLYWAY  #
+#############
+spring.flyway.locations=classpath:db/migration/sqlserver
+spring.flyway.placeholders.schema=dbo
+spring.flyway.enabled=true
+spring.flyway.clean-on-validation-error=true
+######################
+# SPRING - HIBERNATE #
+######################
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.SQLServer2012Dialect
+spring.jpa.properties.javax.persistence.validation.mode=none
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.properties.hibernate.use_nationalized_character_data=true
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+spring.jpa.properties.hibernate.id.new_generator_mappings=false
+spring.jpa.properties.hibernate.default_schema=${spring.flyway.schemas[0]}
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.show_sql=true
+#######################
+# SPRING - DATASOURCE #
+#######################
+spring.datasource.hikari.leak-detection-threshold=15000
+spring.datasource.initial-size=2
+spring.datasource.max-active=10
+spring.datasource.max-idle=4
+spring.datasource.min-idle=2
+spring.datasource.test-on-borrow=true
+spring.datasource.test-on-return=true
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+spring.datasource.validation-query=SELECT 1
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=pigeongram_local
+spring.datasource.username=sa
+spring.datasource.password=yourStrongPwd123
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver

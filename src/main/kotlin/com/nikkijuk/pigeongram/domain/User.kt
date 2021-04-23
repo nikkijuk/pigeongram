@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * User is root entity which is to be saved within cosmos db
  *
- * Kotlins data classes didn't work here as Jackson didn't manage to live with immutable stuff
- * Lateinit is used as all attributes are mandatory and thus non nullable
- *
  * @Container annotation defines name of bucket where User objects are to be saved
  * @Container is only needed on root object
  */

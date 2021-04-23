@@ -23,7 +23,8 @@ object MessageUtils {
             setProperty ("mail.$protocol.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
             setProperty ("mail.$protocol.socketFactory.fallback", "false")
             setProperty ("mail.$protocol.socketFactory.port", port)
-        } as Properties
+            this
+        }
     }
 
     fun fetchMessagesFromFolder (server: Properties, folder : String, userName: String, password : String): List<EmailMessage> {

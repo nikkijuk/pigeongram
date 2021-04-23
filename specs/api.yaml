@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Cosmosdb sample
-  description: Cosmosdb sample
+  title: PigeonGram
+  description: PigeonGram sample app
   version: 1.0.0
 # defining base url might not work as expected
 # https://github.com/kongchen/swagger-maven-plugin/issues/730

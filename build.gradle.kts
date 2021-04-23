@@ -145,6 +145,8 @@ tasks.withType<Test> {
 // Test with: gradle openApiGenerate --scan
 // Error: Type 'GenerateTask' property 'input' annotated with @Internal should not be also annotated with @Input.
 // https://docs.gradle.org/7.0/userguide/validation_problems.html#ignored_property_must_not_be_annotated
+// see supported options for kotlin-spring here
+// https://openapi-generator.tech/docs/generators/kotlin-spring/
 openApiGenerate {
     generatorName.set("kotlin-spring")
     inputSpec.set("$rootDir/specs/api.yaml".toString())
@@ -155,6 +157,8 @@ openApiGenerate {
     configOptions.set(
         mapOf(
             "interfaceOnly" to "true",
+            //"delegatePattern" to "true",
+            //"serviceInterface" to "true",
             "useBeanValidation" to "false",
             "enumPropertyNaming" to "UPPERCASE",
             "dateLibrary" to "java8"

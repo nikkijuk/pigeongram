@@ -1,6 +1,7 @@
 package com.nikkijuk.pigeongram.domain
 
 import com.azure.spring.data.cosmos.core.mapping.Container
+import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * User is root entity which is to be saved within cosmos db
@@ -12,23 +13,15 @@ import com.azure.spring.data.cosmos.core.mapping.Container
  * @Container is only needed on root object
  */
 @Container(containerName = "userContainer", ru = "400")
-class User {
-    lateinit var id: String
-    lateinit var firstName: String
-    lateinit var lastName: String
-    lateinit var addresses: List<Address> // nested structure
+data class User(
 
-    // no-arg constuctor is used by Jackson
-    constructor() {}
+    @field:JsonProperty("id", required = true) val id: kotlin.String,
 
-    constructor(id: String, firstName: String, lastName: String, addresses: List<Address>) {
-        this.id = id
-        this.firstName = firstName
-        this.lastName = lastName
-        this.addresses = addresses
-    }
+    @field:JsonProperty("firstName", required = true) val firstName: kotlin.String,
 
-    @Override
-    override fun toString() = "[User: $firstName $lastName, $id @ $addresses]"
+    @field:JsonProperty("lastName", required = true) val lastName: kotlin.String,
+
+    @field:JsonProperty("addresses") val addresses: kotlin.collections.List<Address>? = null
+) {
 
 }

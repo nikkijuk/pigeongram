@@ -7,7 +7,7 @@ fun com.nikkijuk.pigeongram.domain.User.toApi () =
                 id = this.id,
                 firstName = this.firstName,
                 lastName = this.lastName,
-                addresses = this.addresses.map { it.toApi() })
+                addresses = this.addresses?.map { it.toApi() } ?: listOf())
 
 fun com.nikkijuk.pigeongram.domain.Address.toApi () =
                 com.nikkijuk.pigeongram.generated.model.Address (
@@ -21,7 +21,7 @@ fun com.nikkijuk.pigeongram.generated.model.User.toEntity () =
                 firstName = this.firstName,
                 lastName = this.lastName,
                 // return empty list in case of null
-                addresses = this.addresses?.map { it.toEntity() } ?: listOf())
+                addresses = this.addresses ?.map { it.toEntity() } ?: listOf())
 
 fun com.nikkijuk.pigeongram.generated.model.Address.toEntity () =
         com.nikkijuk.pigeongram.domain.Address (

@@ -2,6 +2,7 @@ package com.nikkijuk.pigeongram.domain
 
 import com.azure.spring.data.cosmos.core.mapping.Container
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey
+import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * Address is embedded within User and is normal POJO
@@ -9,21 +10,13 @@ import com.azure.spring.data.cosmos.core.mapping.PartitionKey
  * Kotlins data classes didn't work here as Jackson didn't manage to live with immutable stuff
  * Lateinit is used as all attributes are mandatory and thus non nullable
  */
-class Address {
-    lateinit var street: String
-    lateinit var postalcode: String
-    lateinit var city: String
+data class Address(
 
-    // no-arg constuctor is used by Jackson
-    constructor() {}
+    @field:JsonProperty("street", required = true) val street: kotlin.String,
 
-    constructor(street: String, postalcode: String, city: String) {
-        this.street = street
-        this.postalcode = postalcode
-        this.city = city
-    }
+    @field:JsonProperty("postalcode", required = true) val postalcode: kotlin.String,
 
-    @Override
-    override fun toString() = "[Address: $street, $postalcode $city]"
+    @field:JsonProperty("city", required = true) val city: kotlin.String
+) {
 
 }

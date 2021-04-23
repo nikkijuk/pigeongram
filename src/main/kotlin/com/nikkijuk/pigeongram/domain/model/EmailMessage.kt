@@ -3,8 +3,6 @@ package com.nikkijuk.pigeongram.domain.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.nikkijuk.pigeongram.generated.model.EmailAddress
-import com.nikkijuk.pigeongram.generated.model.MessageContent
 
 /**
  *

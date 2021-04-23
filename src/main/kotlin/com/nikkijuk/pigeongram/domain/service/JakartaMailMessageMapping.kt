@@ -1,8 +1,8 @@
 package com.nikkijuk.pigeongram.domain.service
 
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
-import com.nikkijuk.pigeongram.generated.model.EmailAddress
-import com.nikkijuk.pigeongram.generated.model.MessageContent
+import com.nikkijuk.pigeongram.domain.model.EmailAddress
+import com.nikkijuk.pigeongram.domain.model.MessageContent
 import jakarta.mail.Address
 import jakarta.mail.Message
 import java.time.LocalDateTime
@@ -10,8 +10,6 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.*
-
-
 
 // to entity
 fun jakarta.mail.Message.toEntity () =

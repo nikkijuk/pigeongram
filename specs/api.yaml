@@ -190,15 +190,6 @@ components:
           type: "string"
           format: email
 
-    # communication party
-    CommunicationParty:
-      type: "object"
-      required:
-        - emailAddress # EmailAddress
-      properties:
-        emailAddress:
-          $ref: "#/components/schemas/EmailAddress"
-
     # message content
     MessageContent:
       type: "object"
@@ -264,30 +255,30 @@ components:
         body: # content
           $ref: "#/components/schemas/MessageContent"
         sender: # party
-          $ref: "#/components/schemas/CommunicationParty"
+          $ref: "#/components/schemas/EmailAddress"
         from: # party
-          $ref: "#/components/schemas/CommunicationParty"
+          $ref: "#/components/schemas/EmailAddress"
         toRecipients: # array of party
           type: "array"
           xml:
             name: "Recipient"
             wrapped: true
           items:
-            $ref: "#/components/schemas/CommunicationParty"
+            $ref: "#/components/schemas/EmailAddress"
         ccRecipients: # array of party
           type: "array"
           xml:
             name: "Recipient"
             wrapped: true
           items:
-            $ref: "#/components/schemas/CommunicationParty"
+            $ref: "#/components/schemas/EmailAddress"
         bccRecipients: # array of party
           type: "array"
           xml:
             name: "Recipient"
             wrapped: true
           items:
-            $ref: "#/components/schemas/CommunicationParty"
+            $ref: "#/components/schemas/EmailAddress"
 
 
 

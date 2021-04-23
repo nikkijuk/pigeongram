@@ -58,7 +58,8 @@ class ImapReader {
             store.connect(userName, password)
 
             // opens the inbox folder
-            val mailFolder = store.getFolder ("test")// ("INBOX")
+            val folder = "test"
+            val mailFolder = store.getFolder (folder)// ("INBOX")
             mailFolder.open(Folder.READ_WRITE)
 
             // fetches new messages from server

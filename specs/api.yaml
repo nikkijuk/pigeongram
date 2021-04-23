@@ -8,26 +8,9 @@ info:
 #servers:
 #  - url: test
 paths:
-  /users:
-    get:
-      operationId: "findUsers"
-      description: "get all users"
-      responses:
-        '200':
-          description: "User response"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 
+  /users:
+    # create new user
     post:
       operationId: "createUser"
       description: "add user"
@@ -50,7 +33,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+    # get all users
+    get:
+      operationId: "findUsers"
+      description: "get all users"
+      responses:
+        '200':
+          description: "User response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /users/{id}:
+    # get single user
     get:
       summary: "Get user by user id"
       description: "get single user with id"
@@ -73,6 +78,49 @@ paths:
           description: "Invalid id supplied"
         "404":
           description: "User not found with given id"
+
+  # get all messages
+  /messages:
+    get:
+      operationId: "findMessages"
+      description: "get all messages"
+      responses:
+        '200':
+          description: "Message response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailMessage'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # sync all messages
+  /messages/sync:
+    get:
+      operationId: "syncMessages"
+      description: "sync and return all messages"
+      responses:
+        '200':
+          description: "Message response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailMessage'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 
 components:
   schemas:

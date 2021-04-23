@@ -1,4 +1,4 @@
-package com.nikkijuk.pigeongram.domain
+package com.nikkijuk.pigeongram.domain.model
 
 import com.azure.spring.data.cosmos.core.mapping.Container
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey

@@ -1,7 +1,7 @@
 package com.nikkijuk.pigeongram
 
-import com.nikkijuk.pigeongram.domain.Address
-import com.nikkijuk.pigeongram.domain.User
+import com.nikkijuk.pigeongram.domain.model.Address
+import com.nikkijuk.pigeongram.domain.model.User
 import com.nikkijuk.pigeongram.persistence.ReactiveUserRepository
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger

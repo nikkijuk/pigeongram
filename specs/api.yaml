@@ -164,20 +164,38 @@ components:
           type: "string"
 
     # email message
+    # many attributes are left out at that moment
     EmailMessage:
       type: "object"
       required:
-        - id
-        - type
-        - receivedDateTime
-        - sentDateTime
-        - hasAttachments # boolean
-        - internetMessageId
-        - subject
-        - body # content
-        - sender # party
-        - from # party
-        - toRecipients # array of party
+      - id
+      - type
+      #!- createdDateTime
+      #!- lastModifiedDateTime
+      #!- changeKey
+      #!- categories # array
+      - receivedDateTime
+      - sentDateTime
+      - hasAttachments # boolean
+      - internetMessageId
+      - subject
+      #!- bodyPreview
+      #!- importance
+      #!- parentFolderId
+      #!- conversationId
+      #!- isDeliveryReceiptRequested
+      #!- isReadReceiptRequested
+      #!- isRead
+      #!- isDraft
+      #!- webLink # http link
+      #!- inferenceClassification
+      - body # content
+      - sender # party
+      - from # party
+      - toRecipients # array of party
+        #- ccRecipients  # array of party
+        #- bccRecipients # array of party
+        #!- replyTo # array of ?
       properties:
         id:
           type: "string"

@@ -11,7 +11,7 @@ import com.azure.spring.data.cosmos.core.mapping.Container
  * @Container annotation defines name of bucket where User objects are to be saved
  * @Container is only needed on root object
  */
-@Container(containerName = "myContainer", ru = "400")
+@Container(containerName = "userContainer", ru = "400")
 class User {
     lateinit var id: String
     lateinit var firstName: String

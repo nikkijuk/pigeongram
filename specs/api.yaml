@@ -73,8 +73,24 @@ paths:
           description: "Invalid id supplied"
         "404":
           description: "User not found with given id"
+
 components:
   schemas:
+
+    # generic error structure
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+    # address of user
     Address:
       type: "object"
       required:
@@ -90,6 +106,8 @@ components:
           type: "string"
       xml:
         name: "Address"
+
+    # user
     User:
       type: "object"
       required:
@@ -111,14 +129,99 @@ components:
           items:
             $ref: "#/components/schemas/Address"
 
-    Error:
-      type: object
+    # email address
+    EmailAddress:
+      type: "object"
       required:
-        - code
-        - message
+        - name
+        - address
       properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+        name:
+          type: "string"
+        address:
+          type: "string"
+          format: email
+
+    # communication party
+    CommunicationParty:
+      type: "object"
+      required:
+        - emailAddress # EmailAddress
+      properties:
+        emailAddress:
+          $ref: "#/components/schemas/EmailAddress"
+
+    # message content
+    MessageContent:
+      type: "object"
+      required:
+        - contentType
+        - content
+      properties:
+        contentType:
+          type: "string"
+        content:
+          type: "string"
+
+    # email message
+    EmailMessage:
+      type: "object"
+      required:
+        - id
+        - type
+        - receivedDateTime
+        - sentDateTime
+        - hasAttachments # boolean
+        - internetMessageId
+        - subject
+        - body # content
+        - sender # party
+        - from # party
+        - toRecipients # array of party
+      properties:
+        id:
+          type: "string"
+        type:
+          type: "string"
+        receivedDateTime:
+          type: "string"
+          format: "date-time"
+        sentDateTime:
+          type: "string"
+          format: "date-time"
+        hasAttachments: # boolean
+          type: "boolean"
+        internetMessageId:
+          type: "string"
+        subject:
+          type: "string"
+        body: # content
+          $ref: "#/components/schemas/MessageContent"
+        sender: # party
+          $ref: "#/components/schemas/CommunicationParty"
+        from: # party
+          $ref: "#/components/schemas/CommunicationParty"
+        toRecipients: # array of party
+          type: "array"
+          xml:
+            name: "Recipient"
+            wrapped: true
+          items:
+            $ref: "#/components/schemas/CommunicationParty"
+        ccRecipients: # array of party
+          type: "array"
+          xml:
+            name: "Recipient"
+            wrapped: true
+          items:
+            $ref: "#/components/schemas/CommunicationParty"
+        bccRecipients: # array of party
+          type: "array"
+          xml:
+            name: "Recipient"
+            wrapped: true
+          items:
+            $ref: "#/components/schemas/CommunicationParty"
+
+
+

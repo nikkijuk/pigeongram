@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    // open api generator 5.1.0 doesn't work with gradle 7.X
-    id("org.openapi.generator") version "5.1.0"
-
     id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.spring") version "1.4.32"
     kotlin("plugin.jpa") version "1.4.32"
+
+    // open api generator 5.1.0 doesn't work with gradle 7.X - 5.1.1 is coming very soon!
+    id("org.openapi.generator") version "5.1.0"
 }
 
 group = "com.nikkijuk"
@@ -96,7 +96,8 @@ dependencies {
         exclude("com.sun.mail", "javax.mail")
     }
 
-    // version 3.5.X didn't work with data classes as expected, but 3.6.X seems to be ok with them
+    // version 3.5.X of cosmos db spring data didn't work with data classes as expected,
+    // but 3.6.X seems to be ok with them
     implementation("com.azure:azure-spring-data-cosmos:3.6.0")
 
     implementation("org.flywaydb:flyway-core")
@@ -124,7 +125,8 @@ dependencies {
     implementation("com.sun.activation:jakarta.activation:2.0.1")
     implementation("com.sun.mail:imap:2.0.1")
 
-    // Simple java mail requires jakarta mail 1.X or javx.mail
+    // it might make sense to use jakarta mail 1.X instead of 2.X
+    // Simple java mail requires jakarta mail 1.X or javax.mail
     implementation("org.simplejavamail:simple-java-mail:6.5.2")
 }
 
@@ -136,11 +138,7 @@ dependencyManagement {
     }
 }
 
-
-// TODO: make sure generation is done first and then compile
-// currently build doesn't work as expected and one needs to build manually
-
-// TODO: this task definition doesn't work with gradle 7
+// TODO: generation using version 5.1.0 of open api generator doesn't work with gradle 7
 // NOTE: use gradle 6.8.x to get model generated
 // Test with: gradle openApiGenerate --scan
 // Error: Type 'GenerateTask' property 'input' annotated with @Internal should not be also annotated with @Input.
@@ -175,7 +173,7 @@ openApiGenerate {
 }
 
 tasks.withType<KotlinCompile> {
-    dependsOn ("openApiGenerate")
+    dependsOn ("openApiGenerate") // compile only after generation
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"

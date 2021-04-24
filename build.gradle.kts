@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.4.32"
     kotlin("plugin.jpa") version "1.4.32"
 
+    // open api generator 5.1.0 doesn't work with gradle 7.X
     id("org.openapi.generator") version "5.1.0"
 }
 
@@ -96,6 +97,7 @@ dependencies {
         exclude("com.sun.mail", "javax.mail")
     }
 
+    // version 3.5.X didn't work with data classes as expected, but 3.6.X seems to be ok with them
     implementation("com.azure:azure-spring-data-cosmos:3.6.0")
 
     implementation("org.flywaydb:flyway-core")
@@ -109,16 +111,18 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mssqlserver")
 
+    // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
     implementation("org.openapitools:openapi-generator-gradle-plugin:5.1.0")
 
     implementation("org.slf4j:slf4j-simple:1.7.30")
 
-    // activation and imap provider are needed for jakarta mail
+    // activation and imap provider are needed for jakarta mail 2.X
     implementation("jakarta.mail:jakarta.mail-api:2.0.1")
     implementation("com.sun.activation:jakarta.activation:2.0.1")
     implementation("com.sun.mail:imap:2.0.1")
 
+    // Simple java mail requires jakarta mail 1.X or javx.mail
     implementation("org.simplejavamail:simple-java-mail:6.5.2")
 }
 
@@ -157,9 +161,17 @@ openApiGenerate {
     //invokerPackage.set("com.nikkijuk.pigeongram.generated.invoker")
     configOptions.set(
         mapOf(
+            // it's important to generate only interfaces
+            // otherwise one needs to start from service interface
             "interfaceOnly" to "true",
-            //"delegatePattern" to "true",
+
+            // one can generate service api also
+            // this is especially useful if one generated complete controller implementation
             //"serviceInterface" to "true",
+
+            // there's quite some generation options - just play with them to see what happens
+            //"delegatePattern" to "true",
+
             "useBeanValidation" to "false",
             "enumPropertyNaming" to "UPPERCASE",
             "dateLibrary" to "java8"
@@ -168,6 +180,6 @@ openApiGenerate {
 }
 
 // TODO: make sure generation is done first and then compile
-// now these definitions are missing dependencies
+// currently build doesn't work as expected and one needs to build manually
 
 apply(plugin = "org.openapi.generator")

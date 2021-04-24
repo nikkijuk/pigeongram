@@ -13,6 +13,9 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.*
 
+// NOTE: This mapping is not in use - to use it one would need to have jakarta mail 1.X version
+// we have currently 2.X, which is java 8 api and has changed package name
+
 // to entity
 fun Email.toEntity () =
     EmailMessage (

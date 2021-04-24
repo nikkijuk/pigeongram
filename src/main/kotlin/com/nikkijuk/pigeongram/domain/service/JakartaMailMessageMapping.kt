@@ -21,14 +21,17 @@ fun jakarta.mail.Message.toEntity () =
         hasAttachments = false, // this.hasAttachments,
         internetMessageId = this.messageNumber.toString(),
         subject = this.subject,
-        body = MessageContent (contentType = this.contentType, content = this.content.toString()),
-        from = convertAddress(this.from.get(0)),
+        body = convertContent(this),
+        from = convertAddresses(this.from).first(),
         toRecipients = convertAddresses(this.getRecipients(Message.RecipientType.TO)),
         ccRecipients = convertAddresses(this.getRecipients(Message.RecipientType.CC)),
         bccRecipients = convertAddresses(this.getRecipients(Message.RecipientType.BCC))
     )
 
-fun convertAddresses(addresses : Array<Address>?) : List<EmailAddress> {
+private fun convertContent(message: Message) =
+    MessageContent(contentType = message.contentType, content = message.content.toString())
+
+private fun convertAddresses(addresses : Array<Address>?) : List<EmailAddress> {
     return addresses?.map { convertAddress(it)} ?: listOf()
 }
 

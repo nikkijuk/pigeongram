@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    // open api generator 5.1.0 doesn't work with gradle 7.X
+    id("org.openapi.generator") version "5.1.0"
+
     id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.spring") version "1.4.32"
     kotlin("plugin.jpa") version "1.4.32"
-
-    // open api generator 5.1.0 doesn't work with gradle 7.X
-    id("org.openapi.generator") version "5.1.0"
 }
 
 group = "com.nikkijuk"
@@ -27,14 +27,13 @@ repositories {
 
 // Get a SourceSet collection and add generated artifacts to it
 sourceSets {
-    named("main") {
+    main {
         withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
             // Gradle Kotlin for JVM plugin configures "src/main/kotlin" on its own
             kotlin.srcDirs("$buildDir/generated/src/main/kotlin".toString())
         }
     }
-
-    named("test") {
+    test {
         withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
             // Gradle Kotlin for JVM plugin configures "src/test/kotlin" on its own
             kotlin.srcDirs("$buildDir/generated/src/test/kotlin".toString())
@@ -113,6 +112,9 @@ dependencies {
 
     // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
+
+    // should be updated to 5.1.1 as soon as it's available
+    // https://github.com/OpenAPITools/openapi-generator
     implementation("org.openapitools:openapi-generator-gradle-plugin:5.1.0")
 
     implementation("org.slf4j:slf4j-simple:1.7.30")
@@ -134,16 +136,9 @@ dependencyManagement {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
-    }
-}
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+// TODO: make sure generation is done first and then compile
+// currently build doesn't work as expected and one needs to build manually
 
 // TODO: this task definition doesn't work with gradle 7
 // NOTE: use gradle 6.8.x to get model generated
@@ -179,7 +174,16 @@ openApiGenerate {
     )
 }
 
-// TODO: make sure generation is done first and then compile
-// currently build doesn't work as expected and one needs to build manually
+tasks.withType<KotlinCompile> {
+    dependsOn ("openApiGenerate")
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "11"
+    }
+}
 
-apply(plugin = "org.openapi.generator")
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+

@@ -6,6 +6,8 @@ import jakarta.mail.MessagingException
 import jakarta.mail.NoSuchProviderException
 import jakarta.mail.Session
 import jakarta.mail.Store
+import jakarta.mail.internet.MimeMessage
+import org.simplejavamail.converter.EmailConverter
 import java.util.*
 
 object MessageUtils {
@@ -41,7 +43,13 @@ object MessageUtils {
             mailFolder = store.getFolder(folder)
             mailFolder.open(Folder.READ_WRITE)
 
-            mailFolder.messages.map { it.toEntity() }
+            mailFolder.messages
+                // Simple java mail could help on parsing message content
+                // but it's still on old java mail api
+                // https://github.com/bbottema/simple-java-mail/issues/295
+                //.map { it as MimeMessage }
+                //.map { EmailConverter.mimeMessageToEmail(it)}
+                .map { it.toEntity() }
 
         } catch (e: NoSuchProviderException) {
             println("No provider for protocol: $protocol")

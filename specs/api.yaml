@@ -229,7 +229,7 @@ components:
       #!- webLink # http link
       #!- inferenceClassification
       - body # content
-      - sender # party
+      #!- sender # party
       - from # party
       - toRecipients # array of party
         #- ccRecipients  # array of party
@@ -254,8 +254,6 @@ components:
           type: "string"
         body: # content
           $ref: "#/components/schemas/MessageContent"
-        sender: # party
-          $ref: "#/components/schemas/EmailAddress"
         from: # party
           $ref: "#/components/schemas/EmailAddress"
         toRecipients: # array of party

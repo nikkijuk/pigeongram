@@ -1,7 +1,7 @@
 package com.nikkijuk.pigeongram.domain.service
 
-import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.EmailAddress
+import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.MessageContent
 import jakarta.mail.Address
 import jakarta.mail.Message
@@ -22,15 +22,17 @@ fun jakarta.mail.Message.toEntity () =
         internetMessageId = this.messageNumber.toString(),
         subject = this.subject,
         body = MessageContent (contentType = this.contentType, content = this.content.toString()),
-        sender = convertEmail(this.from.get(0)),
-        from = convertEmail(this.from.get(0)),
-        toRecipients = listOf (convertEmail(this.allRecipients.get(0))),
-        ccRecipients = listOf (convertEmail(this.allRecipients.get(0))),
-        bccRecipients = listOf (convertEmail(this.allRecipients.get(0)))
-        //addresses = this.addresses?.map { it.toApi() } ?: listOf())
+        from = convertAddress(this.from.get(0)),
+        toRecipients = convertAddresses(this.getRecipients(Message.RecipientType.TO)),
+        ccRecipients = convertAddresses(this.getRecipients(Message.RecipientType.CC)),
+        bccRecipients = convertAddresses(this.getRecipients(Message.RecipientType.BCC))
     )
 
-private fun Message.convertEmail(address : Address) =
+fun convertAddresses(addresses : Array<Address>?) : List<EmailAddress> {
+    return addresses?.map { convertAddress(it)} ?: listOf()
+}
+
+private fun convertAddress(address : Address) =
     EmailAddress(address.toString(), address.toString())
 
 private fun convertDate(dt:Date) =

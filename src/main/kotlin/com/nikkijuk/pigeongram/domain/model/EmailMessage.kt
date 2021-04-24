@@ -38,8 +38,6 @@ data class EmailMessage(
 
     @field:JsonProperty("body", required = true) val body: MessageContent,
 
-    @field:JsonProperty("sender", required = true) val sender: EmailAddress,
-
     @field:JsonProperty("from", required = true) val from: EmailAddress,
 
     @field:JsonProperty("toRecipients", required = true) val toRecipients: kotlin.collections.List<EmailAddress>,

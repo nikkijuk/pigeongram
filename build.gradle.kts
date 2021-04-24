@@ -114,11 +114,12 @@ dependencies {
 
     implementation("org.slf4j:slf4j-simple:1.7.30")
 
-    implementation("com.sun.activation:jakarta.activation:2.0.1")
+    // activation and imap provider are needed for jakarta mail
     implementation("jakarta.mail:jakarta.mail-api:2.0.1")
+    implementation("com.sun.activation:jakarta.activation:2.0.1")
     implementation("com.sun.mail:imap:2.0.1")
 
-    //implementation("jakarta.mail:jakarta.mail-api:1.6.7")
+    implementation("org.simplejavamail:simple-java-mail:6.5.2")
 }
 
 dependencyManagement {

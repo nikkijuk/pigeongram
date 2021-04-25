@@ -31,7 +31,6 @@ fun Email.toEntity () =
         toRecipients = addresses(this.recipients, Message.RecipientType.TO),
         ccRecipients = addresses(this.recipients, Message.RecipientType.CC),
         bccRecipients = addresses(this.recipients, Message.RecipientType.BCC)
-        //addresses = this.addresses?.map { it.toApi() } ?: listOf())
     )
 
 private fun addresses(recipients : List<Recipient>, type : Message.RecipientType) : List<EmailAddress> {

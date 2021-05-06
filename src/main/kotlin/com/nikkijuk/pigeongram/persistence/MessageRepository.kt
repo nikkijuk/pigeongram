@@ -5,6 +5,4 @@ import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MessageRepository : CosmosRepository<EmailMessage, String> {
-
-}
+interface MessageRepository : CosmosRepository<EmailMessage, String>

@@ -1,6 +1,5 @@
 package com.nikkijuk.pigeongram.domain.model
 
-import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -10,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class MessageContent(
 
-    @field:JsonProperty("contentType", required = true) val contentType: kotlin.String,
+    @field:JsonProperty("contentType", required = true) val contentType: String,
 
-    @field:JsonProperty("content", required = true) val content: kotlin.String
-) {
-
-}
+    @field:JsonProperty("content", required = true) val content: String
+)
 

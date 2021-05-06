@@ -1,6 +1,5 @@
 package com.nikkijuk.pigeongram.domain.model
 
-import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -10,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class EmailAddress(
 
-    @field:JsonProperty("name", required = true) val name: kotlin.String,
+    @field:JsonProperty("name", required = true) val name: String,
 
-    @field:JsonProperty("address", required = true) val address: kotlin.String
-) {
-
-}
+    @field:JsonProperty("address", required = true) val address: String
+)
 

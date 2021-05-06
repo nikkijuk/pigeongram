@@ -23,7 +23,7 @@ fun Email.toEntity () =
         type = "imap",
         receivedDateTime = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
         sentDateTime = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
-        hasAttachments = !this.attachments.isEmpty(),
+        hasAttachments = this.attachments.isNotEmpty(),
         internetMessageId = this.id.toString(),
         subject = this.subject!!,
         body = MessageContent (contentType = "html", content = this.htmlText.toString()),
@@ -33,18 +33,19 @@ fun Email.toEntity () =
         bccRecipients = addresses(this.recipients, Message.RecipientType.BCC)
     )
 
-private fun addresses(recipients : List<Recipient>, type : Message.RecipientType) : List<EmailAddress> {
-    val result =
-        recipients
-            .filter {it.type?.equals(type) ?: false}
-            .map {address(it)}
-    return result
+private fun addresses(
+    recipients: List<Recipient>,
+    type: Message.RecipientType
+): List<EmailAddress> {
+    return recipients
+        .filter { it.type?.equals(type) ?: false }
+        .map { address(it) }
 }
 
 private fun address(recipient : Recipient) =
-    EmailAddress(recipient?.name ?: "", recipient?.address ?: "")
+    EmailAddress(recipient.name ?: "", recipient.address)
 
-private fun Message.convertAddress(address : Address) =
+private fun convertAddress(address: Address) =
     EmailAddress(address.toString(), address.toString())
 
 private fun convertDate(dt:Date) =

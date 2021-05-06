@@ -1,8 +1,6 @@
 package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.PigeongramApplicationKt
-import com.nikkijuk.pigeongram.domain.toApi
-import com.nikkijuk.pigeongram.domain.toEntity
 import com.nikkijuk.pigeongram.generated.api.UsersApi
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger
@@ -31,7 +29,7 @@ class UsersController @Autowired constructor(
         return ResponseEntity(foundUsers.map { it.toApi() }, HttpStatus.OK)
     }
 
-    override fun getUserById(@PathVariable("id") id: kotlin.String
+    override fun getUserById(@PathVariable("id") id: String
     ): ResponseEntity<com.nikkijuk.pigeongram.generated.model.User> {
         val foundUser = userRepository.findById(id)
         logger.info("found with id '$id' user: $foundUser")

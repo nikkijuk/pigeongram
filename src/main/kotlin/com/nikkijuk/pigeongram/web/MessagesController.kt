@@ -2,8 +2,6 @@ package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.PigeongramApplicationKt
 import com.nikkijuk.pigeongram.domain.service.MessageUtils
-import com.nikkijuk.pigeongram.domain.toApi
-import com.nikkijuk.pigeongram.domain.toEntity
 import com.nikkijuk.pigeongram.generated.api.MessagesApi
 import com.nikkijuk.pigeongram.generated.model.EmailMessage
 import com.nikkijuk.pigeongram.persistence.MessageRepository
@@ -12,7 +10,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class MessagesController @Autowired constructor(
@@ -31,6 +29,7 @@ class MessagesController @Autowired constructor(
 
     val folder = "test"
 
+    // TODO: Replace these with real ones
     val userName = "user@server.com"
     val password = "password"
 

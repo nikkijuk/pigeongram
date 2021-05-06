@@ -1,4 +1,4 @@
-package com.nikkijuk.pigeongram.domain
+package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.domain.model.EmailAddress
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
@@ -17,7 +17,7 @@ fun EmailMessage.toApi () =
                 subject = this.subject,
                 body = this.body.toApi(),
                 from = this.from.toApi(),
-                toRecipients = this.toRecipients.map { it.toApi() } ?: listOf(),
+                toRecipients = this.toRecipients.map { it.toApi() },
                 ccRecipients = this.ccRecipients?.map { it.toApi() } ?: listOf(),
                 bccRecipients = this.bccRecipients?.map { it.toApi() } ?: listOf()
         )
@@ -46,7 +46,7 @@ fun com.nikkijuk.pigeongram.generated.model.EmailMessage.toEntity () =
                 subject = this.subject,
                 body = this.body.toEntity(),
                 from = this.from.toEntity(),
-                toRecipients = this.toRecipients.map { it.toEntity() } ?: listOf(),
+                toRecipients = this.toRecipients.map { it.toEntity() },
                 ccRecipients = this.ccRecipients?.map { it.toEntity() } ?: listOf(),
                 bccRecipients = this.bccRecipients?.map { it.toEntity() } ?: listOf()
         )

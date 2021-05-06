@@ -6,8 +6,6 @@ import jakarta.mail.MessagingException
 import jakarta.mail.NoSuchProviderException
 import jakarta.mail.Session
 import jakarta.mail.Store
-import jakarta.mail.internet.MimeMessage
-import org.simplejavamail.converter.EmailConverter
 import java.util.*
 
 object MessageUtils {
@@ -35,7 +33,7 @@ object MessageUtils {
         val session = Session.getDefaultInstance(server)
 
         var store: Store? = null
-        var mailFolder : Folder? = null;
+        var mailFolder : Folder? = null
         return try {
             store = session.getStore(protocol)
             store.connect(userName, password)

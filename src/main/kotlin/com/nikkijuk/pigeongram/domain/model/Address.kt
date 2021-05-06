@@ -1,7 +1,5 @@
 package com.nikkijuk.pigeongram.domain.model
 
-import com.azure.spring.data.cosmos.core.mapping.Container
-import com.azure.spring.data.cosmos.core.mapping.PartitionKey
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -9,11 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class Address(
 
-    @field:JsonProperty("street", required = true) val street: kotlin.String,
+    @field:JsonProperty("street", required = true) val street: String,
 
-    @field:JsonProperty("postalcode", required = true) val postalcode: kotlin.String,
+    @field:JsonProperty("postalcode", required = true) val postalcode: String,
 
-    @field:JsonProperty("city", required = true) val city: kotlin.String
-) {
-
-}
+    @field:JsonProperty("city", required = true) val city: String
+)

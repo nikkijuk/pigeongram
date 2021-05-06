@@ -12,13 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @Container(containerName = "userContainer", ru = "400")
 data class User(
 
-    @field:JsonProperty("id", required = true) val id: kotlin.String,
+    @field:JsonProperty("id", required = true) val id: String,
 
-    @field:JsonProperty("firstName", required = true) val firstName: kotlin.String,
+    @field:JsonProperty("firstName", required = true) val firstName: String,
 
-    @field:JsonProperty("lastName", required = true) val lastName: kotlin.String,
+    @field:JsonProperty("lastName", required = true) val lastName: String,
 
-    @field:JsonProperty("addresses") val addresses: kotlin.collections.List<Address>? = null
-) {
-
-}
+    @field:JsonProperty("addresses") val addresses: List<Address>? = null
+)

@@ -12,7 +12,7 @@ import java.time.ZoneOffset
 import java.util.*
 
 // to entity
-fun jakarta.mail.Message.toEntity () =
+fun Message.toEntity () =
     EmailMessage (
         id = this.messageNumber.toString(),
         type = "imap",

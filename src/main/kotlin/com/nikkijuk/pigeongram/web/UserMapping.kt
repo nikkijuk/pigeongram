@@ -1,4 +1,4 @@
-package com.nikkijuk.pigeongram.domain
+package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.domain.model.Address
 import com.nikkijuk.pigeongram.domain.model.User

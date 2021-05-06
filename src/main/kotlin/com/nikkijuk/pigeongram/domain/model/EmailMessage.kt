@@ -1,6 +1,7 @@
 package com.nikkijuk.pigeongram.domain.model
 
 
+import com.azure.spring.data.cosmos.core.mapping.Container
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -13,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param internetMessageId
  * @param subject
  * @param body
- * @param sender
  * @param from
  * @param toRecipients
  * @param ccRecipients
  * @param bccRecipients
  */
+@Container(containerName = "messageContainer", ru = "100") // set limit to allow free azure usage
 data class EmailMessage(
 
     @field:JsonProperty("id", required = true) val id: String,

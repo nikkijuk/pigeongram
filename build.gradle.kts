@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.4.32"
-    kotlin("plugin.spring") version "1.4.32"
-    kotlin("plugin.jpa") version "1.4.32"
+    kotlin("jvm") version "1.5.0"
+    kotlin("plugin.spring") version "1.5.0"
+    kotlin("plugin.jpa") version "1.5.0"
 
     // open api generator 5.1.0 doesn't work with gradle 7.X - 5.1.1 is coming very soon!
     id("org.openapi.generator") version "5.1.0"

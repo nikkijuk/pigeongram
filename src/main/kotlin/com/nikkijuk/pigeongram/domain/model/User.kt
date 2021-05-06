@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @Container annotation defines name of bucket where User objects are to be saved
  * @Container is only needed on root object
  */
-@Container(containerName = "userContainer", ru = "400")
+@Container(containerName = "userContainer", ru = "100") // set limit to allow free azure usage
 data class User(
 
     @field:JsonProperty("id", required = true) val id: String,

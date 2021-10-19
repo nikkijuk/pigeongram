@@ -1,6 +1,5 @@
 package com.nikkijuk.pigeongram.domain.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.mongodb.core.mapping.Document
 
 /**
@@ -10,12 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document
  */
 @Document
 data class User(
-
-    @field:JsonProperty("id", required = true) val id: String,
-
-    @field:JsonProperty("firstName", required = true) val firstName: String,
-
-    @field:JsonProperty("lastName", required = true) val lastName: String,
-
-    @field:JsonProperty("addresses") val addresses: List<Address>? = null
+    val id: String,
+    val firstName: String,
+    val lastName: String,
+    val addresses: List<Address>? = null,
 )

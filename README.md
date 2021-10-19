@@ -11,12 +11,13 @@ Small example how to
 - automate workflows with camunda bpm using in memory h2 database
 - run everything within single spring boot application
 
-It is possible to convert this example to use Mongo DB by simply using spring-data-mongo-db. Most notable change: Methods using Query annotations on repositories need to be removed.
-
 Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and Api model (DTO) classes for spring boot rest controllers.
 
 Local mongo db is  used to allow direct usage of JSON objects without database schemas - if different type of persistence is needed sql server is later taken in use.
 
+## History
+
+Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
 ## Prerequisites
 

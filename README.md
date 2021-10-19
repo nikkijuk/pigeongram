@@ -1,28 +1,34 @@
 # pigeongram
-Simple backend mail service implemented with kotlin
+
+Simple backend mail service implemented with kotlin and friends.
 
 ## Content
 
-Small example how to use Gradle Kotlin DSL, Open APi "kotlin-spring" generator, azure cosmosdb spring data SQL API (3.6.0) with spring boot (2.4.5).
-
-Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and model classes for spring boot rest controllers.
+Small example how to 
+- describe build with Gradle Kotlin DSL
+- define and generate api (dto's & controllers base api) with Open APi 3 and "kotlin-spring" generator
+- persist information with document oriented database (first cosmos db, then mongo db) and using spring data repository 
+- automate workflows with camunda bpm using in memory h2 database
+- run everything within single spring boot application
 
 ## Prerequisites
 
 - Kotlin
-- Gradle (< 7.0)
-- An active Azure account.
-    - If you don't have one, you can sign up for a [free account](https://azure.microsoft.com/free/).
-- Cosmos db configured
-    - Use sql api
+- Gradle
+- Mondo db installed locally
 
 ## App
 
 ### Properties
 
+TODO: Update to mongo db when implementation is done
+
+
 Get keys from cosmos db accounts *keys* section and fill application.properties or set environment variables so that proper keys are used
 
 #### application.properties
+
+    TODO: Update to mongo db
 
     cosmos.uri=${ACCOUNT_HOST}
     cosmos.key=${ACCOUNT_KEY}
@@ -30,7 +36,7 @@ Get keys from cosmos db accounts *keys* section and fill application.properties 
 
 ### Role of application
 
-- Application loads some test data to cosmosdb
+- Application loads some test data to document database
 
 ### Role of controller
 
@@ -99,37 +105,9 @@ Get added user
 
 ## Resources
 
-Tutorial about cosmosdb setup and spring boot/data usage
-
-https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-spring-data
-
 Tutorial about sping boot & kotlin
 
 https://spring.io/guides/tutorials/spring-boot-kotlin/
-
-Cosmos db sql api
-
-https://docs.microsoft.com/en-us/azure/cosmos-db/sql-query-getting-started
-
-Cosmos db spring boot starter
-
-https://docs.microsoft.com/en-us/java/api/overview/azure/spring-boot-starter-cosmos-readme?view=azure-java-stable
-
-documentation of latest spring data cosmos db version
-
-https://docs.microsoft.com/en-us/java/api/overview/azure/spring-data-cosmos-readme?view=azure-java-stable
-
-Guide to write cosmos db queries
-
-https://cosmosdb.github.io/labs/dotnet/labs/03-querying_in_azure_cosmosdb.html
-
-Full cosmos db lab
-
-https://azurecosmosdb.github.io/labs/
-
-azure cosmos db spring data documentation in github
-
-https://github.com/Azure/azure-sdk-for-java/blob/master/sdk/cosmos/azure-spring-data-cosmos/README.md
 
 open api generator
 

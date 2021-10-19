@@ -2,7 +2,6 @@ package com.nikkijuk.pigeongram
 
 import com.nikkijuk.pigeongram.domain.model.Address
 import com.nikkijuk.pigeongram.domain.model.User
-import com.nikkijuk.pigeongram.persistence.ReactiveUserRepository
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -18,9 +17,6 @@ class PigeongramApplicationKt : CommandLineRunner {
 
     @Autowired
     lateinit var userRepository: UserRepository
-
-    @Autowired
-    lateinit var reactiveUserRepository: ReactiveUserRepository
 
     override fun run(vararg var1: String?) {
         val address1 = Address("Waldstrasse 1", "04105", "Leipzig")
@@ -56,6 +52,7 @@ class PigeongramApplicationKt : CommandLineRunner {
 
         // find with postalcode
 
+        /*
         val postalcode = "04177"
         val usersByPostalcode = userRepository.getUsersByPostalcode(postalcode).iterator()
         logger.info("Users by postalcode : {}",postalcode)
@@ -63,18 +60,9 @@ class PigeongramApplicationKt : CommandLineRunner {
             logger.info("user living at {} is : {}", postalcode, usersByPostalcode.next())
         }
 
-        // reactive
+         */
 
-        logger.info("Using reactive repository")
 
-        // <Query>
-        val users = reactiveUserRepository.findByFirstName("testFirstName")
-        users?.map { u ->
-            logger.info("user is : {}", u)
-            u
-        }?.subscribe()
-
-        // </Query>
     }
 
     /**

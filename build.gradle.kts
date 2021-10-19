@@ -1,18 +1,20 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.5.0"
-    kotlin("plugin.spring") version "1.5.0"
-    kotlin("plugin.jpa") version "1.5.0"
 
-    // open api generator 5.1.0 doesn't work with gradle 7.X - 5.1.1 is coming very soon!
-    id("org.openapi.generator") version "5.1.0"
+    id("org.springframework.boot") version "2.5.4"
+    // camunda 7.16.0
+
+    kotlin("jvm") version "1.5.31"
+    kotlin("plugin.spring") version "1.5.31"
+    kotlin("plugin.jpa") version "1.5.31"
+
+    id("org.openapi.generator") version "5.2.1"
 }
 
 group = "com.nikkijuk"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -41,9 +43,8 @@ sourceSets {
     }
 }
 
-extra["azureVersion"] = "3.3.0"
-extra["springCloudVersion"] = "2020.0.2"
-extra["testcontainersVersion"] = "1.15.3"
+extra["springCloudVersion"] = "2020.0.4"
+extra["testcontainersVersion"] = "1.16.1" // 1.16.2 is ready, but not distibuted
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
@@ -60,28 +61,7 @@ dependencies {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
         exclude("com.sun.mail", "javax.mail")
     }
-    implementation("com.azure.spring:azure-spring-boot-starter") {
-        exclude("org.springframework.boot", "spring-boot-starter-logging")
-        exclude("com.sun.mail", "javax.mail")
-    }
 
-    // TODO: define azure.storage.accountName
-    /*
-    implementation("com.azure.spring:azure-spring-boot-starter-storage") {
-        exclude("org.springframework.boot", "spring-boot-starter-logging")
-    exclude("com.sun.mail", "javax.mail")
-    }
-     */
-
-    /*
-    TODO: Correct the classpath of your application so that it contains a single,
-     compatible version of org.springframework.vault.support.SslConfiguration
-    implementation("org.springframework.cloud:spring-cloud-starter-vault-config") {
-        exclude("org.springframework.boot", "spring-boot-starter-logging")
-    exclude("com.sun.mail", "javax.mail")
-    }
-
-     */
     developmentOnly("org.springframework.boot:spring-boot-devtools") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
         exclude("com.sun.mail", "javax.mail")
@@ -96,9 +76,9 @@ dependencies {
         exclude("com.sun.mail", "javax.mail")
     }
 
-    // version 3.5.X of cosmos db spring data didn't work with data classes as expected,
-    // but 3.6.X seems to be ok with them
-    implementation("com.azure:azure-spring-data-cosmos:3.6.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
+    }
 
     implementation("org.flywaydb:flyway-core")
 
@@ -114,11 +94,10 @@ dependencies {
     // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
 
-    // should be updated to 5.1.1 as soon as it's available
     // https://github.com/OpenAPITools/openapi-generator
-    implementation("org.openapitools:openapi-generator-gradle-plugin:5.1.0")
+    implementation("org.openapitools:openapi-generator-gradle-plugin:5.2.1")
 
-    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // activation and imap provider are needed for jakarta mail 2.X
     implementation("jakarta.mail:jakarta.mail-api:2.0.1")
@@ -127,13 +106,12 @@ dependencies {
 
     // it might make sense to use jakarta mail 1.X instead of 2.X
     // Simple java mail requires jakarta mail 1.X or javax.mail
-    implementation("org.simplejavamail:simple-java-mail:6.5.2")
+    implementation("org.simplejavamail:simple-java-mail:6.6.1")
 }
 
 dependencyManagement {
     imports {
         mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
-        mavenBom("com.azure.spring:azure-spring-boot-bom:${property("azureVersion")}")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }

@@ -4,7 +4,6 @@ import com.nikkijuk.pigeongram.domain.model.EmailAddress
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.MessageContent
 
-
 // to api
 fun EmailMessage.toApi () =
         com.nikkijuk.pigeongram.generated.model.EmailMessage (
@@ -19,19 +18,19 @@ fun EmailMessage.toApi () =
                 from = this.from.toApi(),
                 toRecipients = this.toRecipients.map { it.toApi() },
                 ccRecipients = this.ccRecipients?.map { it.toApi() } ?: listOf(),
-                bccRecipients = this.bccRecipients?.map { it.toApi() } ?: listOf()
+                bccRecipients = this.bccRecipients?.map { it.toApi() } ?: listOf(),
         )
 
 fun MessageContent.toApi () =
         com.nikkijuk.pigeongram.generated.model.MessageContent (
                 contentType = this.contentType,
-                content = this.content
+                content = this.content,
         )
 
 fun EmailAddress.toApi () =
         com.nikkijuk.pigeongram.generated.model.EmailAddress (
                 name = this.name,
-                address = this.address
+                address = this.address,
         )
 
 // to entity
@@ -48,17 +47,17 @@ fun com.nikkijuk.pigeongram.generated.model.EmailMessage.toEntity () =
                 from = this.from.toEntity(),
                 toRecipients = this.toRecipients.map { it.toEntity() },
                 ccRecipients = this.ccRecipients?.map { it.toEntity() } ?: listOf(),
-                bccRecipients = this.bccRecipients?.map { it.toEntity() } ?: listOf()
+                bccRecipients = this.bccRecipients?.map { it.toEntity() } ?: listOf(),
         )
 
 fun com.nikkijuk.pigeongram.generated.model.MessageContent.toEntity () =
         MessageContent (
                 contentType = this.contentType,
-                content = this.content
+                content = this.content,
         )
 
 fun com.nikkijuk.pigeongram.generated.model.EmailAddress.toEntity () =
         EmailAddress (
                 name = this.name,
-                address = this.address
+                address = this.address,
         )

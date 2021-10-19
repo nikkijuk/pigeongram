@@ -6,10 +6,17 @@ Simple backend mail service implemented with kotlin and friends.
 
 Small example how to 
 - describe build with Gradle Kotlin DSL
-- define and generate api (dto's & controllers base api) with Open APi 3 and "kotlin-spring" generator
-- persist information with document oriented database (first cosmos db, then mongo db) and using spring data repository 
+- define and generate api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
+- persist information with document oriented database (first cosmos db, then mongo db) using spring data repository 
 - automate workflows with camunda bpm using in memory h2 database
 - run everything within single spring boot application
+
+It is possible to convert this example to use Mongo DB by simply using spring-data-mongo-db. Most notable change: Methods using Query annotations on repositories need to be removed.
+
+Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and Api model (DTO) classes for spring boot rest controllers.
+
+Local mongo db is  used to allow direct usage of JSON objects without database schemas - if different type of persistence is needed sql server is later taken in use.
+
 
 ## Prerequisites
 
@@ -17,22 +24,34 @@ Small example how to
 - Gradle
 - Mondo db installed locally
 
+NOTE: There's no configuration needed when Mongo Db is installed locally. Otherwise application.properties needs to be adjusted.
+
+## Storage
+
+These installation instructions are for OSX / M1
+
+Install latest version of mongo db
+- brew tap mongodb/brew
+- brew install mongodb-community
+
+Start mongodb
+- mongod --config /opt/homebrew/etc/mongod.conf --fork
+
+Stop mongodb
+- connect to the mongod from the mongo shell, and issue the shutdown command as needed
+
+Troubleshooting
+- less /opt/homebrew/var/log/mongodb/mongo.log
+
 ## App
 
-### Properties
+#### Mongo db
 
-TODO: Update to mongo db when implementation is done
-
-
-Get keys from cosmos db accounts *keys* section and fill application.properties or set environment variables so that proper keys are used
-
-#### application.properties
-
-    TODO: Update to mongo db
-
-    cosmos.uri=${ACCOUNT_HOST}
-    cosmos.key=${ACCOUNT_KEY}
-    cosmos.secondaryKey=${SECONDARY_ACCOUNT_KEY}
+    # mongodb
+    # -------
+    spring.data.mongodb.host=localhost
+    spring.data.mongodb.port=27017
+    spring.data.mongodb.database=testdb
 
 ### Role of application
 
@@ -105,6 +124,12 @@ Get added user
 
 ## Resources
 
+Mongo db community installation to osx
+
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+
+https://github.com/mongodb/homebrew-brew
+
 Tutorial about sping boot & kotlin
 
 https://spring.io/guides/tutorials/spring-boot-kotlin/
@@ -116,4 +141,17 @@ https://github.com/OpenAPITools/openapi-generator
 kotlin-spring open api generator
 
 https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/kotlin-spring.md
+
+open api generator gradle plugin
+
+https://plugins.gradle.org/plugin/org.openapi.generator
+
+Spring data document docs
+
+https://docs.spring.io/spring-data/data-document/docs/current/reference/html/
+
+Spring data mongo db docs
+
+https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#reference
+
 

@@ -1,10 +1,12 @@
 package com.nikkijuk.pigeongram.domain.model
 
 
-import com.azure.spring.data.cosmos.core.mapping.Container
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.data.mongodb.core.mapping.Document
 
 /**
+ *
+ * @Document annotation is only needed on root object
  *
  * @param id
  * @param type
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param ccRecipients
  * @param bccRecipients
  */
-@Container(containerName = "messageContainer", ru = "100") // set limit to allow free azure usage
+@Document
 data class EmailMessage(
 
     @field:JsonProperty("id", required = true) val id: String,

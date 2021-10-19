@@ -5,14 +5,15 @@ import com.nikkijuk.pigeongram.generated.api.UsersApi
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class UsersController @Autowired constructor(
-        val userRepository: UserRepository
+class UsersController (
+    val userRepository: UserRepository
 ) : UsersApi {
 
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)

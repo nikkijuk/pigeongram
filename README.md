@@ -23,7 +23,7 @@ Cosmos DB was ok and functioning. It was bit hard to cut through examples, which
 
 - Kotlin
 - Gradle
-- Mondo db installed locally
+- Mongo db installed locally
 
 NOTE: There's no configuration needed when Mongo Db is installed locally. Otherwise application.properties needs to be adjusted.
 
@@ -44,7 +44,15 @@ Stop mongodb
 Troubleshooting
 - less /opt/homebrew/var/log/mongodb/mongo.log
 
+## Workflow engine
+
+Camunda seed implementation is generated with https://start.camunda.com/
+
 ## App
+
+#### Camunda
+
+- Camunda starts automatically with app and caln be called at localhost:8080 using demo/demo
 
 #### Mongo db
 
@@ -155,4 +163,6 @@ Spring data mongo db docs
 
 https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#reference
 
+Camunda sping boot integration docs
 
+https://docs.camunda.org/get-started/spring-boot/

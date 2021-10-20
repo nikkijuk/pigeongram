@@ -45,6 +45,7 @@ sourceSets {
 
 extra["springCloudVersion"] = "2020.0.4"
 extra["testcontainersVersion"] = "1.16.1" // 1.16.2 is ready, but not distibuted
+extra["camundaVersion"] = "7.16.0" // compatible with spring boot 2.5.4
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
@@ -61,6 +62,20 @@ dependencies {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
         exclude("com.sun.mail", "javax.mail")
     }
+
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
+    }
+
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
+        exclude("com.sun.mail", "javax.mail")
+    }
+
+    implementation("org.camunda.bpm:camunda-engine-plugin-spin")
+
+    implementation("org.camunda.spin:camunda-spin-dataformat-all")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools") {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
@@ -80,7 +95,14 @@ dependencies {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
     }
 
+    implementation("org.springframework.boot:spring-boot-starter-jdbc") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
+    }
+
+    implementation("com.h2database:h2")
+
     implementation("org.flywaydb:flyway-core")
+
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -113,6 +135,7 @@ dependencyManagement {
     imports {
         mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.camunda.bpm:camunda-bom:${property("camundaVersion")}")
     }
 }
 

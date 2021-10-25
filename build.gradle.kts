@@ -103,6 +103,7 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core")
 
+    implementation("io.github.microutils:kotlin-logging:2.0.11")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

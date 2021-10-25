@@ -11,6 +11,6 @@ class ArchiveMessageDelegate : JavaDelegate {
     private val log = KotlinLogging.logger { }
 
     override fun execute(execution: DelegateExecution?) {
-        log.info { "archive" }
+        log.info { "archive - ${execution?.processInstanceId} : ${execution?.currentActivityId}\"" }
     }
 }

@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1xucihv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="SendDraftProcess" name="Send draft" isExecutable="true" camunda:candidateStarterUsers="demo">
-    <bpmn:startEvent id="Send_Draft_Start_Event" name="draft send requested">
+    <bpmn:startEvent id="start_event_dend_draft" name="draft send requested">
       <bpmn:outgoing>Flow_0ee2l7i</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_0ee2l7i" sourceRef="Send_Draft_Start_Event" targetRef="ValidateDraftActivity" />
-    <bpmn:sequenceFlow id="Flow_0n9zr3l" sourceRef="ValidateDraftActivity" targetRef="MoveToOutboxActivity" />
-    <bpmn:sequenceFlow id="Flow_017x4ks" sourceRef="MoveToOutboxActivity" targetRef="SendMessageActivity" />
-    <bpmn:sequenceFlow id="Flow_1opc62t" sourceRef="SendMessageActivity" targetRef="MoveToSentActivity" />
-    <bpmn:exclusiveGateway id="ArchiveMessageGateway" name="archiving needed?" default="Flow_012mio8">
-      <bpmn:incoming>Flow_03rznf3</bpmn:incoming>
-      <bpmn:outgoing>Flow_012mio8</bpmn:outgoing>
-      <bpmn:outgoing>Flow_140hafi</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_0ee2l7i" sourceRef="start_event_dend_draft" targetRef="ValidateDraftActivity" />
+    <bpmn:sequenceFlow id="Flow_Message_Draft_Checked" sourceRef="ValidateDraftActivity" targetRef="MoveToOutboxActivity" />
+    <bpmn:sequenceFlow id="Flow_Message_moved_to_outbox" sourceRef="MoveToOutboxActivity" targetRef="SendMessageActivity" />
+    <bpmn:sequenceFlow id="Flow_Message_sent" sourceRef="SendMessageActivity" targetRef="MoveToSentActivity" />
+    <bpmn:exclusiveGateway id="ArchiveMessageGateway" name="archiving needed?" default="flow_archive_needed">
+      <bpmn:incoming>Flow_Message_Moved_to_sent</bpmn:incoming>
+      <bpmn:outgoing>flow_archive_needed</bpmn:outgoing>
+      <bpmn:outgoing>flow_archive_not_needed</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_03rznf3" sourceRef="MoveToSentActivity" targetRef="ArchiveMessageGateway" />
-    <bpmn:sequenceFlow id="Flow_012mio8" name="yes" sourceRef="ArchiveMessageGateway" targetRef="ArchiveMessageActivity" />
+    <bpmn:sequenceFlow id="Flow_Message_Moved_to_sent" sourceRef="MoveToSentActivity" targetRef="ArchiveMessageGateway" />
+    <bpmn:sequenceFlow id="flow_archive_needed" name="yes" sourceRef="ArchiveMessageGateway" targetRef="ArchiveMessageActivity" />
     <bpmn:sequenceFlow id="Flow_0thveet" name="draft incomplete" sourceRef="ValidateDraftError" targetRef="DraftValidationNotifyUser" />
-    <bpmn:endEvent id="Event_Draft_validation_failed" name="incomplete draft">
+    <bpmn:endEvent id="end_event_draft_validation_failed" name="incomplete draft">
       <bpmn:incoming>Flow_1wrsceu</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1wrsceu" sourceRef="DraftValidationNotifyUser" targetRef="Event_Draft_validation_failed" />
-    <bpmn:endEvent id="Event_Draft_sending_failed" name="sending failed">
+    <bpmn:sequenceFlow id="Flow_1wrsceu" sourceRef="DraftValidationNotifyUser" targetRef="end_event_draft_validation_failed" />
+    <bpmn:endEvent id="end_event_draft_sending_failed" name="sending failed">
       <bpmn:incoming>Flow_13e5yht</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_13e5yht" sourceRef="SendMessageNotifyUser" targetRef="Event_Draft_sending_failed" />
-    <bpmn:endEvent id="Event_draft_sent" name="sent without archiving">
-      <bpmn:incoming>Flow_140hafi</bpmn:incoming>
+    <bpmn:sequenceFlow id="Flow_13e5yht" sourceRef="SendMessageNotifyUser" targetRef="end_event_draft_sending_failed" />
+    <bpmn:endEvent id="end_event_draft_sent" name="sent without archiving">
+      <bpmn:incoming>flow_archive_not_needed</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_140hafi" name="no" sourceRef="ArchiveMessageGateway" targetRef="Event_draft_sent">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{x == "y"}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="flow_archive_not_needed" name="no" sourceRef="ArchiveMessageGateway" targetRef="end_event_draft_sent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{archive == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:endEvent id="Event_draft_sent_and_archived" name="sent and archived">
-      <bpmn:incoming>Flow_1019gz2</bpmn:incoming>
+    <bpmn:endEvent id="end_dvent_draft_sent_and_archived" name="sent and archived">
+      <bpmn:incoming>Flow_sent_and_archived</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1019gz2" sourceRef="ArchiveMessageActivity" targetRef="Event_draft_sent_and_archived" />
+    <bpmn:sequenceFlow id="Flow_sent_and_archived" sourceRef="ArchiveMessageActivity" targetRef="end_dvent_draft_sent_and_archived" />
     <bpmn:serviceTask id="SendMessageActivity" name="send" camunda:delegateExpression="#{sendMessageDelegate}">
-      <bpmn:incoming>Flow_017x4ks</bpmn:incoming>
-      <bpmn:outgoing>Flow_1opc62t</bpmn:outgoing>
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/P15M</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Message_moved_to_outbox</bpmn:incoming>
+      <bpmn:outgoing>Flow_Message_sent</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="MoveToOutboxActivity" name="move to outbox" camunda:delegateExpression="#{moveMessageDelegate}">
-      <bpmn:incoming>Flow_0n9zr3l</bpmn:incoming>
-      <bpmn:outgoing>Flow_017x4ks</bpmn:outgoing>
+      <bpmn:incoming>Flow_Message_Draft_Checked</bpmn:incoming>
+      <bpmn:outgoing>Flow_Message_moved_to_outbox</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="MoveToSentActivity" name="move to sent" camunda:delegateExpression="#{moveMessageDelegate}">
-      <bpmn:incoming>Flow_1opc62t</bpmn:incoming>
-      <bpmn:outgoing>Flow_03rznf3</bpmn:outgoing>
+      <bpmn:incoming>Flow_Message_sent</bpmn:incoming>
+      <bpmn:outgoing>Flow_Message_Moved_to_sent</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ArchiveMessageActivity" name="archive" camunda:delegateExpression="#{archiveMessageDelegate}">
-      <bpmn:incoming>Flow_012mio8</bpmn:incoming>
-      <bpmn:outgoing>Flow_1019gz2</bpmn:outgoing>
+      <bpmn:incoming>flow_archive_needed</bpmn:incoming>
+      <bpmn:outgoing>Flow_sent_and_archived</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ValidateDraftActivity" name="validate draft" camunda:delegateExpression="#{validateDraftDelegate}">
       <bpmn:incoming>Flow_0ee2l7i</bpmn:incoming>
-      <bpmn:outgoing>Flow_0n9zr3l</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Message_Draft_Checked</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="DraftValidationNotifyUser" name="notify user:&#10;check draft" camunda:delegateExpression="#{notifyUserDelegate}">
       <bpmn:incoming>Flow_0thveet</bpmn:incoming>
@@ -74,22 +77,6 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SendDraftProcess">
-      <bpmndi:BPMNEdge id="Flow_03rznf3_di" bpmnElement="Flow_03rznf3">
-        <di:waypoint x="790" y="160" />
-        <di:waypoint x="790" y="205" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_13e5yht_di" bpmnElement="Flow_13e5yht">
-        <di:waypoint x="611" y="330" />
-        <di:waypoint x="611" y="372" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_017x4ks_di" bpmnElement="Flow_017x4ks">
-        <di:waypoint x="500" y="120" />
-        <di:waypoint x="560" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1opc62t_di" bpmnElement="Flow_1opc62t">
-        <di:waypoint x="660" y="120" />
-        <di:waypoint x="700" y="120" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1l7ej2t_di" bpmnElement="Flow_1l7ej2t">
         <di:waypoint x="611" y="178" />
         <di:waypoint x="611" y="250" />
@@ -97,13 +84,13 @@
           <dc:Bounds x="592" y="211" width="68" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ee2l7i_di" bpmnElement="Flow_0ee2l7i">
-        <di:waypoint x="198" y="120" />
-        <di:waypoint x="250" y="120" />
+      <bpmndi:BPMNEdge id="Flow_13e5yht_di" bpmnElement="Flow_13e5yht">
+        <di:waypoint x="611" y="330" />
+        <di:waypoint x="611" y="372" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0n9zr3l_di" bpmnElement="Flow_0n9zr3l">
-        <di:waypoint x="350" y="120" />
-        <di:waypoint x="400" y="120" />
+      <bpmndi:BPMNEdge id="Flow_1wrsceu_di" bpmnElement="Flow_1wrsceu">
+        <di:waypoint x="310" y="340" />
+        <di:waypoint x="310" y="382" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0thveet_di" bpmnElement="Flow_0thveet">
         <di:waypoint x="310" y="178" />
@@ -112,29 +99,57 @@
           <dc:Bounds x="330" y="211" width="79" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1wrsceu_di" bpmnElement="Flow_1wrsceu">
-        <di:waypoint x="310" y="340" />
-        <di:waypoint x="310" y="382" />
+      <bpmndi:BPMNEdge id="Flow_03rznf3_di" bpmnElement="Flow_Message_Moved_to_sent">
+        <di:waypoint x="800" y="120" />
+        <di:waypoint x="835" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_012mio8_di" bpmnElement="Flow_012mio8">
-        <di:waypoint x="815" y="230" />
-        <di:waypoint x="880" y="230" />
+      <bpmndi:BPMNEdge id="Flow_1opc62t_di" bpmnElement="Flow_Message_sent">
+        <di:waypoint x="660" y="120" />
+        <di:waypoint x="700" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_017x4ks_di" bpmnElement="Flow_Message_moved_to_outbox">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="560" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n9zr3l_di" bpmnElement="Flow_Message_Draft_Checked">
+        <di:waypoint x="350" y="120" />
+        <di:waypoint x="400" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ee2l7i_di" bpmnElement="Flow_0ee2l7i">
+        <di:waypoint x="198" y="120" />
+        <di:waypoint x="250" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_012mio8_di" bpmnElement="flow_archive_needed">
+        <di:waypoint x="885" y="120" />
+        <di:waypoint x="950" y="120" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="839" y="212" width="18" height="14" />
+          <dc:Bounds x="909" y="102" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_140hafi_di" bpmnElement="Flow_140hafi">
-        <di:waypoint x="790" y="255" />
-        <di:waypoint x="790" y="372" />
+      <bpmndi:BPMNEdge id="Flow_140hafi_di" bpmnElement="flow_archive_not_needed">
+        <di:waypoint x="860" y="145" />
+        <di:waypoint x="860" y="372" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="799" y="314" width="13" height="14" />
+          <dc:Bounds x="869" y="266" width="13" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1019gz2_di" bpmnElement="Flow_1019gz2">
-        <di:waypoint x="930" y="270" />
-        <di:waypoint x="930" y="372" />
+      <bpmndi:BPMNEdge id="Flow_1019gz2_di" bpmnElement="Flow_sent_and_archived">
+        <di:waypoint x="1000" y="160" />
+        <di:waypoint x="1000" y="382" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_0x887ce_di" bpmnElement="Event_Draft_sending_failed">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start_event_dend_draft">
+        <dc:Bounds x="162" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="156" y="145" width="49" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06kt4ct_di" bpmnElement="end_event_draft_validation_failed">
+        <dc:Bounds x="292" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="271" y="425" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0x887ce_di" bpmnElement="end_event_draft_sending_failed">
         <dc:Bounds x="593" y="372" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="577" y="415" width="68" height="14" />
@@ -143,59 +158,47 @@
       <bpmndi:BPMNShape id="Activity_16s69l9_di" bpmnElement="SendMessageActivity">
         <dc:Bounds x="560" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15d9uhl_di" bpmnElement="SendMessageNotifyUser">
-        <dc:Bounds x="561" y="250" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0lnkt42_di" bpmnElement="MoveToOutboxActivity">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0tpnheq_di" bpmnElement="MoveToSentActivity">
         <dc:Bounds x="700" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Send_Draft_Start_Event">
-        <dc:Bounds x="162" y="102" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="156" y="145" width="49" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0lnkt42_di" bpmnElement="MoveToOutboxActivity">
-        <dc:Bounds x="400" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02tvhv8_di" bpmnElement="ValidateDraftActivity">
         <dc:Bounds x="250" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_06kt4ct_di" bpmnElement="Event_Draft_validation_failed">
-        <dc:Bounds x="292" y="382" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="271" y="425" width="79" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1gn376i_di" bpmnElement="DraftValidationNotifyUser">
         <dc:Bounds x="260" y="260" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15d9uhl_di" bpmnElement="SendMessageNotifyUser">
+        <dc:Bounds x="561" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_192jwxl_di" bpmnElement="ArchiveMessageGateway" isMarkerVisible="true">
-        <dc:Bounds x="765" y="205" width="50" height="50" />
+        <dc:Bounds x="835" y="95" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="803" y="173" width="90" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_088q0a6_di" bpmnElement="Event_draft_sent">
-        <dc:Bounds x="772" y="372" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="761" y="415" width="59" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0sfrh77_di" bpmnElement="Event_draft_sent_and_archived">
-        <dc:Bounds x="912" y="372" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="887" y="415" width="87" height="14" />
+          <dc:Bounds x="815" y="63" width="90" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1k156ce_di" bpmnElement="ArchiveMessageActivity">
-        <dc:Bounds x="880" y="190" width="100" height="80" />
+        <dc:Bounds x="950" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">
-        <dc:Bounds x="292" y="142" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_088q0a6_di" bpmnElement="end_event_draft_sent">
+        <dc:Bounds x="842" y="372" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="831" y="415" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sfrh77_di" bpmnElement="end_dvent_draft_sent_and_archived">
+        <dc:Bounds x="982" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="957" y="425" width="87" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="Event_0g9lj1j">
         <dc:Bounds x="593" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">
+        <dc:Bounds x="292" y="142" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

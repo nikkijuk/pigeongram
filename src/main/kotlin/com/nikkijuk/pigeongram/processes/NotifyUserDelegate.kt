@@ -11,6 +11,6 @@ class NotifyUserDelegate : JavaDelegate {
     private val log = KotlinLogging.logger { }
 
     override fun execute(execution: DelegateExecution?) {
-        log.info { "notify" }
+        log.info { "notify - ${execution?.processInstanceId} : ${execution?.currentActivityId}\"" }
     }
 }

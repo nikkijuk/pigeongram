@@ -11,6 +11,6 @@ class ValidateDraftDelegate : JavaDelegate {
     private val log = KotlinLogging.logger { }
 
     override fun execute(execution: DelegateExecution?) {
-        log.info { "validate" }
+        log.info { "validate - ${execution?.processInstanceId} : ${execution?.currentActivityId}\"" }
     }
 }

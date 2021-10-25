@@ -11,6 +11,6 @@ class SendMessageDelegate : JavaDelegate {
     private val log = KotlinLogging.logger { }
 
     override fun execute(execution: DelegateExecution?) {
-        log.info { "send" }
+        log.info { "send - ${execution?.processInstanceId} : ${execution?.currentActivityId}\"" }
     }
 }

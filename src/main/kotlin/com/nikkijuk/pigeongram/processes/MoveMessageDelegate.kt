@@ -12,9 +12,9 @@ class MoveMessageDelegate : JavaDelegate {
 
     override fun execute(execution: DelegateExecution?) {
 
-        // gateway needs variable 'x' to be set - otherwise crashes
-        execution?.setVariable("x","y")
+        // gateway needs variable 'archive' to be set - otherwise crashes
+        execution?.setVariable("archive","yes") // only "no" disables archiving
 
-        log.info { "move" }
+        log.info { "move - ${execution?.processInstanceId} : ${execution?.currentActivityId}" }
     }
 }

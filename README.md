@@ -21,7 +21,7 @@ Cosmos DB was ok and functioning. It was bit hard to cut through examples, which
 
 ## Process
 
-![process](../diagrams/send_draft_process.png)
+![process](../../diagrams/send_draft_process.png)
 
 ## Prerequisites
 

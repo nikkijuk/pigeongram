@@ -1,5 +1,6 @@
 package com.nikkijuk.pigeongram.processes
 
+import com.nikkijuk.pigeongram.processes.util.runProcess
 import mu.KotlinLogging
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
@@ -10,11 +11,13 @@ class MoveMessageDelegate : JavaDelegate {
 
     private val log = KotlinLogging.logger { }
 
-    override fun execute(execution: DelegateExecution?) {
+    override fun execute(execution: DelegateExecution) {
 
-        // gateway needs variable 'archive' to be set - otherwise crashes
-        execution?.setVariable("archive","yes") // only "no" disables archiving
+        runProcess(execution)  {
+            // gateway needs variable 'archive' to be set - otherwise crashes
+            setVariable("archive","yes") // only "no" disables archiving
 
-        log.info { "move - ${execution?.processInstanceId} : ${execution?.currentActivityId}" }
+            log.info { "move - ${processInstanceId} : ${currentActivityId}" }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.nikkijuk.pigeongram.processes
 
+import com.nikkijuk.pigeongram.processes.util.runProcess
 import mu.KotlinLogging
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.JavaDelegate
@@ -10,7 +11,10 @@ class NotifyUserDelegate : JavaDelegate {
 
     private val log = KotlinLogging.logger { }
 
-    override fun execute(execution: DelegateExecution?) {
-        log.info { "notify - ${execution?.processInstanceId} : ${execution?.currentActivityId}\"" }
+    override fun execute(execution: DelegateExecution) {
+
+        runProcess(execution) {
+            log.info { "notify - ${processInstanceId} : ${currentActivityId}\"" }
+        }
     }
 }

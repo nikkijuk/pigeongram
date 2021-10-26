@@ -49,7 +49,7 @@ Send draft process could contain steps like
 -    Move draft to sent
 -    Archive  
 
-Orchesterating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
+Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 
 ## Api generation
 
@@ -132,6 +132,48 @@ Camunda seed implementation is generated with https://start.camunda.com/
       }
   }
 ```
+
+### Role of process step
+
+- Process steps implement JavaDelegate
+- override execute (..) method
+- take DelegateExecution as parameter
+
+So; they implement simple command pattern, which is neat and very old school
+
+### Code for process step
+
+Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing
+
+```
+    private val log = KotlinLogging.logger { }
+
+    /*
+    * Simple around function which could also contain some logging, exception handling, etc.
+     */
+    fun runProcess (ctx: DelegateExecution, action: DelegateExecution.() -> Unit) {
+        try {
+            ctx.action()
+            log.info { "executed: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
+        } catch (e: Exception) {
+            log.error (e) { "failed to execute: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
+            throw e
+        }
+    }
+
+    /**
+     * Simple delegate which can be used to set up processes without functionality
+     */
+    @Named
+    class NoOpDelegate : JavaDelegate {
+        override fun execute(execution: DelegateExecution) {
+            runProcess(execution)  {
+                // do nothing
+            }
+        }
+    }
+```
+
 
 ### Test it
 

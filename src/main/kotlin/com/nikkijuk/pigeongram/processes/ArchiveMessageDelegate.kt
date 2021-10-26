@@ -14,7 +14,6 @@ class ArchiveMessageDelegate : JavaDelegate {
     override fun execute(execution: DelegateExecution) {
 
         runProcess(execution) {
-            log.info { "archive - ${processInstanceId} : ${currentActivityId}\"" }
         }
     }
 }

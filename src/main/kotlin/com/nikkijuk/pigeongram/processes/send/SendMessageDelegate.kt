@@ -14,7 +14,6 @@ class SendMessageDelegate : JavaDelegate {
     override fun execute(execution: DelegateExecution) {
 
         runProcess(execution) {
-            log.info { "send - ${processInstanceId} : ${currentActivityId}\"" }
         }
     }
 }

@@ -14,7 +14,6 @@ class ValidateDraftDelegate : JavaDelegate {
     override fun execute(execution: DelegateExecution) {
 
         runProcess(execution) {
-            log.info { "validate - ${processInstanceId} : ${currentActivityId}\"" }
         }
     }
 }

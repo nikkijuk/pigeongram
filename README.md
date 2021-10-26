@@ -19,9 +19,31 @@ Local mongo db is  used to allow direct usage of JSON objects without database s
 
 Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
-## Process
+## Process automation
 
-![process](../../blob/main/diagrams/send_draft_process.png)
+Camunda Engine (Open source) has components for modelling processes, running and creating process instances, and controlling created processes and process instances.
+
+![process engine](../../blob/main/diagrams/camunda_architecture_overview.png)
+
+Use case is to automate backend process
+
+- Embedded process engine and process implementation run in same scope (JVM/Service)
+- Started process instances are persisted in database (one engine & database per microservice)
+- Processes and rules are described with standard language (OMG: BPMN, DMN, CMMN)
+- Application components have ports which use domain model (Ports & Adapters Pattern)
+- Application components are integrated to process with thin adapters (Service task / Java API)
+
+![send process](../../blob/main/diagrams/send_draft_process.png)
+
+Send draft process could contain steps like
+
+-    Validate draft (error if draft is not complete)
+-    Move draft to outbox (lock it for sending)
+-    Send (3 retries, after that error)
+-    Move draft to sent (unlock)
+-    Archive (link2akte) if needed 
+
+Orchesterating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 
 ## Prerequisites
 

@@ -33,7 +33,11 @@ Use case is to automate backend process
 - Application components have ports which use domain model (Ports & Adapters Pattern)
 - Application components are integrated to process with thin adapters (Service task / Java API)
 
+Prototype process implemented looks like this
+
 ![send process](../../blob/main/diagrams/send_draft_process.png)
+
+Process overview
 
 Send draft process could contain steps like
 

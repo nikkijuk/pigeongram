@@ -69,11 +69,11 @@
       <bpmn:outgoing>Flow_0thveet</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0s7r0xp" />
     </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_0g9lj1j" attachedToRef="SendMessageActivity">
+    <bpmn:boundaryEvent id="SendDraftError" attachedToRef="SendMessageActivity">
       <bpmn:outgoing>Flow_1l7ej2t</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0xo9jmp" />
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_1l7ej2t" name="sending failed" sourceRef="Event_0g9lj1j" targetRef="SendMessageNotifyUser" />
+    <bpmn:sequenceFlow id="Flow_1l7ej2t" name="sending failed" sourceRef="SendDraftError" targetRef="SendMessageNotifyUser" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SendDraftProcess">
@@ -194,7 +194,7 @@
           <dc:Bounds x="957" y="425" width="87" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="Event_0g9lj1j">
+      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="SendDraftError">
         <dc:Bounds x="593" y="142" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">

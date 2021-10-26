@@ -19,6 +19,10 @@ Local mongo db is  used to allow direct usage of JSON objects without database s
 
 Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
+## Process
+
+![process](../diagrams/send_draft_process.png)
+
 ## Prerequisites
 
 - Kotlin

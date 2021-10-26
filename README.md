@@ -143,9 +143,17 @@ So; they implement simple command pattern, which is neat and very old school
 
 https://wiki.c2.com/?CommandPattern
 
+Binding process step to process
+
+- Select service task at Camunda modeler
+- Select "DelegateExpression" as implementation
+- set Delegate expression to "#{process-step-name}"
+
 ### Code for process step
 
-Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing
+Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing.
+
+- NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}" 
 
 ```
     private val log = KotlinLogging.logger { }

@@ -15,9 +15,17 @@ Open api 3 yaml format is used to describe user and messages api, "kotlin-spring
 
 Local mongo db is  used to allow direct usage of JSON objects without database schemas - if different type of persistence is needed sql server is later taken in use.
 
-## History
+## Prerequisites
 
-Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
+- Kotlin
+- Gradle
+- Camunda 
+- h2 db for process instances (file based)
+- Mongo db for messages (installed locally)
+
+## Major changes
+
+Before Mong Db cosmos db was used in project. Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
 ## Process automation
 
@@ -49,13 +57,7 @@ Send draft process could contain steps like
 
 Orchesterating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 
-## Prerequisites
-
-- Kotlin
-- Gradle
-- Mongo db installed locally
-
-NOTE: There's no configuration needed when Mongo Db is installed locally. Otherwise application.properties needs to be adjusted.
+## Api generation
 
 ## Storage
 

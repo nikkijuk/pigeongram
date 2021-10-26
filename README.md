@@ -141,6 +141,8 @@ Camunda seed implementation is generated with https://start.camunda.com/
 
 So; they implement simple command pattern, which is neat and very old school
 
+https://wiki.c2.com/?CommandPattern
+
 ### Code for process step
 
 Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing

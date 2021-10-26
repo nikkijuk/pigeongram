@@ -42,10 +42,10 @@ Process overview
 Send draft process could contain steps like
 
 -    Validate draft (error if draft is not complete)
--    Move draft to outbox (lock it for sending)
+-    Move draft to outbox 
 -    Send (3 retries, after that error)
--    Move draft to sent (unlock)
--    Archive (link2akte) if needed 
+-    Move draft to sent
+-    Archive  
 
 Orchesterating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 

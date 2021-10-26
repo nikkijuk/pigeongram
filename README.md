@@ -147,7 +147,7 @@ Binding process step to process
 
 - Select service task at Camunda modeler
 - Select "DelegateExpression" as implementation
-- set Delegate expression to "#{process-step-name}"
+- set Delegate expression to "#{processStepName}" so that it matches to bean annotated with @Named
 
 ### Code for process step
 

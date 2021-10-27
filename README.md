@@ -194,7 +194,7 @@ class NoOpDelegate : JavaDelegate {
 First process step can fail with following result
 
 - process doesn't start
-- process continues using failure boyndary event
+- process continues using failure boundary event
 
 ![validate draft error](../../blob/main/diagrams/validate_draft_error_event.png)
 
@@ -238,6 +238,15 @@ class ValidateDraftDelegate : JavaDelegate1 {
     }
 }
 ```
+
+### decision gateway for archival
+
+Archiving process step is on default path. Archiving process step will be never reached if condition of not arhiving is reached, otherwise message is archived.
+
+- condition type: Expression
+- expression: "#{archive == "no"}"
+
+![archival gateway](../../blob/main/diagrams/gateway_archival.png)
 
 ### Test it
 

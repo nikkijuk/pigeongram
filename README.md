@@ -192,7 +192,7 @@ class NoOpDelegate : JavaDelegate {
 ### First process step at example process
 
 
-![validate draft error](../../blob/main/diagrams/validate_draft_error.png)
+![validate draft error](../../blob/main/diagrams/validate_draft_error_event.png)
 
 Process needs 2 start parameters
 

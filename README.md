@@ -191,6 +191,10 @@ class NoOpDelegate : JavaDelegate {
 ```
 ### First process step at example process
 
+First process step can fail with following result
+
+- process doesn't start
+- process continues using failure boyndary event
 
 ![validate draft error](../../blob/main/diagrams/validate_draft_error_event.png)
 

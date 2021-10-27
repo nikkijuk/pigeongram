@@ -42,7 +42,7 @@
     <bpmn:sequenceFlow id="Flow_sent_and_archived" sourceRef="ArchiveMessageActivity" targetRef="end_dvent_draft_sent_and_archived" />
     <bpmn:serviceTask id="SendMessageActivity" name="send" camunda:delegateExpression="#{sendMessageDelegate}">
       <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R3/P15M</camunda:failedJobRetryTimeCycle>
+        <camunda:failedJobRetryTimeCycle>R3/PT1M</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_Message_moved_to_outbox</bpmn:incoming>
       <bpmn:outgoing>Flow_Message_sent</bpmn:outgoing>

@@ -156,34 +156,84 @@ Here is run process helper method and implementation of dummy process step which
 - NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}" 
 
 ```
+private val log = KotlinLogging.logger { }
+
+/*
+* Simple around function which could also contain some logging, exception handling, etc.
+ */
+fun runProcess (ctx: DelegateExecution, action: DelegateExecution.() -> Unit) {
+    try {
+        ctx.action()
+        log.info { "executed: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
+    } catch (e: Exception) {
+        log.error (e) { "failed to execute: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
+        throw e
+    }
+}
+    
+fun DelegateExecution.logVariables () {
+    variables.entries.iterator().forEach {
+        log.info { "${it.key} = ${it.value}" }
+    }
+}
+
+/**
+* Simple delegate which can be used to set up processes without functionality
+*/
+@Named
+class NoOpDelegate : JavaDelegate {
+    override fun execute(execution: DelegateExecution) {
+        runProcess(execution)  {
+            // do nothing
+        }
+    }
+}
+```
+### First process step at example process
+
+
+![validate draft error](../../blob/main/diagrams/validate_draft_error.png)
+
+Process needs 2 start parameters
+
+- archive: should last step of process execute or not
+- draftId: id of message to be sent
+
+These parameters can be checked
+
+- if step fails with IllegalArgumentException because of assertion error process doesn't start. 
+- if step fails with BpmError failure handling boundary event will be executed and notify user task is activated. errorCode and errorMessage fields are filled with information from BpmError.
+
+If first process step "validate draft" is executed successfully process continues on default execution path.
+
+```
+@Named
+class ValidateDraftDelegate : JavaDelegate1 {
+
     private val log = KotlinLogging.logger { }
 
-    /*
-    * Simple around function which could also contain some logging, exception handling, etc.
-     */
-    fun runProcess (ctx: DelegateExecution, action: DelegateExecution.() -> Unit) {
-        try {
-            ctx.action()
-            log.info { "executed: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
-        } catch (e: Exception) {
-            log.error (e) { "failed to execute: ${ctx.processInstanceId} : ${ctx.currentActivityId}" }
-            throw e
-        }
-    }
+    override fun execute(execution: DelegateExecution) {
 
-    /**
-     * Simple delegate which can be used to set up processes without functionality
-     */
-    @Named
-    class NoOpDelegate : JavaDelegate {
-        override fun execute(execution: DelegateExecution) {
-            runProcess(execution)  {
-                // do nothing
+        runProcess(execution) {
+
+            // exception here prevents starting process
+            val archive = getVariable("archive")
+            Asserts.notNull(archive, "archive")
+
+            // exception here prevents starting process
+            val draftId = getVariable("draftId")
+            Asserts.notNull(draftId, "draftId")
+
+            // exception here is directed to errror event
+            if ((draftId as String).length < 2) {
+                throw BpmnError ("INVALID_DRAFT_ID", "draftId is invalid")
             }
+
+            println ( "validated draft '$draftId' with archival set to '$archive'" )
         }
     }
+}
 ```
-
 
 ### Test it
 

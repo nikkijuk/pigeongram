@@ -1,5 +1,6 @@
 package com.nikkijuk.pigeongram.processes
 
+import com.nikkijuk.pigeongram.processes.util.logVariables
 import com.nikkijuk.pigeongram.processes.util.runProcess
 import mu.KotlinLogging
 import org.camunda.bpm.engine.delegate.DelegateExecution
@@ -14,6 +15,7 @@ class NotifyUserDelegate : JavaDelegate {
     override fun execute(execution: DelegateExecution) {
 
         runProcess(execution) {
+            logVariables()
         }
     }
 }

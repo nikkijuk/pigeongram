@@ -73,11 +73,11 @@
     </bpmn:serviceTask>
     <bpmn:boundaryEvent id="ValidateDraftError" attachedToRef="ValidateDraftActivity">
       <bpmn:outgoing>Flow_0thveet</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_0s7r0xp" />
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0s7r0xp" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
     </bpmn:boundaryEvent>
     <bpmn:boundaryEvent id="SendDraftError" attachedToRef="SendMessageActivity">
       <bpmn:outgoing>Flow_1l7ej2t</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_0xo9jmp" />
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0xo9jmp" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1l7ej2t" name="sending failed" sourceRef="SendDraftError" targetRef="SendMessageNotifyUser" />
   </bpmn:process>

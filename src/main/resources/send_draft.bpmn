@@ -2,6 +2,12 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1xucihv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="SendDraftProcess" name="Send draft" isExecutable="true" camunda:candidateStarterUsers="demo">
     <bpmn:startEvent id="start_event_dend_draft" name="draft send requested">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="draftId" />
+          <camunda:property name="archive" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:outgoing>Flow_0ee2l7i</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0ee2l7i" sourceRef="start_event_dend_draft" targetRef="ValidateDraftActivity" />

@@ -15,7 +15,7 @@ class MoveMessageDelegate : JavaDelegate {
 
         runProcess(execution)  {
             // gateway needs variable 'archive' to be set - otherwise crashes
-            setVariable("archive","yes") // only "no" disables archiving
+            //setVariable("archive","yes") // only "no" disables archiving
         }
     }
 }

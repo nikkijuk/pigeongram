@@ -20,6 +20,12 @@ fun runProcess (ctx: DelegateExecution, action: DelegateExecution.() -> Unit) {
     }
 }
 
+fun DelegateExecution.logVariables () {
+    variables.entries.iterator().forEach {
+        log.info { "${it.key} = ${it.value}" }
+    }
+}
+
 /**
  * Simple delegate which can be used to set up processes without functionality
  */

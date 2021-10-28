@@ -241,6 +241,21 @@ class ValidateDraftDelegate : JavaDelegate1 {
 }
 ```
 
+### send and fail only after 3 retries
+
+Service tesk are normally executed synchronously. In this case task itself and engine run in same database transaction and if it's rolled back step fails.
+
+When performing tasks asynchronously engine needs to have save point before running java delegates execute method. In this case process engine and task itself don't use same database transaction, and thus failure in task doesn't roll back step execution.
+
+Setting save point before execution allows usage of retry strategies. Here "R3/PT1M" means Retry 3 times, Period of Time 1 Min. 
+
+- asynchronous before: true
+- retry time cycle: R3/PT1M
+
+Period are defined as ISO 8601
+
+![async execution and retry](../../blob/main/diagrams/retry_strategies.png)
+
 ### decision gateway for archival
 
 Archiving process step is on default path. Archiving process step will be never reached if condition of not arhiving is reached, otherwise message is archived.

@@ -269,6 +269,16 @@ Period are defined as ISO 8601
 
 ![async execution and retry](../../blob/main/diagrams/retry_strategies.png)
 
+It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchromously in single database transation.
+
+![rollback](../../blob/main/diagrams/rollback.png)
+
+as documentation says
+
+- It is important to understand that every non-handled, propagated exception happening during process execution rolls back the current technical transaction. Therefore the process instance will find its last known wait state (or save point).
+
+https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#rolling-back-a-transaction
+
 ### decision gateway for archival
 
 Archiving process step is on default path. Archiving process step will be never reached if condition of not arhiving is reached, otherwise message is archived.

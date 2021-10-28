@@ -19,24 +19,29 @@ class SimpleProcessTestCase {
   @Test
   @Deployment(resources = ["simple_process.bpmn"])
   fun shouldExecuteProcess() {
-    // Given we create a new process instance
-    val processInstance =
-      BpmnAwareTests.runtimeService().startProcessInstanceByKey(
-        "simpleProcess",
-      mapOf(
-        Pair("param1", "a"),
-        Pair("param2", "b")
-      ),
+    val processName = "simpleProcess"
+
+    val processParams = mapOf(
+      Pair("param1", "a"),
+      Pair("param2", "b")
     )
+
+    // Given we create a new process instance
+    val processInstance = BpmnAwareTests.runtimeService().startProcessInstanceByKey(
+      processName, processParams)
+
     // Then it should be active
     BpmnAwareTests.assertThat(processInstance).isActive
+
     // And it should be the only instance
     Assertions.assertThat(BpmnAwareTests.processInstanceQuery().count()).isEqualTo(1)
+
     // And there should exist just a single task within that process instance
     BpmnAwareTests.assertThat(BpmnAwareTests.task(processInstance)).isNotNull
 
     // When we complete that task
     BpmnAwareTests.complete(BpmnAwareTests.task(processInstance))
+
     // Then the process instance should be ended
     BpmnAwareTests.assertThat(processInstance).isEnded
   }

@@ -13,6 +13,11 @@ plugins {
     id("org.openapi.generator") version "5.2.1"
 }
 
+tasks.test {
+    // Use the built-in JUnit support of Gradle.
+    useJUnitPlatform()
+}
+
 group = "com.nikkijuk"
 version = "0.0.2-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -25,6 +30,8 @@ configurations {
 
 repositories {
     mavenCentral()
+
+    maven(url = "https://app.camunda.com/nexus/content/groups/public")
 }
 
 // Get a SourceSet collection and add generated artifacts to it
@@ -54,6 +61,7 @@ dependencies {
     }
 
     implementation("org.springframework.boot:spring-boot-starter-validation") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
         exclude("org.springframework.boot", "spring-boot-starter-logging")
         exclude("com.sun.mail", "javax.mail")
     }
@@ -113,6 +121,18 @@ dependencies {
 
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mssqlserver")
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation("org.assertj:assertj-core:3.21.0")
+
+    // https://github.com/camunda/camunda-bpm-assert
+    testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:13.0.0")
+
+    // https://github.com/camunda-community-hub/camunda-bpm-process-test-coverage
+    testImplementation("org.camunda.bpm.extension:camunda-bpm-process-test-coverage-junit5:1.0.0")
+
+    // https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-junit5
+    testImplementation("org.camunda.bpm.extension:camunda-bpm-junit5:1.0.0")
 
     // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")

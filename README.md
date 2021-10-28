@@ -271,11 +271,13 @@ Period are defined as ISO 8601
 
 It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchromously in single database transation.
 
-![rollback](../../blob/main/diagrams/rollback.png)
-
 as documentation says
 
 - It is important to understand that every non-handled, propagated exception happening during process execution rolls back the current technical transaction. Therefore the process instance will find its last known wait state (or save point).
+
+Example of having several steps in one technical transaction
+
+![rollback](../../blob/main/diagrams/rollback.png)
 
 https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#rolling-back-a-transaction
 

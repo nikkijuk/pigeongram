@@ -149,6 +149,8 @@ Binding process step to process
 - Select "DelegateExpression" as implementation
 - set Delegate expression to "#{processStepName}" so that it matches to bean annotated with @Named
 
+[Best practices for implementing JavaDelegate](https://camunda.com/best-practices/invoking-services-from-the-process/#_understanding_and_using_strong_java_delegates_strong) should be followed to enable reuse of java delegates and separation of business logic from process logic.
+
 ### Code for process step
 
 Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing.

@@ -13,11 +13,6 @@ plugins {
     id("org.openapi.generator") version "5.2.1"
 }
 
-tasks.test {
-    // Use the built-in JUnit support of Gradle.
-    useJUnitPlatform()
-}
-
 group = "com.nikkijuk"
 version = "0.0.2-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -123,7 +118,8 @@ dependencies {
     testImplementation("org.testcontainers:mssqlserver")
 
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    testImplementation("org.assertj:assertj-core:3.21.0")
+    // assert j comes with spring boot - no need to add it
+    //testImplementation("org.assertj:assertj-core:3.21.0")
 
     // https://github.com/camunda/camunda-bpm-assert
     testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:13.0.0")
@@ -202,8 +198,7 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-tasks.withType<Test> {
+tasks.test {
+    // Use the built-in JUnit support of Gradle.
     useJUnitPlatform()
 }
-
-

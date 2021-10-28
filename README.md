@@ -240,6 +240,19 @@ class ValidateDraftDelegate : JavaDelegate1 {
     }
 }
 ```
+It's important to understand save points. Here unhandled IllegalArgumentException rolls back starting of process.
+
+Documentation says it so
+
+- It is important to understand that every non-handled, propagated exception happening during process execution rolls back the current technical transaction.
+
+https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#__strong_dealing_strong_with_exceptions
+
+and
+
+- you can mimic a BPMN error in your Java code by explicitly throwing an exception of type org.camunda.bpm.engine.delegate.BpmnError. The consequences for the process is the same as if it were an explicit error end event.
+
+https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#_throwin‚g_and_handling_strong_bpmn_errors_strong
 
 ### send and fail only after 3 retries
 

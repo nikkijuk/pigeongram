@@ -7,9 +7,6 @@ import org.camunda.bpm.engine.delegate.JavaDelegate
 import org.camunda.bpm.engine.impl.context.Context
 import javax.inject.Named
 
-private val DEFAULT_ERROR_CODE = "PROCESS_ERROR_LAST_RETRY"
-private val DEFAULT_ERROR_MESSAGE = "Process failed after last retry"
-
 private val log = KotlinLogging.logger { }
 
 /*
@@ -33,7 +30,7 @@ fun DelegateExecution.logVariables () {
 
 // please see source of code for discussion / context:
 // https://forum.camunda.org/t/retry-task-for-error-handling/12476
-fun ifLastRetryThrowBpmnError(errorCode: String = DEFAULT_ERROR_CODE, message: String = DEFAULT_ERROR_MESSAGE) {
+fun ifLastRetryThrowBpmnError(errorCode: String, message: String) {
     log.info { "Checking if it's last retry" }
     if (isLastRetry()) {
         throw BpmnError(errorCode, message)

@@ -343,7 +343,7 @@ Setting save point before execution allows usage of retry strategies. Here "R3/P
 
 Period are defined as ISO 8601
 
-![async execution and retry](../../blob/main/diagrams/retry_strategies.png)
+![async execution and retry](../../blob/main/diagrams/sending_retry.png)
 
 It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchronously in single database transaction.
 
@@ -351,21 +351,39 @@ as documentation says
 
 - It is important to understand that every non-handled, propagated exception happening during process execution rolls back the current technical transaction. Therefore the process instance will find its last known wait state (or save point).
 
+Discussion of differences between business exceptions and technical exceptions
+
+https://docs.camunda.io/docs/reference/bpmn-processes/error-events/error-events/
+
 Example of having several steps in one technical transaction
 
 ![rollback](../../blob/main/diagrams/rollback.png)
 
 https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#rolling-back-a-transaction
 
+### Modelling retries and failure handling
+
+When modelling retries and failures it's important to know how process engine works and
+
+- use savepoints / transaction boundaries correctly (possibly setting "async before" to all tasks)
+- not to model retry operations explicitly with BPMN
+
+https://camunda.com/best-practices/operating-camunda/#modeling-for-easier-operations
+
 ### technical failure to process failure
 
-To be able to prevent process from stopping after 3 retiries there's need to convert technical exception to business error. Unfortunately to bridge gap between your code and errors and process there doesn't seem to be any standardsolution.
+Technical exceptions are retried by default 3 times. This can be configured in several ways.
+
+https://docs.camunda.org/manual/7.12/user-guide/process-engine/the-job-executor/#retry-time-cycle-configuration
+
+To be able to prevent process from stopping after 3 retries someone (any volunteers??) needs to convert technical exception to business error. 
+
+Unfortunately the bridge which fills gap between your code which fails due to technical exception and process that is using business errors doesn't seem to be part of BPMN standard but neither Camunda as product. 
 
 What seems to work
+ 
 - throw technical exceptions until last retry is reached
 - during last retry thow business process error
-
-Tricky part is to know that logic is running within last retry possible.
 
 ```
 @Named
@@ -395,12 +413,15 @@ class SendMessageDelegate : JavaDelegate {
 }
 ```
 
-it would be possible to extend around method to do exactly what we did here, but it's very explicitly to be seen on code what happens here, so preferred solution was here to implement simple method which throws process error in case it's called during last retry.
+Tricky part is to know that logic is running within last retry possible, and for this we have implemented simple helper method.
+
+To make it easy to read from code how program flow is implemented we use extra method which throws process error in case it's called during last retry. 
+
 
 ```
 // please see source of code for discussion / context:
 // https://forum.camunda.org/t/retry-task-for-error-handling/12476
-fun ifLastRetryThrowBpmnError(errorCode: String = DEFAULT_ERROR_CODE, message: String = DEFAULT_ERROR_MESSAGE) {
+fun ifLastRetryThrowBpmnError(errorCode: String, message: String) {
     log.info { "Checking if it's last retry" }
     if (isLastRetry()) {
         throw BpmnError(errorCode, message)
@@ -421,9 +442,11 @@ fun isLastRetry(): Boolean {
 }
 ```
 
+It would be possible to extend around method to do exactly what we did here. This might be more "framework" like solution, but would also hide flow control deeper.
+
 ### decision gateway for archival
 
-Archiving process step is on default path. Archiving process step will be never reached if condition of not arhiving is reached, otherwise message is archived.
+Archiving process step is on default path. Archiving process step won't be reached if condition of not arhiving is selected, otherwise message is archived.
 
 - condition type: Expression
 - expression: "#{archive == "no"}"

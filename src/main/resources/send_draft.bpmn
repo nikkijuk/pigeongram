@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1xucihv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1xucihv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="SendDraftProcess" name="Send draft" isExecutable="true" camunda:candidateStarterUsers="demo">
     <bpmn:startEvent id="start_event_dend_draft" name="draft send requested">
       <bpmn:extensionElements>
         <camunda:properties>
-          <camunda:property name="draftId" />
-          <camunda:property name="archive" />
+          <camunda:property name="draftId" value="1" />
+          <camunda:property name="archive" value="no" />
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:outgoing>Flow_0ee2l7i</bpmn:outgoing>
@@ -34,7 +34,7 @@
       <bpmn:incoming>Flow_sent_and_archived</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_sent_and_archived" sourceRef="ArchiveMessageActivity" targetRef="end_dvent_draft_sent_and_archived" />
-    <bpmn:serviceTask id="SendMessageActivity" name="send" camunda:asyncBefore="true" camunda:delegateExpression="#{sendMessageDelegate}">
+    <bpmn:serviceTask id="SendMessageActivity" name="send" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:delegateExpression="#{sendMessageDelegate}">
       <bpmn:extensionElements>
         <camunda:failedJobRetryTimeCycle>R3/PT1M</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
@@ -69,7 +69,7 @@
       <bpmn:outgoing>Flow_0thveet</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0s7r0xp" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
     </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="SendDraftError" attachedToRef="SendMessageActivity">
+    <bpmn:boundaryEvent id="SendDraftError" camunda:asyncBefore="true" attachedToRef="SendMessageActivity">
       <bpmn:outgoing>Flow_1l7ej2t</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0xo9jmp" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
     </bpmn:boundaryEvent>
@@ -118,28 +118,7 @@ validateDraftDelegate</bpmn:text>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SendDraftProcess">
-      <bpmndi:BPMNShape id="TextAnnotation_0u7szpc_di" bpmnElement="TextAnnotation_0u7szpc">
-        <dc:Bounds x="360" y="270" width="159" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0yil20u_di" bpmnElement="TextAnnotation_0yil20u">
-        <dc:Bounds x="519" y="90" width="150" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0so5yly_di" bpmnElement="TextAnnotation_0so5yly">
-        <dc:Bounds x="690" y="260" width="170" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0krv6qg_di" bpmnElement="TextAnnotation_0krv6qg">
-        <dc:Bounds x="850" y="90" width="200" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1pl8yyo_di" bpmnElement="TextAnnotation_1pl8yyo">
-        <dc:Bounds x="680" y="90" width="170" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1bgjw2e_di" bpmnElement="TextAnnotation_1bgjw2e">
-        <dc:Bounds x="970" y="390" width="130" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1vmmxcw_di" bpmnElement="TextAnnotation_1vmmxcw">
-        <dc:Bounds x="1160" y="90" width="150" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1l7ej2t_di" bpmnElement="Flow_1l7ej2t">
+      <bpmndi:BPMNEdge id="Flow_1l7ej2t_di" bpmnElement="Flow_1l7ej2t" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="631" y="258" />
         <di:waypoint x="631" y="330" />
         <bpmndi:BPMNLabel>
@@ -150,7 +129,7 @@ validateDraftDelegate</bpmn:text>
         <di:waypoint x="1110" y="240" />
         <di:waypoint x="1110" y="462" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_140hafi_di" bpmnElement="flow_archive_not_needed">
+      <bpmndi:BPMNEdge id="Flow_140hafi_di" bpmnElement="flow_archive_not_needed" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="950" y="225" />
         <di:waypoint x="950" y="452" />
         <bpmndi:BPMNLabel>
@@ -165,14 +144,14 @@ validateDraftDelegate</bpmn:text>
         <di:waypoint x="310" y="420" />
         <di:waypoint x="310" y="462" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0thveet_di" bpmnElement="Flow_0thveet">
+      <bpmndi:BPMNEdge id="Flow_0thveet_di" bpmnElement="Flow_0thveet" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="310" y="258" />
         <di:waypoint x="310" y="340" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="243" y="271" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_012mio8_di" bpmnElement="flow_archive_needed">
+      <bpmndi:BPMNEdge id="Flow_012mio8_di" bpmnElement="flow_archive_needed" bioc:stroke="#000" bioc:fill="#fff">
         <di:waypoint x="975" y="200" />
         <di:waypoint x="1060" y="200" />
         <bpmndi:BPMNLabel>
@@ -199,11 +178,41 @@ validateDraftDelegate</bpmn:text>
         <di:waypoint x="198" y="200" />
         <di:waypoint x="250" y="200" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start_event_dend_draft">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start_event_dend_draft" bioc:stroke="#000" bioc:fill="#fff">
         <dc:Bounds x="162" y="182" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="156" y="225" width="49" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_192jwxl_di" bpmnElement="ArchiveMessageGateway" isMarkerVisible="true" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="925" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="865" y="143" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_088q0a6_di" bpmnElement="end_event_draft_sent" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="932" y="452" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="921" y="495" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sfrh77_di" bpmnElement="end_dvent_draft_sent_and_archived" bioc:stroke="#000" bioc:fill="#fff">
+        <dc:Bounds x="1092" y="462" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1067" y="505" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16s69l9_di" bpmnElement="SendMessageActivity">
+        <dc:Bounds x="580" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lnkt42_di" bpmnElement="MoveToOutboxActivity">
+        <dc:Bounds x="420" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tpnheq_di" bpmnElement="MoveToSentActivity">
+        <dc:Bounds x="750" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k156ce_di" bpmnElement="ArchiveMessageActivity">
+        <dc:Bounds x="1060" y="160" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02tvhv8_di" bpmnElement="ValidateDraftActivity">
         <dc:Bounds x="250" y="160" width="100" height="80" />
@@ -211,92 +220,83 @@ validateDraftDelegate</bpmn:text>
       <bpmndi:BPMNShape id="Activity_1gn376i_di" bpmnElement="DraftValidationNotifyUser">
         <dc:Bounds x="260" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1f2n956_di" bpmnElement="end_event_draft_validation_failed">
+      <bpmndi:BPMNShape id="Activity_15d9uhl_di" bpmnElement="SendMessageNotifyUser">
+        <dc:Bounds x="581" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1f2n956_di" bpmnElement="end_event_draft_validation_failed" bioc:stroke="#000" bioc:fill="#fff">
         <dc:Bounds x="292" y="462" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="271" y="505" width="79" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_079acrw_di" bpmnElement="TextAnnotation_079acrw">
-        <dc:Bounds x="350" y="90" width="170" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0lnkt42_di" bpmnElement="MoveToOutboxActivity">
-        <dc:Bounds x="420" y="160" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16s69l9_di" bpmnElement="SendMessageActivity">
-        <dc:Bounds x="580" y="160" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15d9uhl_di" bpmnElement="SendMessageNotifyUser">
-        <dc:Bounds x="581" y="330" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1u0effb_di" bpmnElement="end_event_draft_sending_failed">
+      <bpmndi:BPMNShape id="Event_1u0effb_di" bpmnElement="end_event_draft_sending_failed" bioc:stroke="#000" bioc:fill="#fff">
         <dc:Bounds x="613" y="452" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="597" y="495" width="68" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0tpnheq_di" bpmnElement="MoveToSentActivity">
-        <dc:Bounds x="750" y="160" width="100" height="80" />
+      <bpmndi:BPMNShape id="TextAnnotation_1pl8yyo_di" bpmnElement="TextAnnotation_1pl8yyo">
+        <dc:Bounds x="680" y="90" width="170" height="54" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_192jwxl_di" bpmnElement="ArchiveMessageGateway" isMarkerVisible="true">
-        <dc:Bounds x="925" y="175" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="865" y="143" width="90" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="TextAnnotation_1bgjw2e_di" bpmnElement="TextAnnotation_1bgjw2e">
+        <dc:Bounds x="970" y="390" width="130" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_088q0a6_di" bpmnElement="end_event_draft_sent">
-        <dc:Bounds x="932" y="452" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="921" y="495" width="59" height="27" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="TextAnnotation_0yil20u_di" bpmnElement="TextAnnotation_0yil20u">
+        <dc:Bounds x="519" y="90" width="150" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0sfrh77_di" bpmnElement="end_dvent_draft_sent_and_archived">
-        <dc:Bounds x="1092" y="462" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1067" y="505" width="87" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="TextAnnotation_079acrw_di" bpmnElement="TextAnnotation_079acrw">
+        <dc:Bounds x="350" y="90" width="170" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1k156ce_di" bpmnElement="ArchiveMessageActivity">
-        <dc:Bounds x="1060" y="160" width="100" height="80" />
+      <bpmndi:BPMNShape id="TextAnnotation_0krv6qg_di" bpmnElement="TextAnnotation_0krv6qg">
+        <dc:Bounds x="850" y="90" width="200" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_0z641tg_di" bpmnElement="Association_0z641tg">
-        <di:waypoint x="348" y="340" />
-        <di:waypoint x="386" y="300" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1i26at9_di" bpmnElement="Association_1i26at9">
-        <di:waypoint x="508" y="160" />
-        <di:waypoint x="545" y="120" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1vmmxcw_di" bpmnElement="TextAnnotation_1vmmxcw">
+        <dc:Bounds x="1160" y="90" width="150" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0u7szpc_di" bpmnElement="TextAnnotation_0u7szpc">
+        <dc:Bounds x="360" y="270" width="159" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0so5yly_di" bpmnElement="TextAnnotation_0so5yly">
+        <dc:Bounds x="690" y="260" width="170" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="SendDraftError">
+        <dc:Bounds x="613" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">
+        <dc:Bounds x="292" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_17wdc7t_di" bpmnElement="Association_17wdc7t">
         <di:waypoint x="668" y="160" />
         <di:waypoint x="683" y="144" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1npfvxk_di" bpmnElement="Association_1npfvxk">
-        <di:waypoint x="672" y="330" />
-        <di:waypoint x="714" y="290" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1b7fefk_di" bpmnElement="Association_1b7fefk">
-        <di:waypoint x="838" y="160" />
-        <di:waypoint x="876" y="120" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1a059o1_di" bpmnElement="Association_1a059o1">
         <di:waypoint x="963" y="458" />
         <di:waypoint x="1004" y="420" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1hn7rfa_di" bpmnElement="Association_1hn7rfa">
-        <di:waypoint x="1148" y="160" />
-        <di:waypoint x="1186" y="120" />
+      <bpmndi:BPMNEdge id="Association_1i26at9_di" bpmnElement="Association_1i26at9">
+        <di:waypoint x="508" y="160" />
+        <di:waypoint x="545" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">
-        <dc:Bounds x="292" y="222" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0owf06d_di" bpmnElement="Association_0owf06d">
         <di:waypoint x="338" y="160" />
         <di:waypoint x="366" y="130" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="SendDraftError">
-        <dc:Bounds x="613" y="222" width="36" height="36" />
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1b7fefk_di" bpmnElement="Association_1b7fefk">
+        <di:waypoint x="838" y="160" />
+        <di:waypoint x="876" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1hn7rfa_di" bpmnElement="Association_1hn7rfa">
+        <di:waypoint x="1148" y="160" />
+        <di:waypoint x="1186" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0z641tg_di" bpmnElement="Association_0z641tg">
+        <di:waypoint x="348" y="340" />
+        <di:waypoint x="386" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1npfvxk_di" bpmnElement="Association_1npfvxk">
+        <di:waypoint x="672" y="330" />
+        <di:waypoint x="714" y="290" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -123,7 +123,9 @@ Troubleshooting
 
 Camunda seed implementation is generated with https://start.camunda.com/
 
-Most important dependencies at gradle are spring starters which start workflow engine and tooling.
+Camunda seed implementation is using Maven as build tool, but it's easy to take needed parts to Gradle. Important is that Spring Boot and Camunda versions need to match each other.
+
+Most important dependencies at gradle build script are spring starters which start workflow engine, rest api and tooling.
 
 ```
     implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest") 
@@ -135,21 +137,36 @@ Most important dependencies at gradle are spring starters which start workflow e
 
 #### Camunda
 
-- Camunda starts automatically with app and caln be called at localhost:8080 using demo/demo
+Camunda starts automatically with app and can be called at localhost:8080 using demo/demo
+
+Camunda data source and admin user are defined at resources/application.yaml
+
+```
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+
+camunda.bpm.admin-user:
+id: demo
+password: demo
+```
 
 #### Mongo db
 
 mongo db needs to be started manually before starting pigeongram
 
-    # mongodb
-    # -------
-    spring.data.mongodb.host=localhost
-    spring.data.mongodb.port=27017
-    spring.data.mongodb.database=testdb
+When default settings are used no application config is needed
+
+```
+# mongodb
+# -------
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=testdb
+```
 
 ### Role of application
 
 - Application loads some test data to document database
+- Please see PigeongramApplicationKt
 
 ### Role of controller
 
@@ -212,11 +229,9 @@ Binding process step to process
 
 ### Code for process step
 
-Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing.
+Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing and prototyping.
 
-NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}"
-
-runProcess { your logic here } is simple around function, which gives nice tracking log for execution
+NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}".
 
 ```
 private val log = KotlinLogging.logger { }
@@ -246,6 +261,10 @@ class NoOpDelegate : JavaDelegate {
     }
 }
 ```
+
+runProcess { add code here } is simple around function, which gives nice tracking log for execution.
+
+runProcess or similar function can be used in all process steps to give them uniform structure.
 
 ### First process step at example process
 
@@ -296,7 +315,8 @@ class ValidateDraftDelegate : JavaDelegate1 {
     }
 }
 ```
-It's important to understand save points. Here unhandled IllegalArgumentException rolls back starting of process.
+
+It's important to understand save points. Here unhandled IllegalArgumentException rolls back starting of process as there's no transaction boundary between start event and validation step. Transaction boundaries can be defined in model by defining "async before" or "async after".
 
 Documentation says it so
 
@@ -312,7 +332,7 @@ https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#_throwi
 
 ### send and fail only after 3 retries
 
-Service tesk are normally executed synchronously. In this case task itself and engine run in same database transaction and if it's rolled back step fails.
+Service tesks are normally executed synchronously. In this case task itself and engine run in same database transaction and if it's rolled back step fails.
 
 When performing tasks asynchronously engine needs to have save point before running java delegates execute method. In this case process engine and task itself don't use same database transaction, and thus failure in task doesn't roll back step execution.
 
@@ -325,7 +345,7 @@ Period are defined as ISO 8601
 
 ![async execution and retry](../../blob/main/diagrams/retry_strategies.png)
 
-It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchronously in single database transation.
+It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchronously in single database transaction.
 
 as documentation says
 

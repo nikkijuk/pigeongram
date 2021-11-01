@@ -13,7 +13,7 @@ This small example shows how to
 - describe build with Gradle Kotlin DSL
 - define and generate rest api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
 - persist information with document oriented database (first cosmos db, then mongo db) using spring data repository 
-- describe process using OMG BPMN 2.0
+- describe process using OMG BPMN 2.0 using Camunda Modeler
 - automate workflows with camunda bpm using in memory h2 database
 - run everything within single spring boot application (embedded process engine)
 
@@ -56,6 +56,12 @@ Send draft process could contain steps like
 -    Archive  
 
 Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
+
+During modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
+
+Plugins and installation of them is described here 
+
+- https://emsbach.medium.com/the-best-free-plugins-for-camundas-bpmn-2-modeler-14eee0c9fdd2
 
 ## Api generation
 
@@ -133,6 +139,8 @@ Most important dependencies at gradle are spring starters which start workflow e
 
 #### Mongo db
 
+mongo db needs to be started manually before starting pigeongram
+
     # mongodb
     # -------
     spring.data.mongodb.host=localhost
@@ -206,7 +214,9 @@ Binding process step to process
 
 Here is run process helper method and implementation of dummy process step which doesn't do anything useful but can be used for testing.
 
-- NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}" 
+NoOpDelegate can be bound to service task with delegate expression "#{noOpDelegate}"
+
+runProcess { your logic here } is simple around function, which gives nice tracking log for execution
 
 ```
 private val log = KotlinLogging.logger { }
@@ -224,12 +234,6 @@ fun runProcess (ctx: DelegateExecution, action: DelegateExecution.() -> Unit) {
     }
 }
     
-fun DelegateExecution.logVariables () {
-    variables.entries.iterator().forEach {
-        log.info { "${it.key} = ${it.value}" }
-    }
-}
-
 /**
 * Simple delegate which can be used to set up processes without functionality
 */
@@ -242,6 +246,7 @@ class NoOpDelegate : JavaDelegate {
     }
 }
 ```
+
 ### First process step at example process
 
 First process step can fail with following result

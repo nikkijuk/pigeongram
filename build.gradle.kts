@@ -156,11 +156,6 @@ dependencyManagement {
     }
 }
 
-// TODO: generation using version 5.1.0 of open api generator doesn't work with gradle 7
-// NOTE: use gradle 6.8.x to get model generated
-// Test with: gradle openApiGenerate --scan
-// Error: Type 'GenerateTask' property 'input' annotated with @Internal should not be also annotated with @Input.
-// https://docs.gradle.org/7.0/userguide/validation_problems.html#ignored_property_must_not_be_annotated
 // see supported options for kotlin-spring here
 // https://openapi-generator.tech/docs/generators/kotlin-spring/
 openApiGenerate {

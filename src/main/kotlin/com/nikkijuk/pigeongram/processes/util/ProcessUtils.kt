@@ -31,6 +31,8 @@ fun DelegateExecution.logVariables () {
     }
 }
 
+// please see source of code for discussion / context:
+// https://forum.camunda.org/t/retry-task-for-error-handling/12476
 fun ifLastRetryThrowBpmnError(errorCode: String = DEFAULT_ERROR_CODE, message: String = DEFAULT_ERROR_MESSAGE) {
     log.info { "Checking if it's last retry" }
     if (isLastRetry()) {

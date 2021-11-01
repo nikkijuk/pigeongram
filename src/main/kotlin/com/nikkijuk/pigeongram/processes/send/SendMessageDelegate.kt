@@ -11,8 +11,6 @@ import javax.inject.Named
 @Named
 class SendMessageDelegate : JavaDelegate {
 
-
-
     private val log = KotlinLogging.logger { }
 
     override fun execute(execution: DelegateExecution) {
@@ -33,7 +31,5 @@ class SendMessageDelegate : JavaDelegate {
             }
         }
     }
-
-
 
 }

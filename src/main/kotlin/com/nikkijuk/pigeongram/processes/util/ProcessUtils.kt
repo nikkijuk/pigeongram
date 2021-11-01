@@ -53,10 +53,6 @@ fun isLastRetry(): Boolean {
     return false
 }
 
-fun throwBpmnError(errorCode: String = DEFAULT_ERROR_CODE, message: String = DEFAULT_ERROR_MESSAGE) {
-    throw BpmnError(errorCode, message)
-}
-
 /**
  * Simple delegate which can be used to set up processes without functionality
  */

@@ -269,7 +269,7 @@ Period are defined as ISO 8601
 
 ![async execution and retry](../../blob/main/diagrams/retry_strategies.png)
 
-It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchromously in single database transation.
+It's important to understand what would have happened without save point. Failure would have rolled back whole process until exception as everything would have run synchronously in single database transation.
 
 as documentation says
 
@@ -280,6 +280,70 @@ Example of having several steps in one technical transaction
 ![rollback](../../blob/main/diagrams/rollback.png)
 
 https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#rolling-back-a-transaction
+
+### technical failure to process failure
+
+To be able to prevent process from stopping after 3 retiries there's need to convert technical exception to business error. Unfortunately to bridge gap between your code and errors and process there doesn't seem to be any standardsolution.
+
+What seems to work
+- throw technical exceptions until last retry is reached
+- during last retry thow business process error
+
+Tricky part is to know that logic is running within last retry possible.
+
+```
+@Named
+class SendMessageDelegate : JavaDelegate {
+
+    private val log = KotlinLogging.logger { }
+
+    override fun execute(execution: DelegateExecution) {
+
+        runProcess(execution) {
+
+            val draftId = getVariable("draftId")
+
+            // exception here is directed to errror event after 3 retries
+            if ((draftId as String).contains("FAIL")) {
+                log.error { "failure sending $draftId" }
+
+                // BPM error won't be retried - this is process stuu
+                ifLastRetryThrowBpmnError("SENDING_FAILED", "sending  draft failed")
+
+                // Technical errors will be retried
+                throw RuntimeException ("sending draft failed")
+            }
+        }
+    }
+
+}
+```
+
+it would be possible to extend around method to do exactly what we did here, but it's very explicitly to be seen on code what happens here, so preferred solution was here to implement simple method which throws process error in case it's called during last retry.
+
+```
+// please see source of code for discussion / context:
+// https://forum.camunda.org/t/retry-task-for-error-handling/12476
+fun ifLastRetryThrowBpmnError(errorCode: String = DEFAULT_ERROR_CODE, message: String = DEFAULT_ERROR_MESSAGE) {
+    log.info { "Checking if it's last retry" }
+    if (isLastRetry()) {
+        throw BpmnError(errorCode, message)
+    }
+}
+
+fun isLastRetry(): Boolean {
+    val jobExecutorContext = Context.getJobExecutorContext()
+    if (jobExecutorContext?.currentJob != null) {
+        val noOfRetries: Int = jobExecutorContext.currentJob.getRetries()
+        val activityId = jobExecutorContext.currentJob.getActivityId()
+
+        log.info("$activityId has ${noOfRetries - 1} retries remaining")
+
+        return noOfRetries <= 1
+    }
+    return false
+}
+```
 
 ### decision gateway for archival
 

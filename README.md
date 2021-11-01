@@ -2,14 +2,20 @@
 
 Simple backend mail service implemented with kotlin and friends.
 
+## Name of project
+
+"Pigeon post is the use of homing pigeons to carry messages. Pigeons are effective as messengers due to their natural homing abilities. The pigeons are transported to a destination in cages, where they are attached with messages, then the pigeon naturally flies back to its home where the recipient could read the message." - https://en.wikipedia.org/wiki/Pigeon_post
+
 ## Content
 
-Small example how to 
+This small example shows how to 
+
 - describe build with Gradle Kotlin DSL
-- define and generate api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
+- define and generate rest api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
 - persist information with document oriented database (first cosmos db, then mongo db) using spring data repository 
+- describe process using OMG BPMN 2.0
 - automate workflows with camunda bpm using in memory h2 database
-- run everything within single spring boot application
+- run everything within single spring boot application (embedded process engine)
 
 Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and Api model (DTO) classes for spring boot rest controllers.
 
@@ -21,7 +27,7 @@ H2 db is used to persist process instances to single file. File is stored within
 
 Before Mongo Db Cosmos Db was used in project. Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
-## Process automation
+## Workflow automation
 
 Camunda Engine (Open source) has components for modelling processes, running and creating process instances, and controlling created processes and process instances.
 
@@ -53,6 +59,43 @@ Orchestrating backend logic using adapters which implement process steps support
 
 ## Api generation
 
+Rest api is described at specs/api.yaml
+
+Gradle is configured to use kotlin generator and to generate models and apis.
+
+It's important to note that in some use cases it's desirable to generate as much as possible, but for application development it might be that controllers that contain program flow logic and coordinate how business logic is called might come out too restrictive if generation is used too much.
+
+```
+// see supported options for kotlin-spring here
+// https://openapi-generator.tech/docs/generators/kotlin-spring/
+openApiGenerate {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$rootDir/specs/api.yaml".toString())
+    outputDir.set("$buildDir/generated".toString())
+    modelPackage.set("com.nikkijuk.pigeongram.generated.model")
+    apiPackage.set("com.nikkijuk.pigeongram.generated.api")
+    //invokerPackage.set("com.nikkijuk.pigeongram.generated.invoker")
+    configOptions.set(
+        mapOf(
+            // it's important to generate only interfaces
+            // otherwise one needs to start from service interface
+            "interfaceOnly" to "true",
+
+            // one can generate service api also
+            // this is especially useful if one generated complete controller implementation
+            //"serviceInterface" to "true",
+
+            // there's quite some generation options - just play with them to see what happens
+            //"delegatePattern" to "true",
+
+            "useBeanValidation" to "false",
+            "enumPropertyNaming" to "UPPERCASE",
+            "dateLibrary" to "java8"
+        )
+    )
+}
+```
+
 ## Storage
 
 These installation instructions are for OSX / M1
@@ -74,6 +117,14 @@ Troubleshooting
 
 Camunda seed implementation is generated with https://start.camunda.com/
 
+Most important dependencies at gradle are spring starters which start workflow engine and tooling.
+
+```
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest") 
+
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp") 
+```
+    
 ## App
 
 #### Camunda

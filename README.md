@@ -65,9 +65,9 @@ Plugins and installation of them is described here
 
 ## Api generation
 
-Rest api is described at specs/api.yaml
+Rest api is described at specs/api.yaml with open api 3.0 yaml. JSON would have been also supported, but yaml is compact and allows multiline documentation. 
 
-Gradle is configured to use kotlin generator and to generate models and apis.
+Gradle is configured to use kotlin generator and to generate models and apis. It would be possible to generate java, but having same language on generated and handwritten code might be advantage.
 
 It's important to note that in some use cases it's desirable to generate as much as possible, but for application development it might be that controllers that contain program flow logic and coordinate how business logic is called might come out too restrictive if generation is used too much.
 

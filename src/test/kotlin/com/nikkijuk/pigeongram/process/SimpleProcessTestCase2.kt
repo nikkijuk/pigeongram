@@ -12,13 +12,14 @@ import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
+
 // source of example:
 // https://github.com/camunda-community-hub/camunda-bpm-junit5/tree/master/examples/camunda-bpm-assert
 
 // NOTE: this example is not enough to run processes which use @Named beans injected by spring boot
 
 @ExtendWith(ProcessEngineExtension::class)
-class SimpleProcessTestCase {
+class SimpleProcessTestCase2 {
 
   @Test
   @Deployment(resources = ["simple_process.bpmn"])

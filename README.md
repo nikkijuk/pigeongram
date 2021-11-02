@@ -65,17 +65,15 @@ Orchestrating backend logic using adapters which implement process steps support
 
 ## Workflow modelling
 
-Process is modelled using business model notation BPMN 2.0. Also decision management notation DMN 1.3 and case management notation CMMN 1.1 are supported but not used in this prototype,
+Process is modelled using business model notation BPMN 2.0. Also decision modelling notation DMN 1.3 and case management modelling notation CMMN 1.1 are supported but not used in this prototype,
 
-During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. 
-
-BPMN Linter plugin, Technical property info plugin,Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
+During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Technical property info plugin,Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
 
 linting
 
 - https://github.com/camunda/camunda-modeler-linter-plugin
 
-tooltip 
+tooltipa 
 
 - https://github.com/viadee/camunda-modeler-tooltip-plugin
 
@@ -85,7 +83,7 @@ technical property info
 
 transaction boundaries
 
-- https://github.com/bpmn-io/camunda-transaction-boundaries/
+- https://github.com/bpmn-io/camunda-transaction-boundaries
 
 These and some other plugins and installation of them is described here 
 

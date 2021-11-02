@@ -63,9 +63,31 @@ Send draft process could contain steps like
 
 Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 
-During modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
+## Workflow modelling
 
-Plugins and installation of them is described here 
+Process is modelled using business model notation BPMN 2.0. Also decision management notation DMN 1.3 and case management notation CMMN 1.1 are supported but not used in this prototype,
+
+During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. 
+
+BPMN Linter plugin, Technical property info plugin,Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
+
+linting
+
+- https://github.com/camunda/camunda-modeler-linter-plugin
+
+tooltip 
+
+- https://github.com/viadee/camunda-modeler-tooltip-plugin
+
+technical property info
+
+- https://github.com/umb/camunda-modeler-property-info-plugin
+
+transaction boundaries
+
+- https://github.com/bpmn-io/camunda-transaction-boundaries/
+
+These and some other plugins and installation of them is described here 
 
 - https://emsbach.medium.com/the-best-free-plugins-for-camundas-bpmn-2-modeler-14eee0c9fdd2
 
@@ -347,7 +369,9 @@ Setting save point before execution allows usage of retry strategies. Here "R3/P
 - asynchronous before: true
 - retry time cycle: R3/PT1M
 
-Period are defined as ISO 8601
+Period are defined as ISO 8601. See here how to use different types of retrx intervals, for example "PT10M,PT17M,PT20M".
+
+https://docs.camunda.org/manual/7.10/user-guide/process-engine/the-job-executor/#retry-intervals
 
 ![async execution and retry](../../blob/main/diagrams/sending_retry.png)
 

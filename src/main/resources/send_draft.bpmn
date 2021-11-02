@@ -122,7 +122,7 @@ validateDraftDelegate</bpmn:text>
         <di:waypoint x="631" y="258" />
         <di:waypoint x="631" y="330" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="574" y="271" width="39" height="27" />
+          <dc:Bounds x="583" y="266" width="39" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1019gz2_di" bpmnElement="Flow_sent_and_archived">
@@ -259,9 +259,6 @@ validateDraftDelegate</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_0so5yly_di" bpmnElement="TextAnnotation_0so5yly">
         <dc:Bounds x="690" y="260" width="170" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="SendDraftError">
-        <dc:Bounds x="613" y="222" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0hb5u7n_di" bpmnElement="ValidateDraftError">
         <dc:Bounds x="292" y="222" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -297,6 +294,9 @@ validateDraftDelegate</bpmn:text>
         <di:waypoint x="672" y="330" />
         <di:waypoint x="714" y="290" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_06jbfjl_di" bpmnElement="SendDraftError">
+        <dc:Bounds x="613" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

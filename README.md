@@ -41,6 +41,12 @@ Use case is to automate backend process
 - Application components have ports which use domain model (Ports & Adapters Pattern)
 - Application components are integrated to process with thin adapters (Service task / Java API)
 
+Prototypes architectural overview looks like this
+
+![send process](../../blob/main/diagrams/workflow_programming_model.png)
+
+Only service tasks in use, only sync calls from process to business logic, so this is pretty simple.
+
 Prototype process implemented looks like this
 
 ![send process](../../blob/main/diagrams/send_draft_process.png)

@@ -1,11 +1,6 @@
 
 package com.nikkijuk.pigeongram.process
 
-import com.nikkijuk.pigeongram.processes.ArchiveMessageDelegate
-import com.nikkijuk.pigeongram.processes.MoveMessageDelegate
-import com.nikkijuk.pigeongram.processes.NotifyUserDelegate
-import com.nikkijuk.pigeongram.processes.send.SendMessageDelegate
-import com.nikkijuk.pigeongram.processes.send.ValidateDraftDelegate
 import org.assertj.core.api.Assertions
 import org.camunda.bpm.engine.runtime.ProcessInstance
 import org.camunda.bpm.engine.test.Deployment
@@ -17,6 +12,8 @@ import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.runtimeService
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables
 import org.camunda.bpm.engine.test.mock.Mocks
 import org.camunda.bpm.extension.junit5.test.ProcessEngineExtension
+import org.camunda.bpm.extension.mockito.DelegateExpressions.autoMock
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,26 +24,26 @@ import org.junit.jupiter.api.extension.ExtendWith
 // assertions doc
 // https://github.com/camunda/camunda-bpm-assert/blob/master/docs/User_Guide_BPMN.md
 
+// mocking
+// https://github.com/camunda-community-hub/camunda-bpm-mockito
+
 @ExtendWith(ProcessEngineExtension::class)
-class SendDraftProcessTestCase {
+class SendDraftProcessTestCaseAutomocking {
 
   @BeforeEach
   fun setup() {
+    // automocking allows running process without delegate classes
+    autoMock("send_draft.bpmn");
+  }
 
-    // register a bean name with mock expression manager
-    Mocks.register("validateDraftDelegate", ValidateDraftDelegate ())
-    Mocks.register("moveMessageDelegate", MoveMessageDelegate ()) // used twice
-    Mocks.register("sendMessageDelegate", SendMessageDelegate ())
-    Mocks.register("archiveMessageDelegate", ArchiveMessageDelegate ())
-    Mocks.register("notifyUserDelegate", NotifyUserDelegate ()) // used twice
+  @AfterEach
+  fun teardown() {
+    Mocks.reset()
   }
 
   @Test
   @Deployment(resources = ["send_draft.bpmn"])
   fun shouldExecuteProcess() {
-
-    // nice automocking - I'll test this later as it allows running process without delegate classes
-    //autoMock("send_draft.bpmn");
 
     // Given we create a new process instance
     val processInstance: ProcessInstance = runtimeService().createProcessInstanceByKey(

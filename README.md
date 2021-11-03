@@ -95,12 +95,14 @@ Fancy, but can I test it?
 
 BPMN models are testable in several ways
 
-- Black Box: Start spring boot test app and run process within it with real java delegates and mocked dependencies -> this is like one would bring dinosaur to park just to see what happens
-- White Box: just create java delegates (optionally mock them), create process instance, fill process instance with right data,  run each step of process and see what happens.
+- Black Box: Start spring boot test app and run process within it with real java delegates and mocked dependencies -> this is like one would bring dinosaur to park just to see what happens -> tests are coarse grained, there is typically only small amount of complex tests implemented
+- White Box: just create java delegates (optionally mock them), create process instance, fill process instance with right data,  run each step of process and see what happens -> tests are fine grained, there's lot of small simple tests, they are easy to change and create
 
 Documentation shows this example for testing, but there's variability on which tools to use for mocking 
 
 ![send process](../../blob/main/diagrams/process_test_scopes.png)
+
+Documentation describes tests scopes following way
 
 - Scope 1: Local, functional correctness of the process model with data, conditions and delegation code, usually implemented as a unit test. 
 - Scope 2: Integration with business logic inside the runtime container, for Java EE applications usually implemented as an Arquillian-based integration test.

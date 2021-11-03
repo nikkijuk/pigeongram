@@ -562,7 +562,7 @@ class SendDraftProcessTestCaseAutomocking {
 
 It is useful to understand some concepts used here, since tests can be greatly expanded even if currently there's just skeleton for simple test
 
-general testing concept
+general testing concept 
 
 -  https://camunda.com/best-practices/testing-process-definitions/
 
@@ -573,6 +573,18 @@ bpmn assertions
 mocking
 
 - https://github.com/camunda-community-hub/camunda-bpm-mockito
+
+### test Running App with Camunda Cockpit
+
+TODO:
+
+### test Running App with Rest
+
+TODO:
+
+Please see
+
+- https://camunda.com/blog/2021/10/start-and-step-through-a-process-with-rest-feat-swaggerui/
 
 ### test locally
 

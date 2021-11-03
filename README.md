@@ -89,6 +89,24 @@ These and some other plugins and installation of them is described here
 
 - https://emsbach.medium.com/the-best-free-plugins-for-camundas-bpmn-2-modeler-14eee0c9fdd2
 
+## Wokflow testing
+
+Fancy, but can I test it?
+
+BPMN models are testable in several ways
+
+- Black Box: Start spring boot test app and run process within it with real java delegates and mocked dependencies -> this is like one would bring dinosaur to park just to see what happens
+- White Box: just create java delegates (optionally mock them), create process instance, fill process instance with right data,  run each step of process and see what happens.
+
+Documentation shows this example for testing, but there's variability on which tools to use for mocking 
+
+![send process](../../blob/main/diagrams/process_test_scopes.png)
+
+- Scope 1: Local, functional correctness of the process model with data, conditions and delegation code, usually implemented as a unit test. 
+- Scope 2: Integration with business logic inside the runtime container, for Java EE applications usually implemented as an Arquillian-based integration test.
+- Scope 3: Integration with external systems and UI.
+
+
 ## Api generation
 
 Rest api is described at specs/api.yaml with open api 3.0 yaml. JSON would have been also supported, but yaml is compact and allows multiline documentation. 

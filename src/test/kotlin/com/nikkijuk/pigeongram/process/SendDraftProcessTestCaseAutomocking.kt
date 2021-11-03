@@ -4,10 +4,10 @@ package com.nikkijuk.pigeongram.process
 import org.assertj.core.api.Assertions
 import org.camunda.bpm.engine.runtime.ProcessInstance
 import org.camunda.bpm.engine.test.Deployment
+import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.execute
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.job
-import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.processInstanceQuery
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.runtimeService
 import org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.withVariables
 import org.camunda.bpm.engine.test.mock.Mocks
@@ -45,33 +45,29 @@ class SendDraftProcessTestCaseAutomocking {
   @Deployment(resources = ["send_draft.bpmn"])
   fun shouldExecuteProcess() {
 
-    // Given we create a new process instance
-    val processInstance: ProcessInstance = runtimeService().createProcessInstanceByKey(
-      "SendDraftProcess").
-      setVariables(
-        withVariables(
-        "archive", "yes",
-        "draftId", "123"
-        )
-      )
+    // GIVEN
+
+    // we create a new process instance
+    val processInstance: ProcessInstance = runtimeService()
+      .createProcessInstanceByKey("SendDraftProcess")
+      .setVariables(withVariables("archive", "yes", "draftId", "123"))
       .startBeforeActivity("ArchiveMessageActivity") // start with last step
       .execute()
 
-    // started with right definition?
-    assertThat(processInstance).hasProcessDefinitionKey("SendDraftProcess");
-
-    // just see that variables are there
-    assertThat(processInstance).hasVariables ("archive", "draftId")
-
-    // active and only instance running
+    // process is active and only one instance running
     assertThat(processInstance).isActive
-    Assertions.assertThat(processInstanceQuery().count()).isEqualTo(1)
+    Assertions.assertThat(BpmnAwareTests.processInstanceQuery().count()).isEqualTo(1)
 
-   // service task is called job, so here we need to see that job exists and then execute it
+    // WHEN
+
+   // archive job exists and we execute it
    assertThat(job("ArchiveMessageActivity", processInstance)).isNotNull
    execute(job("ArchiveMessageActivity", processInstance))
 
-   // finished
-   assertThat(processInstance).isEnded
+    // THEN
+
+    // process instance contains variables and instance process is finished
+    assertThat(processInstance).hasVariables ("archive", "draftId")
+    assertThat(processInstance).isEnded
   }
 }

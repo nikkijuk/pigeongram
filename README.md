@@ -1,6 +1,6 @@
 # pigeongram
 
-Simple backend mail service implemented with kotlin and friends.
+Simple backend mail service implemented with kotlin, camunda and friends.
 
 ## Name of project
 

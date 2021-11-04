@@ -10,7 +10,7 @@ Simple backend mail service implemented with kotlin, camunda and friends.
 
 Pigeongram uses remote systems to send drafts and archive sent messages
 
-![process engine](../../blob/main/diagrams/pigeongram_send_concept.png.png)
+![pigeongram dependencies](../../blob/main/diagrams/pigeongram_send_concept.png)
 
 Archive is idempotent, but sending draft can't be rolled  back, so it's important to notify user if archive can't be done even after several retries.
 

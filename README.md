@@ -80,17 +80,19 @@ Process overview
 
 Send draft process could contain steps like
 
--    Validate draft (error if draft is not complete)
--    Move draft to outbox 
--    Send (3 retries, after that error)
--    Move draft to sent
--    Archive  
+- Validate draft (error if draft is not complete)
+- Move draft to outbox 
+- Send (3 retries, regular interval, after that error)
+- Move draft to sent
+- Archive  (4 retries, increasing delay, after that error)
+
+in case of Error: notify user
 
 Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
 
 ## Workflow modelling
 
-Process is modelled using business model notation BPMN 2.0. Also decision modelling notation DMN 1.3 and case management modelling notation CMMN 1.1 are supported but not used in this prototype,
+Process is modelled using business model notation BPMN 2.0. Also decision modelling notation DMN 1.3 and case management modelling notation CMMN 1.1 are supported by Camunda but not used in this prototype,
 
 During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Technical property info plugin,Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
 

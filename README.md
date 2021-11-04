@@ -12,7 +12,14 @@ Pigeongram uses remote systems to send drafts and archive sent messages
 
 ![pigeongram dependencies](../../blob/main/diagrams/pigeongram_send_concept.png)
 
-Archive is idempotent, but sending draft can't be rolled  back, so it's important to notify user if archive can't be done even after several retries.
+Archive is idempotent, but sending draft can't be rolled back or compensated with separate operation, so it's important to notify user if archive can't be done even after several retries.
+
+In microservices world where services might die at any moment it's important to understand that state is needed so that retries can be done even after longer delay. 
+
+See attached retry and compensating transaction descriptions for deeper discussion of topic
+
+- https://docs.microsoft.com/en-us/azure/architecture/patterns/retry
+- https://docs.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction
 
 ## Technologies
 

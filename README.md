@@ -6,13 +6,15 @@ Simple backend mail service implemented with kotlin, camunda and friends.
 
 "Pigeon post is the use of homing pigeons to carry messages. Pigeons are effective as messengers due to their natural homing abilities. The pigeons are transported to a destination in cages, where they are attached with messages, then the pigeon naturally flies back to its home where the recipient could read the message." - https://en.wikipedia.org/wiki/Pigeon_post
 
-## Content
+## Usecase
 
 Pigeongram uses remote systems to send drafts and archive sent messages
 
 ![pigeongram dependencies](../../blob/main/diagrams/pigeongram_send_concept.png)
 
 Archive is idempotent, but sending draft can't be rolled  back, so it's important to notify user if archive can't be done even after several retries.
+
+## Technologies
 
 This example project tests how to
 

@@ -18,8 +18,8 @@ class SendMessageDelegate : JavaDelegate {
 
             val draftId = getVariable("draftId")
 
-            // exception here is directed to errror event after 3 retries
-            if ((draftId as String).contains("FAIL")) {
+            // exception here is directed to errror event after last retry
+            if ((draftId as String).contains("FAIL_SEND")) {
                 log.error { "failure sending $draftId" }
 
                 // BPM error won't be retried - this is process stuu

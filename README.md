@@ -8,7 +8,13 @@ Simple backend mail service implemented with kotlin, camunda and friends.
 
 ## Content
 
-This small example shows how to 
+Pigeongram uses remote systems to send drafts and archive sent messages
+
+![process engine](../../blob/main/diagrams/pigeongram_send_concept.png.png)
+
+Archive is idempotent, but sending draft can't be rolled  back, so it's important to notify user if archive can't be done even after several retries.
+
+This example project tests how to
 
 - describe build with Gradle Kotlin DSL
 - define and generate rest api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
@@ -20,6 +26,8 @@ This small example shows how to
 Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and Api model (DTO) classes for spring boot rest controllers.
 
 Mongo db is  used locally to allow direct usage of JSON objects without database schemas - if different type of persistence is needed sql server is later taken in use.
+
+Camunda is used to implement "stateful retry". Datatabas backed process state allows easy implementation of retry and compensation actions.
 
 H2 db is used to persist process instances to single file. File is stored within project and allows easy setup and testing.
 
@@ -40,6 +48,14 @@ Use case is to automate backend process
 - Processes and rules are described with standard language (OMG: BPMN, DMN, CMMN)
 - Application components have ports which use domain model (Ports & Adapters Pattern)
 - Application components are integrated to process with thin adapters (Service task / Java API)
+
+Main reason to use WF engine is here tactical, it should help programmer within single microservice to implement "stateful retry" in elegant and simply way. 
+
+Bernd Rücker says it so
+
+- Using a lightweight workflow engine allows you to handle stateful patterns without investing a lot of effort or risking accidental complexity by applying homegrown solutions.
+
+https://blog.bernd-ruecker.com/fail-fast-is-not-enough-84645d6864d3
 
 Prototypes architectural overview looks like this
 

@@ -87,7 +87,7 @@
       <bpmn:outgoing>Flow_1bwng2u</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_1sv4lgl" />
     </bpmn:boundaryEvent>
-    <bpmn:serviceTask id="Activity_0y4ci6x" name="notify user:&#10;send failed" camunda:delegateExpression="#{notifyUserDelegate}">
+    <bpmn:serviceTask id="Activity_0y4ci6x" name="notify user:&#10;archive failed" camunda:delegateExpression="#{notifyUserDelegate}">
       <bpmn:incoming>Flow_1bwng2u</bpmn:incoming>
       <bpmn:outgoing>Flow_19b56gk</bpmn:outgoing>
     </bpmn:serviceTask>

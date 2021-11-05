@@ -21,6 +21,10 @@ See attached retry and compensating transaction descriptions for deeper discussi
 - https://docs.microsoft.com/en-us/azure/architecture/patterns/retry
 - https://docs.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction
 
+Here's excellent presentation how one could try to solve microservices integrartion and communication challenges with Workflow engine
+
+- https://www.youtube.com/watch?v=7uvK4WInq6k
+
 ## Technologies
 
 This example project tests how to

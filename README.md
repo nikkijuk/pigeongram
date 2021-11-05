@@ -50,7 +50,7 @@ Before Mongo Db Cosmos Db was used in project. Cosmos DB was ok and functioning.
 
 ## Workflow automation
 
-Camunda Engine (Open source) has components for modelling processes, running and creating process instances, and controlling created processes and process instances.
+Camunda has components for modelling processes, running and creating process instances, and controlling created processes and process instances.
 
 ![process engine](../../blob/main/diagrams/camunda_architecture_overview.png)
 
@@ -62,7 +62,7 @@ Use case is to automate backend process
 - Application components have ports which use domain model (Ports & Adapters Pattern)
 - Application components are integrated to process with thin adapters (Service task / Java API)
 
-Main reason to use WF engine is here tactical, it should help programmer within single microservice to implement "stateful retry" in elegant and simply way. 
+Main reason to use workflow engine is in this PoX tactical, it should help programmer within single microservice to implement "stateful retry" in elegant and simply way. 
 
 Bernd Rücker says it so
 
@@ -93,6 +93,14 @@ Send draft process could contain steps like
 in case of Error: notify user
 
 Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
+
+Workflow engine can be used in different roles. 
+
+![workflow engine roles](../../blob/main/diagrams/workflow_engine_roles.jpg)
+
+Even if it's in this PoC used to help "Point-to-point communication by request/response" there is features for other usecases also if needed and sync and async communication can be combined flexibly.
+
+https://camunda.com/blog/2020/02/the-microservices-workflow-automation-cheat-sheet-the-role-of-the-workflow-engine/
 
 ## Workflow modelling
 

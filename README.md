@@ -33,20 +33,20 @@ This example project tests how to
 - define and generate rest api (dto's & controllers base api) with Open Api 3.X and "kotlin-spring" generator
 - persist information with document oriented database (first cosmos db, then mongo db) using spring data repository 
 - describe process using OMG BPMN 2.0 using Camunda Modeler
-- automate workflows with camunda bpm using in memory h2 database
+- automate workflows with camunda workflow engine with in memory h2 database
 - run everything within single spring boot application (embedded process engine)
 
 Open api 3 yaml format is used to describe user and messages api, "kotlin-spring" generator to generate base APIs and Api model (DTO) classes for spring boot rest controllers.
 
-Mongo db is  used locally to allow direct usage of JSON objects without database schemas - if different type of persistence is needed sql server is later taken in use.
+Mongo db document database is  used locally to allow direct usage of JSON objects without database schemas.
 
 Camunda is used to implement "stateful retry". Datatabas backed process state allows easy implementation of retry and compensation actions.
 
-H2 db is used to persist process instances to single file. File is stored within project and allows easy setup and testing.
+H2 relational db is used to persist process instances to single file. File is stored within project and allows easy setup and testing.
 
 ## Major changes
 
-Before Mongo Db Cosmos Db was used in project. Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that my free tier credentials for Cosmos DB run out after short time, so billing model of Cosmos DB didn't really suit for experiments.
+Before Mongo Db Cosmos Db was used in project. Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that free tier credentials for Cosmos DB ran out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
 ## Workflow automation
 
@@ -54,15 +54,15 @@ Camunda has components for modelling processes, running and creating process ins
 
 ![process engine](../../blob/main/diagrams/camunda_architecture_overview.png)
 
-Use case is to automate backend process
+Use case is to automate backend process within single microservice
 
 - Embedded process engine and process implementation run in same scope (JVM/Service)
-- Started process instances are persisted in database (one engine & database per microservice)
-- Processes and rules are described with standard language (OMG: BPMN, DMN, CMMN)
+- Started process instances are persisted in database (database is used by single microservice)
+- Processes and rules are described with standard language (OMG: BPMN 2.0, DMN 1.3, CMMN 1.1)
 - Application components have ports which use domain model (Ports & Adapters Pattern)
-- Application components are integrated to process with thin adapters (Service task / Java API)
+- Application components are integrated to process with thin adapters (Service task / Java Delegate API)
 
-Main reason to use workflow engine is in this PoX tactical, it should help programmer within single microservice to implement "stateful retry" in elegant and simply way. 
+Main reason to use workflow engine in this PoC is tactical, it should help programmer within single microservice to implement "stateful retry" in elegant and simply way. 
 
 Bernd Rücker says it so
 
@@ -74,7 +74,7 @@ Prototypes architectural overview looks like this
 
 ![send process](../../blob/main/diagrams/workflow_programming_model.png)
 
-Only service tasks in use, only sync calls from process to business logic, so this is pretty simple.
+Only service tasks in use, only sync calls from process to business logic, so this is pretty simple. It could be extended with many bells & whistles, but for experimenting this is enough.
 
 Prototype process implemented looks like this
 
@@ -84,21 +84,21 @@ Process overview
 
 Send draft process could contain steps like
 
-- Validate draft (error if draft is not complete)
-- Move draft to outbox 
-- Send (3 retries, regular interval, after that error)
-- Move draft to sent
-- Archive  (4 retries, increasing delay, after that error)
+- Validate draft (sync, error if draft is not complete)
+- Move draft to outbox (sync)
+- Send (async, 3 retries, regular interval, after that error)
+- Move draft to sent (async)
+- Archive  (async, 4 retries, increasing delay, after that error)
 
 in case of Error: notify user
 
-Orchestrating backend logic using adapters which implement process steps supports loose coupling of components and makes each step of process easily testable.
+Orchestrating backend logic using adapters, which implement process steps, supports loose coupling of components and makes each step of process easily testable.
 
 Workflow engine can be used in different roles. 
 
 ![workflow engine roles](../../blob/main/diagrams/workflow_engine_roles.jpg)
 
-Even if it's in this PoC used to help "Point-to-point communication by request/response" there is features for other usecases also if needed and sync and async communication can be combined flexibly.
+Even if workflow engine is in this PoC used to help "Point-to-point communication by request/response" there is features for other usecases also if needed, and sync and async communication can be combined flexibly, even so that async call can be fallback if sync call fails.
 
 https://camunda.com/blog/2020/02/the-microservices-workflow-automation-cheat-sheet-the-role-of-the-workflow-engine/
 
@@ -106,7 +106,7 @@ https://camunda.com/blog/2020/02/the-microservices-workflow-automation-cheat-she
 
 Process is modelled using business model notation BPMN 2.0. Also decision modelling notation DMN 1.3 and case management modelling notation CMMN 1.1 are supported by Camunda but not used in this prototype,
 
-During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Technical property info plugin,Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
+During BPMN modelling Camunda Modeler plugins can help to validate model completeness and correctness. BPMN Linter plugin, Technical property info plugin, Tooltip plugin and Transaction Boundaries plugin seemed to be useful.
 
 linting
 
@@ -127,6 +127,10 @@ transaction boundaries
 These and some other plugins and installation of them is described here 
 
 - https://emsbach.medium.com/the-best-free-plugins-for-camundas-bpmn-2-modeler-14eee0c9fdd2
+
+It is possible to use Cawemo collaboration platform for modelling if there's several parties which work on model parallel.
+
+- https://camunda.com/products/camunda-platform/cawemo/
 
 ## Wokflow testing
 

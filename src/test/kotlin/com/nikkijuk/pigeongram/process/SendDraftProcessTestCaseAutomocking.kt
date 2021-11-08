@@ -66,7 +66,8 @@ class SendDraftProcessTestCaseAutomocking {
 
     // THEN
 
-    // process instance contains variables and instance process is finished
+    // process instance has passed archive, contains variables and instance process is finished
+    assertThat(processInstance).hasPassed("ArchiveMessageActivity")
     assertThat(processInstance).hasVariables ("archive", "draftId")
     assertThat(processInstance).isEnded
   }

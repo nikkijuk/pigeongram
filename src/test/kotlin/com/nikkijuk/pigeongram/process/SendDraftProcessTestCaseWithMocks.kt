@@ -34,6 +34,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(ProcessEngineExtension::class)
 class SendDraftProcessTestCaseWithMocks {
 
+  //@Mock
+  //lateinit var sendDraft: ProcessScenario
+
   // we could mock dependencies here
   //@Mock
   //private val mockedService: RealService? = null

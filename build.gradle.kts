@@ -133,6 +133,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.camunda.bpm.extension.mockito/camunda-bpm-mockito
     testImplementation("org.camunda.bpm.extension.mockito:camunda-bpm-mockito:5.15.0")
 
+    // https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-assert-scenario
+    testImplementation("org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1")
+
     // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
 

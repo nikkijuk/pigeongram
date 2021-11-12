@@ -49,9 +49,9 @@
       <bpmn:incoming>Flow_Message_sent</bpmn:incoming>
       <bpmn:outgoing>Flow_Message_Moved_to_sent</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ArchiveMessageActivity" name="archive" camunda:asyncBefore="true" camunda:exclusive="false" camunda:delegateExpression="#{archiveMessageDelegate}">
+    <bpmn:serviceTask id="ArchiveMessageActivity" name="archive" camunda:asyncBefore="true" camunda:delegateExpression="#{archiveMessageDelegate}">
       <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>PT1M,PT4M,PT9M,PT20M</camunda:failedJobRetryTimeCycle>
+        <camunda:failedJobRetryTimeCycle>R3/PT1M</camunda:failedJobRetryTimeCycle>
       </bpmn:extensionElements>
       <bpmn:incoming>flow_archive_needed</bpmn:incoming>
       <bpmn:outgoing>Flow_sent_and_archived</bpmn:outgoing>

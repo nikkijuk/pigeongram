@@ -617,6 +617,18 @@ mocking
 
 - https://github.com/camunda-community-hub/camunda-bpm-mockito
 
+### Process tests with Jgiven
+
+[Jgiven](https://jgiven.org/) is plain code BDD framework. Users of Fitnesse and Cucumber have got used to writing specifications either as wiki pages or with Gherkin text based DSL and implementing adapter to system under test (SUT) using host language (Java, Kotlin, ..)
+
+[Jgiven](https://jgiven.org/) is purely JVM code approarch, and thus suitable for situations where there's no separate testers for writing test cases at the team but developers write tests.
+
+[Camunda Jgiven extension](https://github.com/holunda-io/camunda-bpm-jgiven) can be used to test workflows in plain java using fluent api and BDD style. Test results are shown given/when/then format.
+
+Please see example of Jgiven Camunda test at
+
+https://github.com/holunda-io/camunda-bpm-jgiven/blob/develop/examples/basic/src/test/kotlin/io/holunda/testing/examples/basic/ApprovalProcessTest.kt
+
 ### test Running App with Camunda Cockpit
 
 TODO:

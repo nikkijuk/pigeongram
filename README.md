@@ -623,7 +623,9 @@ mocking
 
 [Jgiven](https://jgiven.org/) is purely JVM code approarch, and thus suitable for situations where there's no separate testers for writing test cases at the team but developers write tests.
 
-[Camunda Jgiven extension](https://github.com/holunda-io/camunda-bpm-jgiven) can be used to test workflows in plain java using fluent api and BDD style. Test results are shown given/when/then format.
+[Jgiven kotlin](https://github.com/toolisticon/jgiven-kotlin) provides extensions to make usage from kotlin compact. It also makes conflict with 'when' less evident: in Kotlin 'when' is keyword, in mocking and BDD testing frameworks 'when' is method and part of Given/When/Then pattern.
+
+[Camunda Jgiven extension](https://github.com/holunda-io/camunda-bpm-jgiven) can be used to test workflows in plain Java or Kotlin using fluent api and BDD style. Test results are shown given/when/then format.
 
 Please see example of Jgiven Camunda test at
 
@@ -664,6 +666,8 @@ Add user
 Get added user
 
 - get as single used with new id
+
+
 
 ## Resources
 

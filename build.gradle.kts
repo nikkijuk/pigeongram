@@ -136,6 +136,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-assert-scenario
     testImplementation("org.camunda.bpm.extension:camunda-bpm-assert-scenario:1.1.1")
 
+    // https://mvnrepository.com/artifact/io.toolisticon.addons.jgiven/jgiven-kotlin
+    implementation("io.toolisticon.addons.jgiven:jgiven-kotlin:0.6.0")
+
+    // https://mvnrepository.com/artifact/io.holunda.testing/camunda-bpm-jgiven
+    implementation("io.holunda.testing:camunda-bpm-jgiven:0.0.8")
+
     // used to generate api model and controller interface
     implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
 

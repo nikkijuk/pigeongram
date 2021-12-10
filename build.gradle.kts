@@ -11,6 +11,10 @@ plugins {
     kotlin("plugin.jpa") version "1.5.31"
 
     id("org.openapi.generator") version "5.2.1"
+
+    // these are both needed for spingdoc
+    id ("org.springdoc.openapi-gradle-plugin") version "1.3.3"
+    id ("com.github.johnrengelman.processes") version "0.5.0"
 }
 
 group = "com.nikkijuk"
@@ -25,6 +29,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 
     maven(url = "https://app.camunda.com/nexus/content/groups/public")
 }
@@ -158,6 +163,12 @@ dependencies {
     // it might make sense to use jakarta mail 1.X instead of 2.X
     // Simple java mail requires jakarta mail 1.X or javax.mail
     implementation("org.simplejavamail:simple-java-mail:6.6.1")
+
+    // openapi in spring-boot-admin
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
+    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.5.12")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.5.12")
+    implementation("org.springdoc:springdoc-openapi-javadoc:1.5.12")
 }
 
 dependencyManagement {
@@ -172,8 +183,8 @@ dependencyManagement {
 // https://openapi-generator.tech/docs/generators/kotlin-spring/
 openApiGenerate {
     generatorName.set("kotlin-spring")
-    inputSpec.set("$rootDir/specs/api.yaml".toString())
-    outputDir.set("$buildDir/generated".toString())
+    inputSpec.set("$rootDir/specs/api.yaml")
+    outputDir.set("$buildDir/generated")
     modelPackage.set("com.nikkijuk.pigeongram.generated.model")
     apiPackage.set("com.nikkijuk.pigeongram.generated.api")
     //invokerPackage.set("com.nikkijuk.pigeongram.generated.invoker")
@@ -195,6 +206,14 @@ openApiGenerate {
             "dateLibrary" to "java8"
         )
     )
+}
+
+// open api document generation
+// https://github.com/springdoc/springdoc-openapi-gradle-plugin
+//  ./gradlew or gradle clean generateOpenApiDocs
+openApi {
+    outputDir.set(file("$buildDir/docs"))
+    outputFileName.set("api.json")
 }
 
 tasks.withType<KotlinCompile> {

@@ -10,7 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.31"
     kotlin("plugin.jpa") version "1.5.31"
 
-    id("org.openapi.generator") version "5.2.1"
+    id("org.openapi.generator") version "5.3.0"
 
     // these are both needed for spingdoc
     id ("org.springdoc.openapi-gradle-plugin") version "1.3.3"
@@ -50,8 +50,8 @@ sourceSets {
     }
 }
 
-extra["springCloudVersion"] = "2020.0.4"
-extra["testcontainersVersion"] = "1.16.1" // 1.16.2 is ready, but not distibuted
+extra["springCloudVersion"] = "2021.0.0"
+extra["testcontainersVersion"] = "1.16.2" // 1.16.2 is ready, but not distibuted
 extra["camundaVersion"] = "7.16.0" // compatible with spring boot 2.5.4
 
 dependencies {
@@ -111,7 +111,7 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core")
 
-    implementation("io.github.microutils:kotlin-logging:2.0.11")
+    implementation("io.github.microutils:kotlin-logging:2.1.0")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -148,10 +148,10 @@ dependencies {
     implementation("io.holunda.testing:camunda-bpm-jgiven:0.0.8")
 
     // used to generate api model and controller interface
-    implementation("io.swagger.core.v3:swagger-annotations:2.1.9")
+    implementation("io.swagger.core.v3:swagger-annotations:2.1.11")
 
     // https://github.com/OpenAPITools/openapi-generator
-    implementation("org.openapitools:openapi-generator-gradle-plugin:5.2.1")
+    implementation("org.openapitools:openapi-generator-gradle-plugin:5.3.0")
 
     implementation("org.slf4j:slf4j-simple:1.7.32")
 

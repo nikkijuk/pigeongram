@@ -1,68 +1,63 @@
 package com.nikkijuk.pigeongram
 
 import com.nikkijuk.pigeongram.domain.model.Address
+import com.nikkijuk.pigeongram.domain.model.Signature
 import com.nikkijuk.pigeongram.domain.model.User
+import com.nikkijuk.pigeongram.persistence.SignatureRepository
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+internal class LoadDatabase {
+    @Bean
+    fun initDatabase(
+        signatureRepository: SignatureRepository,
+        userRepository: UserRepository
+    ): CommandLineRunner {
+        return CommandLineRunner { args: Array<String?>? ->
+
+            signatureRepository.deleteAll()
+
+            signatureRepository.save(Signature(1, "jukka@nikki.com", "Greeting", "Hello World"))
+            signatureRepository.save(Signature(2, "andere@person.de", "Grüsse", "Hallo Welt"))
+            signatureRepository.findAll().forEach { employee -> log.info("Preloaded $employee") }
+
+            userRepository.deleteAll()
+
+            val address1 = Address("Waldstrasse 1", "04105", "Leipzig")
+            val address2 = Address("Christianstrasse 2", "04105", "Leipzig")
+            val address3 = Address("Lindenauer Markt 21", "04177", "Leipzig")
+
+            val user1 = User("testId1", "testFirstName", "testLastName1", listOf(address1, address2))
+            val user2 = User("testId2", "testFirstName", "testLastName2", listOf(address2, address3))
+
+
+            userRepository.save(user1)
+            userRepository.save(user2)
+
+            userRepository.findAll().forEach { user -> log.info("Preloaded $user") }
+
+        }
+    }
+
+    companion object {
+        private val log = LoggerFactory.getLogger(LoadDatabase::class.java)
+    }
+}
 
 @SpringBootApplication
 class PigeongramApplicationKt : CommandLineRunner {
 
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)
 
-    @Autowired
-    lateinit var userRepository: UserRepository
-
     override fun run(vararg var1: String?) {
-        val address1 = Address("Waldstrasse 1", "04105", "Leipzig")
-        val address2 = Address("Christianstrasse 2", "04105", "Leipzig")
-        val address3 = Address("Lindenauer Markt 21", "04177", "Leipzig")
-
-        val user1 = User("testId1", "testFirstName", "testLastName1", listOf(address1, address2))
-        val user2 = User("testId2", "testFirstName", "testLastName2", listOf(address2, address3))
-        logger.info("Using sync repository")
-
-        // <Delete>
-        userRepository.deleteAll()
-
-        // </Delete>
-
-        // <Create>
-        logger.info("Saving user : {}", user1)
-        userRepository.save(user1)
-
-        // </Create>
-        logger.info("Saving user : {}", user2)
-        userRepository.save(user2)
-
-        // to find by Id, please specify partition key value if collection is partitioned
-        val result: User = userRepository.findByIdAndLastName(user1.id, user1.lastName)
-        logger.info("Found user : {}", result)
-
-        val usersIterator = userRepository.findByFirstName("testFirstName").iterator()
-        logger.info("Users by firstName : testFirstName")
-        while (usersIterator.hasNext()) {
-            logger.info("user is : {}", usersIterator.next())
-        }
-
-        // find with postalcode
-
-        /*
-        val postalcode = "04177"
-        val usersByPostalcode = userRepository.getUsersByPostalcode(postalcode).iterator()
-        logger.info("Users by postalcode : {}",postalcode)
-        while (usersByPostalcode.hasNext()) {
-            logger.info("user living at {} is : {}", postalcode, usersByPostalcode.next())
-        }
-
-         */
-
-
+        logger.info("Started pigeongram")
     }
 
     /**

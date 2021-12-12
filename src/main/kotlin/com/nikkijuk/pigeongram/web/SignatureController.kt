@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -42,7 +41,6 @@ class SignatureModelAssembler :
  * please see tutorial at: https://spring.io/guides/tutorials/rest/
  */
 @RestController
-@RequestMapping("\${api.base-path:}")
 class SignatureController (
     val repository: SignatureRepository,
     val assembler: SignatureModelAssembler
@@ -51,7 +49,7 @@ class SignatureController (
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)
 
     @PostMapping("/signatures")
-    fun create(@RequestBody newSignature: Signature): ResponseEntity<*>? {
+    fun create(@RequestBody newSignature: Signature): ResponseEntity<EntityModel<Signature>> {
         val entityModel: EntityModel<Signature> =
             assembler.toModel(repository.save(newSignature))
 
@@ -62,10 +60,10 @@ class SignatureController (
     }
 
     @PutMapping("/signatures/{id}")
-    fun update(
+    fun replace(
         @RequestBody newSignature: Signature,
         @PathVariable id: Long
-    ): ResponseEntity<*>? {
+    ): ResponseEntity<EntityModel<Signature>> {
         val updatedSignature: Signature = repository.findById(id)
             .map { repository.save(it.copy(id = id)) }
             .orElseGet { repository.save(newSignature.copy(id = id)) }
@@ -79,17 +77,19 @@ class SignatureController (
     }
 
     @DeleteMapping("/signatures/{id}")
-    fun delete (@PathVariable id: Long): ResponseEntity<*>? {
+    fun delete (@PathVariable id: Long): ResponseEntity<Signature> {
         repository.deleteById(id)
-        return ResponseEntity.noContent().build<Any>()
+        return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/signatures/{id}")
-    fun one(@PathVariable id: Long): EntityModel<Signature> {
+    fun one(@PathVariable id: Long): ResponseEntity<Signature> {
         val signature: Signature = repository.findById(id)
             .orElseThrow { SignatureNotFoundException(id) }
 
-        return assembler.toModel(signature);
+        return ResponseEntity
+            .ok()
+            .body(signature)
     }
 
     @GetMapping("/signatures")

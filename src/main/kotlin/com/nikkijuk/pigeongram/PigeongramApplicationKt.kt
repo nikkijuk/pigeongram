@@ -13,6 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * Load test data
+ */
 @Configuration
 internal class LoadDatabase {
     @Bean
@@ -22,11 +25,15 @@ internal class LoadDatabase {
     ): CommandLineRunner {
         return CommandLineRunner { args: Array<String?>? ->
 
+            // signatures
+
             signatureRepository.deleteAll()
 
             signatureRepository.save(Signature(1, "jukka@nikki.com", "Greeting", "Hello World"))
             signatureRepository.save(Signature(2, "andere@person.de", "Grüsse", "Hallo Welt"))
             signatureRepository.findAll().forEach { employee -> log.info("Preloaded $employee") }
+
+            // users
 
             userRepository.deleteAll()
 
@@ -37,12 +44,10 @@ internal class LoadDatabase {
             val user1 = User("testId1", "testFirstName", "testLastName1", listOf(address1, address2))
             val user2 = User("testId2", "testFirstName", "testLastName2", listOf(address2, address3))
 
-
             userRepository.save(user1)
             userRepository.save(user2)
 
             userRepository.findAll().forEach { user -> log.info("Preloaded $user") }
-
         }
     }
 
@@ -51,6 +56,9 @@ internal class LoadDatabase {
     }
 }
 
+/**
+ * Main app
+ */
 @SpringBootApplication
 class PigeongramApplicationKt : CommandLineRunner {
 
@@ -60,9 +68,6 @@ class PigeongramApplicationKt : CommandLineRunner {
         logger.info("Started pigeongram")
     }
 
-    /**
-     * TODO: this is kinda ugly way - should not be needed
-     */
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {

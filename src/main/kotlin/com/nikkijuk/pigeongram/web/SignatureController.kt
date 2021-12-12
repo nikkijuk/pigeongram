@@ -39,6 +39,10 @@ class SignatureModelAssembler :
  * Handwritten signature controller uses spring hateoas
  *
  * please see tutorial at: https://spring.io/guides/tutorials/rest/
+ *
+ * NOTE: uses entities as dto's --
+ * might be that I'll add here separate dto's & mapping
+ * to be closer to ideas of hexagonal architecture and to study how to separate concerns cleanly
  */
 @RestController
 class SignatureController (

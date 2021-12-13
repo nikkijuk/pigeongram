@@ -5,4 +5,12 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SignatureRepository : MongoRepository<Signature, Long>
+interface SignatureRepository : MongoRepository<Signature, Long> {
+
+    fun findAllByMailboxId(mailboxId: String): List<Signature>
+
+    fun removeAllByMailboxId(mailboxId: String)
+
+    fun findByIdAndMailboxId(id: Long, mailboxId: String): Signature
+
+}

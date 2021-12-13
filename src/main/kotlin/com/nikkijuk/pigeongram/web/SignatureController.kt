@@ -87,13 +87,11 @@ class SignatureController (
     }
 
     @GetMapping("/signatures/{id}")
-    fun one(@PathVariable id: Long): ResponseEntity<Signature> {
+    fun one(@PathVariable id: Long): EntityModel<Signature> {
         val signature: Signature = repository.findById(id)
             .orElseThrow { SignatureNotFoundException(id) }
 
-        return ResponseEntity
-            .ok()
-            .body(signature)
+        return assembler.toModel(signature)
     }
 
     @GetMapping("/signatures")

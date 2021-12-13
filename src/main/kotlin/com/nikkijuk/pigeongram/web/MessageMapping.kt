@@ -1,12 +1,15 @@
 package com.nikkijuk.pigeongram.web
 
-import com.nikkijuk.pigeongram.domain.model.EmailAddress
-import com.nikkijuk.pigeongram.domain.model.EmailMessage
-import com.nikkijuk.pigeongram.domain.model.MessageContent
+import com.nikkijuk.pigeongram.domain.model.EmailAddress as EmailAddressDomain
+import com.nikkijuk.pigeongram.domain.model.EmailMessage as EmailMessageDomain
+import com.nikkijuk.pigeongram.domain.model.MessageContent as MessageContentDomain
+import com.nikkijuk.pigeongram.generated.model.EmailAddress as EmailAddressApi
+import com.nikkijuk.pigeongram.generated.model.EmailMessage as EmailMessageApi
+import com.nikkijuk.pigeongram.generated.model.MessageContent as MessageContentApi
 
 // to api
-fun EmailMessage.toApi () =
-        com.nikkijuk.pigeongram.generated.model.EmailMessage (
+fun EmailMessageDomain.toApi () =
+        EmailMessageApi (
                 id = this.id,
                 type = this.type,
                 receivedDateTime = this.receivedDateTime,
@@ -21,21 +24,21 @@ fun EmailMessage.toApi () =
                 bccRecipients = this.bccRecipients?.map { it.toApi() } ?: listOf(),
         )
 
-fun MessageContent.toApi () =
-        com.nikkijuk.pigeongram.generated.model.MessageContent (
+fun MessageContentDomain.toApi () =
+        MessageContentApi (
                 contentType = this.contentType,
                 content = this.content,
         )
 
-fun EmailAddress.toApi () =
-        com.nikkijuk.pigeongram.generated.model.EmailAddress (
+fun EmailAddressDomain.toApi () =
+        EmailAddressApi (
                 name = this.name,
                 address = this.address,
         )
 
 // to entity
-fun com.nikkijuk.pigeongram.generated.model.EmailMessage.toEntity () =
-        EmailMessage (
+fun EmailMessageApi.toDomain () =
+        EmailMessageDomain (
                 id = this.id,
                 type = this.type,
                 receivedDateTime = this.receivedDateTime,
@@ -43,21 +46,21 @@ fun com.nikkijuk.pigeongram.generated.model.EmailMessage.toEntity () =
                 hasAttachments = this.hasAttachments,
                 internetMessageId = this.internetMessageId,
                 subject = this.subject,
-                body = this.body.toEntity(),
-                from = this.from.toEntity(),
-                toRecipients = this.toRecipients.map { it.toEntity() },
-                ccRecipients = this.ccRecipients?.map { it.toEntity() } ?: listOf(),
-                bccRecipients = this.bccRecipients?.map { it.toEntity() } ?: listOf(),
+                body = this.body.toDomain(),
+                from = this.from.toDomain(),
+                toRecipients = this.toRecipients.map { it.toDomain() },
+                ccRecipients = this.ccRecipients?.map { it.toDomain() } ?: listOf(),
+                bccRecipients = this.bccRecipients?.map { it.toDomain() } ?: listOf(),
         )
 
-fun com.nikkijuk.pigeongram.generated.model.MessageContent.toEntity () =
-        MessageContent (
+fun MessageContentApi.toDomain () =
+        MessageContentDomain (
                 contentType = this.contentType,
                 content = this.content,
         )
 
-fun com.nikkijuk.pigeongram.generated.model.EmailAddress.toEntity () =
-        EmailAddress (
+fun EmailAddressApi.toDomain () =
+        EmailAddressDomain (
                 name = this.name,
                 address = this.address,
         )

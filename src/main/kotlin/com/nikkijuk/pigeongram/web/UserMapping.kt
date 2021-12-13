@@ -1,35 +1,37 @@
 package com.nikkijuk.pigeongram.web
 
-import com.nikkijuk.pigeongram.domain.model.Address
-import com.nikkijuk.pigeongram.domain.model.User
+import com.nikkijuk.pigeongram.domain.model.Address as AddressDomain
+import com.nikkijuk.pigeongram.domain.model.User as UserDomain
+import com.nikkijuk.pigeongram.generated.model.Address as AddressApi
+import com.nikkijuk.pigeongram.generated.model.User as UserApi
 
 // to api
-fun User.toApi () =
-        com.nikkijuk.pigeongram.generated.model.User (
+fun UserDomain.toApi () =
+        UserApi (
                 id = this.id,
                 firstName = this.firstName,
                 lastName = this.lastName,
                 addresses = this.addresses?.map { it.toApi() } ?: listOf(),
         )
 
-fun Address.toApi () =
-                com.nikkijuk.pigeongram.generated.model.Address (
-                        street = this.street,
-                        postalcode = this.postalcode,
-                        city = this.city,
-                )
+fun AddressDomain.toApi () =
+        AddressApi (
+                street = this.street,
+                postalcode = this.postalcode,
+                city = this.city,
+        )
 // to entity
-fun com.nikkijuk.pigeongram.generated.model.User.toEntity () =
-        User (
+fun UserApi.toDomain () =
+        UserDomain (
                 id = this.id,
                 firstName = this.firstName,
                 lastName = this.lastName,
                 // return empty list in case of null
-                addresses = this.addresses ?.map { it.toEntity() } ?: listOf(),
+                addresses = this.addresses ?.map { it.toDomain() } ?: listOf(),
         )
 
-fun com.nikkijuk.pigeongram.generated.model.Address.toEntity () =
-        Address (
+fun AddressApi.toDomain () =
+        AddressDomain (
                 street = this.street,
                 postalcode = this.postalcode,
                 city = this.city,

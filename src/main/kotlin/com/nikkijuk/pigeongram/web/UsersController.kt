@@ -19,7 +19,7 @@ class UsersController (
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)
 
     override fun createUser(@RequestBody user: com.nikkijuk.pigeongram.generated.model.User): ResponseEntity<com.nikkijuk.pigeongram.generated.model.User> {
-        val createdUser = userRepository.save(user.toEntity())
+        val createdUser = userRepository.save(user.toDomain())
         logger.info("saved user: $createdUser")
         return ResponseEntity(createdUser.toApi(), HttpStatus.OK)
     }

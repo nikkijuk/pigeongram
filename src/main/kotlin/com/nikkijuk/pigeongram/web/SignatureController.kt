@@ -1,7 +1,7 @@
 package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.PigeongramApplicationKt
-import com.nikkijuk.pigeongram.persistence.SignatureRepository
+import com.nikkijuk.pigeongram.domain.service.SignatureService
 import com.nikkijuk.pigeongram.web.model.toApi
 import com.nikkijuk.pigeongram.web.model.toDomain
 import org.slf4j.Logger
@@ -24,9 +24,6 @@ import org.springframework.web.bind.annotation.RestController
 import com.nikkijuk.pigeongram.domain.model.Signature as SignatureDomain
 import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
-
-internal class SignatureNotFoundException(id: Long) : RuntimeException("Could not find signature $id")
-
 @Component
 class SignatureModelAssembler :
     RepresentationModelAssembler<SignatureApi, EntityModel<SignatureApi>> {
@@ -41,15 +38,17 @@ class SignatureModelAssembler :
 /**
  * Handwritten signature controller uses spring hateoas
  *
- * please see tutorial at: https://spring.io/guides/tutorials/rest/
+ * This class is created to see how
  *
- * NOTE: uses entities as dto's --
- * might be that I'll add here separate dto's & mapping
- * to be closer to ideas of hexagonal architecture and to study how to separate concerns cleanly
+ * ./gradlew clean generateOpenApiDocs
+ *
+ * generates open api definitions to /docs/api.json
+ *
+ * please see tutorial at: https://spring.io/guides/tutorials/rest/
  */
 @RestController
 class SignatureController (
-    val repository: SignatureRepository,
+    val service: SignatureService,
     val assembler: SignatureModelAssembler
 )  {
 
@@ -57,7 +56,7 @@ class SignatureController (
 
     @PostMapping("/signatures")
     fun create(@RequestBody newSignature: SignatureApi): ResponseEntity<EntityModel<SignatureApi>> {
-        val createdSignature = repository.save(newSignature.toDomain())
+        val createdSignature = service.createSignature(newSignature.toDomain())
         val entityModel: EntityModel<SignatureApi> = assembler.toModel(createdSignature.toApi())
 
         // 201 returned
@@ -71,9 +70,9 @@ class SignatureController (
         @RequestBody newSignature: SignatureApi,
         @PathVariable id: Long
     ): ResponseEntity<EntityModel<SignatureApi>> {
-        val updatedSignature: SignatureDomain = repository.findById(id)
-            .map { repository.save(it.copy(id = id)) }
-            .orElseGet { repository.save(newSignature.toDomain().copy(id = id)) }
+        val updatedSignature: SignatureDomain = service.retrieve(id)
+            .map { service.updateSignature(it.copy(id = id)) }
+            .orElseGet { service.createSignature(newSignature.toDomain().copy(id = id)) }
 
         val entityModel: EntityModel<SignatureApi> = assembler.toModel(updatedSignature.toApi())
 
@@ -85,21 +84,20 @@ class SignatureController (
 
     @DeleteMapping("/signatures/{id}")
     fun delete (@PathVariable id: Long): ResponseEntity<SignatureApi> {
-        repository.deleteById(id)
+        service.deleteSignature(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/signatures/{id}")
     fun one(@PathVariable id: Long): EntityModel<SignatureApi> {
-        val signature: SignatureDomain = repository.findById(id)
-            .orElseThrow { SignatureNotFoundException(id) }
+        val signature: SignatureDomain = service.retrieveOrFail(id)
 
         return assembler.toModel(signature.toApi())
     }
 
     @GetMapping("/signatures")
     fun all(): CollectionModel<EntityModel<SignatureApi>> {
-        val signatures: List<EntityModel<SignatureApi>> = repository.findAll()
+        val signatures: List<EntityModel<SignatureApi>> = service.retrieveAll()
             .map{ assembler.toModel(it.toApi()) }
 
         return CollectionModel.of(

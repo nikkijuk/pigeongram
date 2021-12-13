@@ -2,6 +2,8 @@ package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.PigeongramApplicationKt
 import com.nikkijuk.pigeongram.persistence.SignatureRepository
+import com.nikkijuk.pigeongram.web.model.toApi
+import com.nikkijuk.pigeongram.web.model.toDomain
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.hateoas.CollectionModel
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import com.nikkijuk.pigeongram.domain.model.Signature as SignatureEntity
+import com.nikkijuk.pigeongram.domain.model.Signature as SignatureDomain
 import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
 
@@ -27,8 +29,8 @@ internal class SignatureNotFoundException(id: Long) : RuntimeException("Could no
 
 @Component
 class SignatureModelAssembler :
-    RepresentationModelAssembler<SignatureEntity, EntityModel<SignatureEntity>> {
-    override fun toModel(signature: SignatureEntity): EntityModel<SignatureEntity> {
+    RepresentationModelAssembler<SignatureApi, EntityModel<SignatureApi>> {
+    override fun toModel(signature: SignatureApi): EntityModel<SignatureApi> {
         return EntityModel.of(signature,
             linkTo(methodOn(SignatureController::class.java).one(signature.id)).withSelfRel(),
             linkTo(methodOn(SignatureController::class.java).all()).withRel("signatures")
@@ -54,51 +56,51 @@ class SignatureController (
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)
 
     @PostMapping("/signatures")
-    fun create(@RequestBody newSignature: SignatureEntity): ResponseEntity<EntityModel<SignatureEntity>> {
-        val entityModel: EntityModel<SignatureEntity> =
-            assembler.toModel(repository.save(newSignature))
+    fun create(@RequestBody newSignature: SignatureApi): ResponseEntity<EntityModel<SignatureApi>> {
+        val createdSignature = repository.save(newSignature.toDomain())
+        val entityModel: EntityModel<SignatureApi> = assembler.toModel(createdSignature.toApi())
 
         // 201 returned
         return ResponseEntity
             .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-            .body<EntityModel<SignatureEntity>>(entityModel)
+            .body<EntityModel<SignatureApi>>(entityModel)
     }
 
     @PutMapping("/signatures/{id}")
     fun replace(
-        @RequestBody newSignature: SignatureEntity,
+        @RequestBody newSignature: SignatureApi,
         @PathVariable id: Long
-    ): ResponseEntity<EntityModel<SignatureEntity>> {
-        val updatedSignature: SignatureEntity = repository.findById(id)
+    ): ResponseEntity<EntityModel<SignatureApi>> {
+        val updatedSignature: SignatureDomain = repository.findById(id)
             .map { repository.save(it.copy(id = id)) }
-            .orElseGet { repository.save(newSignature.copy(id = id)) }
+            .orElseGet { repository.save(newSignature.toDomain().copy(id = id)) }
 
-        val entityModel: EntityModel<SignatureEntity> = assembler.toModel(updatedSignature)
+        val entityModel: EntityModel<SignatureApi> = assembler.toModel(updatedSignature.toApi())
 
         // 201 returned
         return ResponseEntity
             .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-            .body<EntityModel<SignatureEntity>>(entityModel)
+            .body<EntityModel<SignatureApi>>(entityModel)
     }
 
     @DeleteMapping("/signatures/{id}")
-    fun delete (@PathVariable id: Long): ResponseEntity<SignatureEntity> {
+    fun delete (@PathVariable id: Long): ResponseEntity<SignatureApi> {
         repository.deleteById(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/signatures/{id}")
-    fun one(@PathVariable id: Long): EntityModel<SignatureEntity> {
-        val signature: SignatureEntity = repository.findById(id)
+    fun one(@PathVariable id: Long): EntityModel<SignatureApi> {
+        val signature: SignatureDomain = repository.findById(id)
             .orElseThrow { SignatureNotFoundException(id) }
 
-        return assembler.toModel(signature)
+        return assembler.toModel(signature.toApi())
     }
 
     @GetMapping("/signatures")
-    fun all(): CollectionModel<EntityModel<SignatureEntity>> {
-        val signatures: List<EntityModel<SignatureEntity>> = repository.findAll()
-            .map(assembler::toModel)
+    fun all(): CollectionModel<EntityModel<SignatureApi>> {
+        val signatures: List<EntityModel<SignatureApi>> = repository.findAll()
+            .map{ assembler.toModel(it.toApi()) }
 
         return CollectionModel.of(
             signatures,

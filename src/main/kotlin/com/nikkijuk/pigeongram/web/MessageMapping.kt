@@ -12,8 +12,8 @@ fun EmailMessageDomain.toApi () =
         EmailMessageApi (
                 id = this.id,
                 type = this.type,
-                receivedDateTime = this.receivedDateTime,
-                sentDateTime = this.sentDateTime,
+                receivedAt = this.receivedAt,
+                sentAt = this.sentAt,
                 hasAttachments = this.hasAttachments,
                 internetMessageId = this.internetMessageId,
                 subject = this.subject,
@@ -41,8 +41,8 @@ fun EmailMessageApi.toDomain () =
         EmailMessageDomain (
                 id = this.id,
                 type = this.type,
-                receivedDateTime = this.receivedDateTime,
-                sentDateTime = this.sentDateTime,
+                receivedAt = this.receivedAt,
+                sentAt = this.sentAt,
                 hasAttachments = this.hasAttachments,
                 internetMessageId = this.internetMessageId,
                 subject = this.subject,

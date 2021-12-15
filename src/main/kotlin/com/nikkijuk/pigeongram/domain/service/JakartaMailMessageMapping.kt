@@ -16,8 +16,8 @@ fun Message.toEntity () =
     EmailMessage (
         id = this.messageNumber.toString(),
         type = "imap",
-        receivedDateTime = convertDate(this.receivedDate),
-        sentDateTime = convertDate(this.sentDate),
+        receivedAt = convertDate(this.receivedDate),
+        sentAt = convertDate(this.sentDate),
         hasAttachments = false, // this.hasAttachments,
         internetMessageId = this.messageNumber.toString(),
         subject = this.subject,

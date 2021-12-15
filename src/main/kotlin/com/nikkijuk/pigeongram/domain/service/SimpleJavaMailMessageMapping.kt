@@ -21,8 +21,8 @@ fun Email.toEntity () =
     EmailMessage (
         id = this.id.toString(),
         type = "imap",
-        receivedDateTime = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
-        sentDateTime = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
+        receivedAt = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
+        sentAt = convertDate(this.sentDate!!) ?: OffsetDateTime.now(),
         hasAttachments = this.attachments.isNotEmpty(),
         internetMessageId = this.id.toString(),
         subject = this.subject!!,

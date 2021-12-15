@@ -11,8 +11,8 @@ import java.time.OffsetDateTime
 data class EmailMessage(
     val id: String,
     val type: String,
-    val receivedDateTime: OffsetDateTime,
-    val sentDateTime: OffsetDateTime,
+    val receivedAt: OffsetDateTime,
+    val sentAt: OffsetDateTime,
     val hasAttachments: Boolean,
     val internetMessageId: String,
     val subject: String,

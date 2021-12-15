@@ -85,6 +85,10 @@ dependencies {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
     }
 
+    implementation("org.springframework.boot:spring-boot-starter-data-rest") {
+        exclude("org.springframework.boot", "spring-boot-starter-logging")
+    }
+
     implementation("org.camunda.bpm:camunda-engine-plugin-spin")
 
     implementation("org.camunda.spin:camunda-spin-dataformat-all")

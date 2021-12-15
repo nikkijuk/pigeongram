@@ -3,6 +3,13 @@ info:
   title: PigeonGram
   description: PigeonGram sample app
   version: 1.0.0
+  contact:
+    name: nikkijuk
+    url: https://github.com/nikkijuk
+    email: x@x.com
+  x-audience: Developers who are learning open api
+  x-api-id: pigeongram
+
 # defining base url might not work as expected
 # https://github.com/kongchen/swagger-maven-plugin/issues/730
 #servers:
@@ -12,23 +19,23 @@ paths:
   /users:
     # create new user
     post:
-      operationId: "createUser"
-      description: "add user"
+      operationId: 'createUser'
+      description: 'add user'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: '#/components/schemas/User'
       responses:
         '200':
-          description: "saved user"
+          description: 'saved user'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         default:
-          description: "unexpected error"
+          description: 'unexpected error'
           content:
             application/json:
               schema:
@@ -36,11 +43,11 @@ paths:
 
     # get all users
     get:
-      operationId: "findUsers"
-      description: "get all users"
+      operationId: 'findUsers'
+      description: 'get all users'
       responses:
         '200':
-          description: "User response"
+          description: 'User response'
           content:
             application/json:
               schema:
@@ -57,36 +64,36 @@ paths:
   /users/{id}:
     # get single user
     get:
-      summary: "Get user by user id"
-      description: "get single user with id"
-      operationId: "getUserById"
+      summary: 'Get user by user id'
+      description: 'get single user with id'
+      operationId: 'getUserById'
       parameters:
         - name: id
           in: path
-          description: "id of user"
+          description: 'id of user'
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: "User response"
+          description: 'User response'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
-        "400":
-          description: "Invalid id supplied"
-        "404":
-          description: "User not found with given id"
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'Invalid id supplied'
+        '404':
+          description: 'User not found with given id'
 
   # get all messages
   /messages:
     get:
-      operationId: "findMessages"
-      description: "get all messages"
+      operationId: 'findMessages'
+      description: 'get all messages'
       responses:
         '200':
-          description: "Message response"
+          description: 'Message response'
           content:
             application/json:
               schema:
@@ -99,28 +106,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
-  # sync all messages
-  /messages/sync:
-    get:
-      operationId: "syncMessages"
-      description: "sync and return all messages"
-      responses:
-        '200':
-          description: "Message response"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmailMessage'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
 
 components:
   schemas:
@@ -140,143 +125,143 @@ components:
 
     # address of user
     Address:
-      type: "object"
+      type: 'object'
       required:
         - street
         - postalcode
         - city
       properties:
         street:
-          type: "string"
+          type: 'string'
         postalcode:
-          type: "string"
+          type: 'string'
         city:
-          type: "string"
+          type: 'string'
       xml:
-        name: "Address"
+        name: 'Address'
 
     # user
     User:
-      type: "object"
+      type: 'object'
       required:
         - id
-        - firstName
-        - lastName
+        - first_name
+        - last_name
       properties:
         id:
           type: string
-        firstName:
-          type: "string"
-        lastName:
-          type: "string"
+        first_name:
+          type: 'string'
+        last_name:
+          type: 'string'
         addresses:
-          type: "array"
+          type: 'array'
           xml:
-            name: "Address"
+            name: 'Address'
             wrapped: true
           items:
-            $ref: "#/components/schemas/Address"
+            $ref: '#/components/schemas/Address'
 
     # email address
     EmailAddress:
-      type: "object"
+      type: 'object'
       required:
         - name
         - address
       properties:
         name:
-          type: "string"
+          type: 'string'
         address:
-          type: "string"
+          type: 'string'
           format: email
 
     # message content
     MessageContent:
-      type: "object"
+      type: 'object'
       required:
-        - contentType
+        - content_type
         - content
       properties:
-        contentType:
-          type: "string"
+        content_type:
+          type: 'string'
         content:
-          type: "string"
+          type: 'string'
 
     # email message
     # many attributes are left out at that moment
     EmailMessage:
-      type: "object"
+      type: 'object'
       required:
-      - id
-      - type
-      #!- createdDateTime
-      #!- lastModifiedDateTime
-      #!- changeKey
-      #!- categories # array
-      - receivedDateTime
-      - sentDateTime
-      - hasAttachments # boolean
-      - internetMessageId
-      - subject
-      #!- bodyPreview
-      #!- importance
-      #!- parentFolderId
-      #!- conversationId
-      #!- isDeliveryReceiptRequested
-      #!- isReadReceiptRequested
-      #!- isRead
-      #!- isDraft
-      #!- webLink # http link
-      #!- inferenceClassification
-      - body # content
-      #!- sender # party
-      - from # party
-      - toRecipients # array of party
-        #- ccRecipients  # array of party
-        #- bccRecipients # array of party
+        - id
+        - type
+        #!- createdDateTime
+        #!- lastModifiedDateTime
+        #!- changeKey
+        #!- categories # array
+        - received_date_time
+        - sent_date_time
+        - has_attachments # boolean
+        - internet_message_id
+        - subject
+        #!- bodyPreview
+        #!- importance
+        #!- parentFolderId
+        #!- conversationId
+        #!- isDeliveryReceiptRequested
+        #!- isReadReceiptRequested
+        #!- isRead
+        #!- isDraft
+        #!- webLink # http link
+        #!- inferenceClassification
+        - body # content
+        #!- sender # party
+        - from # party
+        - to_recipients # array of party
+          #- ccRecipients  # array of party
+          #- bccRecipients # array of party
         #!- replyTo # array of ?
       properties:
         id:
-          type: "string"
+          type: 'string'
         type:
-          type: "string"
-        receivedDateTime:
-          type: "string"
-          format: "date-time"
-        sentDateTime:
-          type: "string"
-          format: "date-time"
-        hasAttachments: # boolean
-          type: "boolean"
-        internetMessageId:
-          type: "string"
+          type: 'string'
+        received_date_time:
+          type: 'string'
+          format: 'date-time'
+        sent_date_time:
+          type: 'string'
+          format: 'date-time'
+        has_attachments: # boolean
+          type: 'boolean'
+        internet_message_id:
+          type: 'string'
         subject:
-          type: "string"
+          type: 'string'
         body: # content
-          $ref: "#/components/schemas/MessageContent"
+          $ref: '#/components/schemas/MessageContent'
         from: # party
-          $ref: "#/components/schemas/EmailAddress"
-        toRecipients: # array of party
-          type: "array"
+          $ref: '#/components/schemas/EmailAddress'
+        to_recipients: # array of party
+          type: 'array'
           xml:
-            name: "Recipient"
+            name: 'Recipient'
             wrapped: true
           items:
-            $ref: "#/components/schemas/EmailAddress"
-        ccRecipients: # array of party
-          type: "array"
+            $ref: '#/components/schemas/EmailAddress'
+        cc_recipients: # array of party
+          type: 'array'
           xml:
-            name: "Recipient"
+            name: 'Recipient'
             wrapped: true
           items:
-            $ref: "#/components/schemas/EmailAddress"
-        bccRecipients: # array of party
-          type: "array"
+            $ref: '#/components/schemas/EmailAddress'
+        bcc_recipients: # array of party
+          type: 'array'
           xml:
-            name: "Recipient"
+            name: 'Recipient'
             wrapped: true
           items:
-            $ref: "#/components/schemas/EmailAddress"
+            $ref: '#/components/schemas/EmailAddress'
 
 
 

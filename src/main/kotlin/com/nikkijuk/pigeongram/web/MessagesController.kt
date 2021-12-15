@@ -40,6 +40,33 @@ class MessagesController (
         return ResponseEntity(foundMessages.map { it.toApi() }, HttpStatus.OK)
     }
 
+    /* Sync requires api definitions
+
+    # sync all messages
+/messages/sync:
+  get:
+    operationId: 'syncMessages'
+    description: 'sync and return all messages'
+    responses:
+      '200':
+        description: 'Message response'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmailMessage'
+      default:
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+
+
+     */
+
+    /*
     override fun syncMessages(): ResponseEntity<List<EmailMessage>> {
          // should go to service -- as most operations here which actually belong to domain
         val serverProps = MessageUtils.createServerProperties(protocol, host, port)
@@ -50,6 +77,6 @@ class MessagesController (
         }
 
         return findMessages()
-    }
+    }*/
 
 }

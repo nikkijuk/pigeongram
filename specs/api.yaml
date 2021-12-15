@@ -12,8 +12,9 @@ info:
 
 # defining base url might not work as expected
 # https://github.com/kongchen/swagger-maven-plugin/issues/730
-#servers:
-#  - url: test
+servers:
+  - url: xx.test.com
+
 paths:
 
   /users:

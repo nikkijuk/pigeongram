@@ -7,7 +7,7 @@ info:
     name: nikkijuk
     url: https://github.com/nikkijuk
     email: x@x.com
-  x-audience: external-public
+  x-audience: component-internal
   x-api-id: pigeongram
 
 # defining base url might not work as expected

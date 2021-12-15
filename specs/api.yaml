@@ -22,6 +22,7 @@ paths:
     post:
       operationId: 'createUser'
       description: 'add user'
+      security: []   # No security
       requestBody:
         required: true
         content:
@@ -46,6 +47,7 @@ paths:
     get:
       operationId: 'findUsers'
       description: 'get all users'
+      security: []   # No security
       responses:
         '200':
           description: 'User response'
@@ -68,6 +70,7 @@ paths:
       summary: 'Get user by user id'
       description: 'get single user with id'
       operationId: 'getUserById'
+      security: []   # No security
       parameters:
         - name: id
           in: path
@@ -92,6 +95,7 @@ paths:
     get:
       operationId: 'findMessages'
       description: 'get all messages'
+      security: []   # No security
       responses:
         '200':
           description: 'Message response'
@@ -113,6 +117,7 @@ paths:
     get:
       operationId: 'syncMessages'
       description: 'sync and return all messages'
+      security: []   # No security
       responses:
         '200':
           description: 'Message response'

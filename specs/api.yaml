@@ -340,7 +340,7 @@ components:
         type:
           type: string
           # commented out uri format as generated kotlin code didn't compile
-          #format: uri
+          format: string
           description: |
             An absolute URI that identifies the problem type.  When dereferenced,
             it SHOULD provide human-readable documentation for the problem type
@@ -372,7 +372,7 @@ components:
         instance:
           type: string
           # commented out uri format as generated kotlin code didn't compile
-          #format: uri
+          format: string
           description: |
             An absolute URI that identifies the specific occurrence of the problem.
             It may or may not yield further information if dereferenced.

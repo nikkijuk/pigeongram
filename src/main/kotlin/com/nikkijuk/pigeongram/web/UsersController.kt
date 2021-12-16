@@ -2,6 +2,7 @@ package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.PigeongramApplicationKt
 import com.nikkijuk.pigeongram.generated.api.UsersApi
+import com.nikkijuk.pigeongram.generated.model.UsersResponse
 import com.nikkijuk.pigeongram.persistence.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,10 +25,10 @@ class UsersController (
         return ResponseEntity(createdUser.toApi(), HttpStatus.OK)
     }
 
-    override fun findUsers(): ResponseEntity<List<com.nikkijuk.pigeongram.generated.model.User>> {
-        val foundUsers = userRepository.findAll()
+    override fun findUsers(): ResponseEntity<UsersResponse> {
+        val foundUsers = userRepository.findAll().map { it.toApi() }
         logger.info("found users: $foundUsers")
-        return ResponseEntity(foundUsers.map { it.toApi() }, HttpStatus.OK)
+        return ResponseEntity(UsersResponse(foundUsers), HttpStatus.OK)
     }
 
     override fun getUserById(@PathVariable("id") id: String

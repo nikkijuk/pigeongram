@@ -4,6 +4,7 @@ import com.nikkijuk.pigeongram.PigeongramApplicationKt
 import com.nikkijuk.pigeongram.domain.service.MessageUtils
 import com.nikkijuk.pigeongram.generated.api.MessagesApi
 import com.nikkijuk.pigeongram.generated.model.EmailMessage
+import com.nikkijuk.pigeongram.generated.model.MessagesResponse
 import com.nikkijuk.pigeongram.persistence.MessageRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -34,13 +35,14 @@ class MessagesController (
 
     private val logger: Logger = LoggerFactory.getLogger(PigeongramApplicationKt::class.java)
 
-    override fun findMessages(): ResponseEntity<List<EmailMessage>> {
+    override fun findMessages(): ResponseEntity<MessagesResponse> {
         val foundMessages = messageRepository.findAll()
         logger.info("found users: $foundMessages")
-        return ResponseEntity(foundMessages.map { it.toApi() }, HttpStatus.OK)
+        val messages = foundMessages.map { it.toApi() }
+        return ResponseEntity(MessagesResponse(messages), HttpStatus.OK)
     }
 
-    override fun syncMessages(): ResponseEntity<List<EmailMessage>> {
+    override fun syncMessages(): ResponseEntity<MessagesResponse> {
          // should go to service -- as most operations here which actually belong to domain
         val serverProps = MessageUtils.createServerProperties(protocol, host, port)
         val foundMessages = MessageUtils.fetchMessagesFromFolder(serverProps, folder, userName, password)

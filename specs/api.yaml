@@ -1,19 +1,19 @@
 openapi: 3.0.3
 info:
   title: PigeonGram
-  description: PigeonGram sample app
+  description: |
+    PigeonGram sample app.
   version: 1.0.0
-  contact:
-    name: nikkijuk
-    url: https://github.com/nikkijuk
-    email: x@x.com
   x-audience: component-internal
   x-api-id: pigeongram
+  contact:
+    name: nikkijuk
+    email: x@x.com
+    url: https://github.com/nikkijuk
 
-# defining base url might not work as expected
-# https://github.com/kongchen/swagger-maven-plugin/issues/730
 servers:
-  - url: xx.test.com
+  - url: "https://pigeongram.on.inter.net"
+    description: Pigeongram running here
 
 paths:
 
@@ -22,7 +22,6 @@ paths:
     post:
       operationId: 'createUser'
       description: 'add user'
-      security: []   # No security
       requestBody:
         required: true
         content:
@@ -42,27 +41,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security: []   # No security
 
     # get all users
     get:
       operationId: 'findUsers'
       description: 'get all users'
-      security: []   # No security
       responses:
         '200':
           description: 'User response'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UsersResponse'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security: []   # No security
 
   /users/{id}:
     # get single user
@@ -70,7 +68,6 @@ paths:
       summary: 'Get user by user id'
       description: 'get single user with id'
       operationId: 'getUserById'
-      security: []   # No security
       parameters:
         - name: id
           in: path
@@ -89,55 +86,78 @@ paths:
           description: 'Invalid id supplied'
         '404':
           description: 'User not found with given id'
+      security: []   # No security
 
   # get all messages
   /messages:
     get:
       operationId: 'findMessages'
       description: 'get all messages'
-      security: []   # No security
       responses:
         '200':
           description: 'Message response'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmailMessage'
+                $ref: '#/components/schemas/MessagesResponse'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security: []   # No security
 
   # sync all messages
   /messages/sync:
     get:
       operationId: 'syncMessages'
       description: 'sync and return all messages'
-      security: []   # No security
       responses:
         '200':
           description: 'Message response'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmailMessage'
+                $ref: '#/components/schemas/MessagesResponse'
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      security: []   # No security
 
 components:
   schemas:
 
+    UsersResponse:
+      type: object
+      description: Users Response
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          description: List of users
+
+    MessagesResponse:
+      type: object
+      description: Messages Response
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailMessage'
+          description: List of messages
+
+
     # generic error structure
+    # TODO: Replace with json problem
     Error:
       type: object
       required:

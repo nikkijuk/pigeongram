@@ -15,11 +15,21 @@ servers:
   - url: "https://pigeongram.on.inter.net"
     description: Pigeongram running here
 
+tags:
+  - name: user
+    description: user
+  - name: message
+    description: message
+  - name: singature
+    description: signature
+
 paths:
 
   /users:
     # create new user
     post:
+      tags:
+        - user
       operationId: 'createUser'
       description: 'add user'
       requestBody:
@@ -46,6 +56,8 @@ paths:
 
     # get all users
     get:
+      tags:
+        - user
       operationId: 'findUsers'
       description: 'get all users'
       responses:
@@ -67,6 +79,8 @@ paths:
   /users/{id}:
     # get single user
     get:
+      tags:
+        - user
       summary: 'Get user by user id'
       description: 'get single user with id'
       operationId: 'getUserById'
@@ -110,6 +124,8 @@ paths:
   # get all messages
   /messages:
     get:
+      tags:
+        - message
       operationId: 'findMessages'
       description: 'get all messages'
       responses:
@@ -131,6 +147,8 @@ paths:
   # sync all messages
   /messages/sync:
     get:
+      tags:
+        - message
       operationId: 'syncMessages'
       description: 'sync and return all messages'
       responses:
@@ -286,7 +304,7 @@ components:
         - from # party
         - to_recipients # array of party
           #- ccRecipients  # array of party
-          #- bccRecipients # array of party
+        #- bccRecipients # array of party
         #!- replyTo # array of ?
       properties:
         id:
@@ -331,8 +349,8 @@ components:
           items:
             $ref: '#/components/schemas/EmailAddress'
 
-# Copy from zalando
-# commented out uri format as generated kotlin code didn't compile
+    # Copy from zalando
+    # commented out uri format as generated kotlin code didn't compile
 
     Problem:
       type: object

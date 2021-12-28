@@ -164,9 +164,13 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // activation and imap provider are needed for jakarta mail 2.X
-    implementation("jakarta.mail:jakarta.mail-api:2.0.1")
-    implementation("com.sun.activation:jakarta.activation:2.0.1")
-    implementation("com.sun.mail:imap:2.0.1")
+    // due to simple java mail dependency downgraded to jakarta mail 1.x
+    //implementation("jakarta.mail:jakarta.mail-api:2.0.1")
+    //implementation("com.sun.activation:jakarta.activation:2.0.1")
+    //implementation("com.sun.mail:imap:2.0.1")
+    implementation("jakarta.mail:jakarta.mail-api:1.6.7")
+    implementation("com.sun.mail:imap:1.6.7")
+    implementation("com.sun.activation:jakarta.activation:1.2.2")
 
     // it might make sense to use jakarta mail 1.X instead of 2.X
     // Simple java mail requires jakarta mail 1.X or javax.mail

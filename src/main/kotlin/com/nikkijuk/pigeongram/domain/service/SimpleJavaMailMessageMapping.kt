@@ -3,8 +3,8 @@ package com.nikkijuk.pigeongram.domain.service
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.EmailAddress
 import com.nikkijuk.pigeongram.domain.model.MessageContent
-import jakarta.mail.Address
-import jakarta.mail.Message
+import javax.mail.Address
+import javax.mail.Message
 import org.simplejavamail.api.email.Email
 import org.simplejavamail.api.email.Recipient
 import java.time.LocalDateTime

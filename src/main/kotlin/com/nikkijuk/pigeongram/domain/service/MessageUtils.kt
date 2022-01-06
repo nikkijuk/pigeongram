@@ -1,11 +1,11 @@
 package com.nikkijuk.pigeongram.domain.service
 
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
-import javax.mail.Folder
-import javax.mail.MessagingException
-import javax.mail.NoSuchProviderException
-import javax.mail.Session
-import javax.mail.Store
+import jakarta.mail.Folder
+import jakarta.mail.MessagingException
+import jakarta.mail.NoSuchProviderException
+import jakarta.mail.Session
+import jakarta.mail.Store
 import java.util.*
 
 object MessageUtils {

@@ -3,18 +3,22 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
-    id("org.springframework.boot") version "2.5.7"
+    id("org.springframework.boot") version "2.6.2"
     // camunda 7.16.0
 
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
-    kotlin("plugin.jpa") version "1.5.31"
+    kotlin("jvm") version "1.6.10"
+    kotlin("plugin.spring") version "1.6.10"
+    kotlin("plugin.jpa") version "1.6.10"
 
-    id("org.openapi.generator") version "5.3.0"
+    // https://mvnrepository.com/artifact/org.openapi.generator/org.openapi.generator.gradle.plugin
+    id("org.openapi.generator") version "5.3.1"
 
     // these are both needed for spingdoc
+    // https://plugins.gradle.org/plugin/org.springdoc.openapi-gradle-plugin
     id ("org.springdoc.openapi-gradle-plugin") version "1.3.3"
+    // https://plugins.gradle.org/plugin/com.github.johnrengelman.processes
     id ("com.github.johnrengelman.processes") version "0.5.0"
+
 }
 
 group = "com.nikkijuk"
@@ -50,9 +54,14 @@ sourceSets {
     }
 }
 
+// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies
 extra["springCloudVersion"] = "2021.0.0"
+
+// https://mvnrepository.com/artifact/org.testcontainers/testcontainers
 extra["testcontainersVersion"] = "1.16.2" // 1.16.2 is ready, but not distibuted
-extra["camundaVersion"] = "7.16.0" // compatible with spring boot 2.5.4
+
+// https://mvnrepository.com/artifact/org.camunda.bpm/camunda-engine
+extra["camundaVersion"] = "7.17.0-alpha2" // "7.16.0" is compatible with spring boot 2.5.4
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
@@ -119,7 +128,8 @@ dependencies {
 
     implementation("org.flywaydb:flyway-core")
 
-    implementation("io.github.microutils:kotlin-logging:2.1.0")
+    // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -131,7 +141,7 @@ dependencies {
     testImplementation("org.testcontainers:mssqlserver")
 
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
-    // assert j comes with spring boot - no need to add it
+    // assertj comes with spring boot - no need to add it
     //testImplementation("org.assertj:assertj-core:3.21.0")
 
     // https://github.com/camunda/camunda-bpm-assert
@@ -156,33 +166,38 @@ dependencies {
     implementation("io.holunda.testing:camunda-bpm-jgiven:0.0.8")
 
     // used to generate api model and controller interface
-    implementation("io.swagger.core.v3:swagger-annotations:2.1.11")
+    // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+    implementation("io.swagger.core.v3:swagger-annotations:2.1.12")
 
     // https://github.com/OpenAPITools/openapi-generator
-    implementation("org.openapitools:openapi-generator-gradle-plugin:5.3.0")
+    implementation("org.openapitools:openapi-generator-gradle-plugin:5.3.1")
 
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
     // activation and imap provider are needed for jakarta mail 2.X
     // due to simple java mail dependency downgraded to jakarta mail 1.x
-    //implementation("jakarta.mail:jakarta.mail-api:2.0.1")
-    //implementation("com.sun.activation:jakarta.activation:2.0.1")
-    //implementation("com.sun.mail:imap:2.0.1")
-    implementation("jakarta.mail:jakarta.mail-api:1.6.7")
-    implementation("com.sun.mail:imap:1.6.7")
-    implementation("com.sun.activation:jakarta.activation:1.2.2")
+    implementation("jakarta.mail:jakarta.mail-api:2.0.1")
+    implementation("com.sun.activation:jakarta.activation:2.0.1")
+    implementation("com.sun.mail:imap:2.0.1")
+
+    // removed 1.X line from use as simple java mail has upgraded to 2.x
+    //implementation("jakarta.mail:jakarta.mail-api:1.6.7")
+    //implementation("com.sun.mail:imap:1.6.7")
+    //implementation("com.sun.activation:jakarta.activation:1.2.2")
 
     // it might make sense to use jakarta mail 1.X instead of 2.X
-    // Simple java mail requires jakarta mail 1.X or javax.mail
-    implementation("org.simplejavamail:simple-java-mail:6.6.1")
+    // Simple java mail < 7.0.0 requires jakarta mail 1.X or javax.mail
+    // https://mvnrepository.com/artifact/org.simplejavamail/simple-java-mail
+    implementation("org.simplejavamail:simple-java-mail:7.0.0")
 
     // openapi in spring-boot-admin
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.12")
-    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.5.12")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.5.12")
-    implementation("org.springdoc:springdoc-openapi-javadoc:1.5.12")
-    implementation("org.springdoc:springdoc-openapi-hateoas:1.5.12")
-    implementation("org.springdoc:springdoc-openapi-data-rest:1.5.12")
+    // https://mvnrepository.com/artifact/org.springdoc
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.3")
+    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.3")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.3")
+    implementation("org.springdoc:springdoc-openapi-javadoc:1.6.3")
+    implementation("org.springdoc:springdoc-openapi-hateoas:1.6.3")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.6.3")
 }
 
 dependencyManagement {
@@ -234,7 +249,7 @@ tasks.withType<KotlinCompile> {
     dependsOn ("openApiGenerate") // compile only after generation
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 

@@ -1,17 +1,17 @@
 package com.nikkijuk.pigeongram.domain.service
 
-import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.EmailAddress
+import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.MessageContent
-import javax.mail.Address
-import javax.mail.Message
+import jakarta.mail.Address
+import jakarta.mail.Message
 import org.simplejavamail.api.email.Email
 import org.simplejavamail.api.email.Recipient
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
-import java.util.*
+import java.util.Date
 
 // NOTE: This mapping is not in use - to use it one would need to have jakarta mail 1.X version
 // we have currently 2.X, which is java 8 api and has changed package name

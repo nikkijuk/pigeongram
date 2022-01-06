@@ -3,13 +3,13 @@ package com.nikkijuk.pigeongram.domain.service
 import com.nikkijuk.pigeongram.domain.model.EmailAddress
 import com.nikkijuk.pigeongram.domain.model.EmailMessage
 import com.nikkijuk.pigeongram.domain.model.MessageContent
+import jakarta.mail.Address
+import jakarta.mail.Message
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.Date
-import javax.mail.Address
-import javax.mail.Message
 
 // to entity
 fun Message.toEntity () =

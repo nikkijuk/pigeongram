@@ -1,6 +1,8 @@
 package com.nikkijuk.pigeongram.web
 
 import com.nikkijuk.pigeongram.domain.service.SignatureService
+import com.nikkijuk.pigeongram.web.model.Signature
+import com.nikkijuk.pigeongram.web.model.toDomain
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -8,10 +10,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.hateoas.EntityModel
-import org.springframework.hateoas.Link
 import org.springframework.http.ResponseEntity
-import com.nikkijuk.pigeongram.domain.model.Signature as SignatureDomain
-import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
 internal class SignatureControllerTest {
 
@@ -23,37 +22,22 @@ internal class SignatureControllerTest {
     @BeforeEach
     fun before() {
         service = mockk()
-        assembler = mockk ()
+        assembler = SignatureModelAssembler ()
         controller = SignatureController(service,assembler)
     }
 
     @Test
     fun `creating is successful`() {
-        val signatureDomain  = SignatureDomain (
-            id = 1,
-            mailboxId = "mid",
-            name = "name",
-            content = "content"
-            )
 
-        val signatureApi  = SignatureApi (
-            id = 1,
-            mailboxId = "mid",
-            name = "name",
-            content = "content"
-        )
+        val signature  = Signature (id = 1, mailboxId = "mid", name = "name", content = "content")
 
-        every { assembler.toModel(any()) } returns EntityModel.of(signatureApi).add(Link.of("localhost","self"))
+        every { service.createSignature(any()) } returns signature.toDomain()
 
-        every { service.createSignature(any()) } returns signatureDomain
-
-        val result: ResponseEntity<EntityModel<SignatureApi>> = controller.create(signatureApi)
+        val result: ResponseEntity<EntityModel<Signature>> = controller.create(signature)
 
         Assertions.assertFalse(result.body!!.links.isEmpty)
 
         verify { service.createSignature(any()) }
-
-        verify { assembler.toModel(any()) }
 
     }
 

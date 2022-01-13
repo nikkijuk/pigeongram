@@ -140,6 +140,12 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mssqlserver")
 
+    // https://mvnrepository.com/artifact/io.mockk/mockk
+    testImplementation ("io.mockk:mockk:1.12.2")
+
+    // https://mvnrepository.com/artifact/com.ninja-squad/springmockk
+    testImplementation("com.ninja-squad:springmockk:3.1.0")
+
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     // assertj comes with spring boot - no need to add it
     //testImplementation("org.assertj:assertj-core:3.21.0")

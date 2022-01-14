@@ -10,6 +10,12 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
 
+    // https://kotlinlang.org/docs/serialization.html#example-json-serialization
+    kotlin("plugin.serialization") version "1.6.10"
+
+    // https://kotlinlang.org/docs/no-arg-plugin.html
+    //kotlin("plugin.noarg") version "1.6.10"
+
     // https://mvnrepository.com/artifact/org.openapi.generator/org.openapi.generator.gradle.plugin
     id("org.openapi.generator") version "5.3.1"
 
@@ -135,6 +141,9 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
     runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
 
     testImplementation("org.testcontainers:junit-jupiter")
@@ -145,6 +154,14 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.ninja-squad/springmockk
     testImplementation("com.ninja-squad:springmockk:3.1.0")
+
+    /***** test dependencies ****/
+    testImplementation("io.mockk:mockk:1.12.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation ("org.hamcrest:hamcrest-all:1.3")
 
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     // assertj comes with spring boot - no need to add it

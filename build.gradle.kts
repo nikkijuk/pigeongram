@@ -167,6 +167,9 @@ dependencies {
     // assertj comes with spring boot - no need to add it
     //testImplementation("org.assertj:assertj-core:3.21.0")
 
+    // https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
+    testImplementation("com.jayway.jsonpath:json-path:2.6.0")
+
     // https://github.com/camunda/camunda-bpm-assert
     testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:13.0.0")
 

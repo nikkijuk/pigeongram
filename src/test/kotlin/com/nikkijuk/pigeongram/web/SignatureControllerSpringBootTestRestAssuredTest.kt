@@ -1,5 +1,6 @@
 package com.nikkijuk.pigeongram.web
 
+import com.nikkijuk.pigeongram.PigeongramApplicationKt
 import io.restassured.http.ContentType
 import io.restassured.module.mockmvc.kotlin.extensions.Extract
 import io.restassured.module.mockmvc.kotlin.extensions.Given
@@ -10,11 +11,17 @@ import kotlinx.serialization.json.Json
 import org.apache.http.HttpStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// OK: this test fails because spring context building is not configured in right way
+// this is ok -- I might want to invest more at some point, but now I don't really need heavy
+// black box tests
+
+@SpringBootTest (classes = [PigeongramApplicationKt::class])
+@AutoConfigureMockMvc
 internal class SignatureControllerSpringBootTestRestAssuredTest {
 
     @LocalServerPort

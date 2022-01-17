@@ -5,7 +5,10 @@ import com.nikkijuk.pigeongram.domain.service.SignatureService
 import com.nikkijuk.pigeongram.web.model.toDomain
 import io.restassured.http.ContentType
 import io.restassured.module.mockmvc.RestAssuredMockMvc
-import io.restassured.module.mockmvc.RestAssuredMockMvc.given
+import io.restassured.module.mockmvc.kotlin.extensions.Extract
+import io.restassured.module.mockmvc.kotlin.extensions.Given
+import io.restassured.module.mockmvc.kotlin.extensions.Then
+import io.restassured.module.mockmvc.kotlin.extensions.When
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.apache.http.HttpStatus
@@ -47,7 +50,8 @@ internal class SignatureControllerMockMvcRestAssuredTest {
     fun `Creating a Signature with mocked service SOULD return CREATED`() {
         whenever(signaturService.createSignature(any())).thenReturn(mockedServiceResponse)
 
-        // Note: Kotlin extensions are really chick! But they use wrong class
+        // Note: Kotlin extensions are really chick! But they might use wrong class
+        // if you have wrong dependency in gradle -- hard to notice while learning ..
         //
         // looked for hours --> fails with "connection refused" at post
         //
@@ -57,6 +61,8 @@ internal class SignatureControllerMockMvcRestAssuredTest {
         // but you should statically import the methods from com.jayway.restassured.module.mockmvc.RestAssuredMockMvc
         // (io.restassured.module.mockmvc.RestAssuredMockMvc in version 3.x).
 
+        // this is code without kotlin extensions
+        /*
         val signatureId: Int =
         given ()
             .contentType(ContentType.JSON)
@@ -68,6 +74,20 @@ internal class SignatureControllerMockMvcRestAssuredTest {
             .statusCode(HttpStatus.SC_CREATED)
         .extract()
             .path("id")
+         */
+
+        // really nice
+        val signatureId: Int = Given {
+            contentType(ContentType.JSON)
+            accept(ContentType.JSON)
+            body(Json.encodeToString(requestPayload))
+        } When {
+            post("/signatures/")
+        } Then {
+            statusCode(HttpStatus.SC_CREATED)
+        } Extract {
+            path("id")
+        }
 
         Assertions.assertNotNull(signatureId)
     }

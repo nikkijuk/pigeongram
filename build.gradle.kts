@@ -174,7 +174,12 @@ dependencies {
     testImplementation("io.rest-assured:spring-mock-mvc:4.4.0")
 
     // https://mvnrepository.com/artifact/io.rest-assured/kotlin-extensions
-    implementation("io.rest-assured:kotlin-extensions:4.4.0")
+    // NOTE: select right extension for kotlin
+    //testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
+
+    // https://mvnrepository.com/artifact/io.rest-assured/spring-mock-mvc-kotlin-extensions
+    testImplementation("io.rest-assured:spring-mock-mvc-kotlin-extensions:4.4.0")
+
 
     // https://github.com/camunda/camunda-bpm-assert
     testImplementation("org.camunda.bpm.assert:camunda-bpm-assert:13.0.0")

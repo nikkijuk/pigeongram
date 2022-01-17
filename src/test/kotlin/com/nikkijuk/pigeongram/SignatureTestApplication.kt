@@ -1,4 +1,4 @@
-package com.nikkijuk.pigeongram.web
+package com.nikkijuk.pigeongram
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

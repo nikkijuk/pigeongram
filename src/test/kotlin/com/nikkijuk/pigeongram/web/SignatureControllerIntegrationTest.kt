@@ -1,5 +1,6 @@
 package com.nikkijuk.pigeongram.web
 
+import com.nikkijuk.pigeongram.SignatureTestApplication
 import com.nikkijuk.pigeongram.domain.service.SignatureService
 import com.nikkijuk.pigeongram.web.model.toDomain
 import kotlinx.serialization.encodeToString

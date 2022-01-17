@@ -10,12 +10,15 @@ import kotlinx.serialization.json.Json
 import org.apache.http.HttpStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-internal class SignatureControllerSpringTestRestAssuredTest {
+internal class SignatureControllerSpringBootTestRestAssuredTest {
 
     @LocalServerPort
     private var port : Int = 0

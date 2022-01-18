@@ -20,6 +20,8 @@ import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 // this is ok -- I might want to invest more at some point, but now I don't really need heavy
 // black box tests
 
+// please see here for more information https://reflectoring.io/spring-boot-test/
+
 @SpringBootTest (classes = [PigeongramApplicationKt::class])
 @AutoConfigureMockMvc
 internal class SignatureControllerSpringBootTestRestAssuredTest {

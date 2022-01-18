@@ -15,7 +15,6 @@ import org.apache.http.HttpStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +28,6 @@ import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 @WebMvcTest(SignatureController::class)
 @ContextConfiguration(classes =
     [SignatureTestApplication::class, SignatureModelAssembler::class, SignatureService::class])
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SignatureControllerMockMvcRestAssuredTest {
 
     @Autowired

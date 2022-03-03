@@ -412,13 +412,13 @@ Documentation says it so
 
 - It is important to understand that every non-handled, propagated exception happening during process execution rolls back the current technical transaction.
 
-https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#__strong_dealing_strong_with_exceptions
+- https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#__strong_dealing_strong_with_exceptions
 
 and
 
 - you can mimic a BPMN error in your Java code by explicitly throwing an exception of type org.camunda.bpm.engine.delegate.BpmnError. The consequences for the process is the same as if it were an explicit error end event.
 
-https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#_throwin‚g_and_handling_strong_bpmn_errors_strong
+- https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#_throwin‚g_and_handling_strong_bpmn_errors_strong
 
 ### send and fail only after 3 retries
 
@@ -431,7 +431,7 @@ Setting save point before execution allows usage of retry strategies. Here "R3/P
 - asynchronous before: true
 - retry time cycle: R3/PT1M
 
-Period are defined as ISO 8601. See here how to use different types of retrx intervals, for example "PT10M,PT17M,PT20M".
+Period are defined as ISO 8601. See here how to use different types of retry intervals, for example "PT10M,PT17M,PT20M".
 
 https://docs.camunda.org/manual/7.10/user-guide/process-engine/the-job-executor/#retry-intervals
 
@@ -493,7 +493,7 @@ class SendMessageDelegate : JavaDelegate {
             if ((draftId as String).contains("FAIL")) {
                 log.error { "failure sending $draftId" }
 
-                // BPM error won't be retried - this is process stuu
+                // BPM error won't be retried 
                 ifLastRetryThrowBpmnError("SENDING_FAILED", "sending  draft failed")
 
                 // Technical errors will be retried
@@ -538,7 +538,7 @@ It would be possible to extend around method to do exactly what we did here. Thi
 
 ### decision gateway for archival
 
-Archiving process step is on default path. Archiving process step won't be reached if condition of not arhiving is selected, otherwise message is archived.
+Archiving process step is on default path. Archiving process step won't be reached if condition of not archiving is selected, otherwise message is archived.
 
 - condition type: Expression
 - expression: "#{archive == "no"}"

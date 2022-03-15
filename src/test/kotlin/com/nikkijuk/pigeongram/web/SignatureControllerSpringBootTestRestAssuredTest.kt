@@ -10,6 +10,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.apache.http.HttpStatus
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -24,6 +25,7 @@ import com.nikkijuk.pigeongram.web.model.Signature as SignatureApi
 
 @SpringBootTest (classes = [PigeongramApplicationKt::class])
 @AutoConfigureMockMvc
+@Disabled ("local server port configuration is missing")
 internal class SignatureControllerSpringBootTestRestAssuredTest {
 
     @LocalServerPort

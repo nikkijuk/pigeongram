@@ -22,7 +22,7 @@ class SendMessageDelegate : JavaDelegate {
             if ((draftId as String).contains("FAIL_SEND")) {
                 log.error { "failure sending $draftId" }
 
-                // BPM error won't be retried - this is process stuu
+                // BPM error won't be retried
                 ifLastRetryThrowBpmnError("SENDING_FAILED", "sending  draft failed")
 
                 // Technical errors will be retried

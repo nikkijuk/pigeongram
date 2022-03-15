@@ -6,11 +6,11 @@ import mu.KotlinLogging
 import org.apache.http.util.Asserts
 import org.camunda.bpm.engine.delegate.BpmnError
 import org.camunda.bpm.engine.delegate.DelegateExecution
+import org.camunda.bpm.engine.delegate.JavaDelegate
 import javax.inject.Named
-import org.camunda.bpm.engine.delegate.JavaDelegate as JavaDelegate1
 
 @Named
-class ValidateDraftDelegate : JavaDelegate1 {
+class ValidateDraftDelegate : JavaDelegate {
 
     private val log = KotlinLogging.logger { }
 
@@ -32,7 +32,7 @@ class ValidateDraftDelegate : JavaDelegate1 {
                 throw BpmnError ("INVALID_DRAFT_ID", "draftId is invalid")
             }
 
-            println ( "validated draft '$draftId' with archival set to '$archive'" )
+            log.info {  "validated draft '$draftId' with archival set to '$archive'"  }
         }
     }
 }

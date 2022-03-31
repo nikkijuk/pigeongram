@@ -48,6 +48,16 @@ H2 relational db is used to persist process instances to single file. File is st
 
 Before Mongo Db Cosmos Db was used in project. Cosmos DB was ok and functioning. It was bit hard to cut through examples, which were partially outdated, but at the end solution was elegant. Reason to change to Mongo DB was that free tier credentials for Cosmos DB ran out after short time, so billing model of Cosmos DB didn't really suit for experiments.
 
+## build
+
+This project uses gradle wrapper
+
+To update
+
+    /gradlew wrapper --gradle-version=7.4.1 --distribution-type=bin
+
+Further information is at https://gradle.org/install/
+
 ## Workflow automation
 
 Camunda has components for modelling processes, running and creating process instances, and controlling created processes and process instances.
